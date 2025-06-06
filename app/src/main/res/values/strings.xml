@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AndroidSDK_CodeExample</string>
+
+    <string name="info_dialog_title">Title</string>
+    <string name="info_dialog_text">Text.</string>
+    <string name="info_dialog_ok_button">OK</string>
+
+    <string name="login_failed">Login failed</string>
+    <string name="wrong_usernamepassword">Wrong username or password.</string>
+
+
+</resources>
