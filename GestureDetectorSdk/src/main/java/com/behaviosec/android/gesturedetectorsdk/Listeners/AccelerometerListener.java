@@ -1,4 +1,4 @@
-package com.behaviosec.android.gesturedetectorsdk;
+package com.behaviosec.android.gesturedetectorsdk.Listeners;
 
 import android.content.Context;
 import android.hardware.Sensor;

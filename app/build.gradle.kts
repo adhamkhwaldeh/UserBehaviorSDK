@@ -5,12 +5,13 @@ plugins {
 
 android {
     namespace = "com.behaviosec.android.sample"
-    compileSdk = 35
+    compileSdk = Integer.getInteger(libs.versions.compileSdk.get())
+    compileSdkVersion =  libs.versions.compileSdkVersion.get()
 
     defaultConfig {
         applicationId = "com.behaviosec.android.sample"
-        minSdk = 24
-        targetSdk = 35
+        minSdk = Integer.getInteger(libs.versions.minSdk.get())
+        targetSdk = Integer.getInteger(libs.versions.targetSdk.get())
         versionCode = 1
         versionName = "1.0"
 
