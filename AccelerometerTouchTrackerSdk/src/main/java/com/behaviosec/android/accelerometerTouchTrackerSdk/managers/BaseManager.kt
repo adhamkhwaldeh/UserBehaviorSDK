@@ -1,19 +1,20 @@
 package com.behaviosec.android.accelerometerTouchTrackerSdk.managers
 
+import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig
 
-abstract class BaseManager {
+open class BaseManager(
+    protected val config: TouchTrackerConfig = TouchTrackerConfig()
+) {
 
-    protected var isEnabled: Boolean = true
-    protected var isDebugMode: Boolean = false
-    protected var isLoggingEnabled: Boolean = false
+    protected var isLoggingEnabled: Boolean = config.isLoggingEnabled
 
     fun setEnabled(enabled: Boolean): BaseManager {
-        this.isEnabled = enabled
+        this.config.isEnabled = enabled
         return this
     }
 
     fun setDebugMode(debugMode: Boolean): BaseManager {
-        this.isDebugMode = debugMode
+        this.config.isDebugMode = debugMode
         return this
     }
 
@@ -22,5 +23,4 @@ abstract class BaseManager {
         return this
     }
 
-//    abstract fun build(): BaseManager
 }

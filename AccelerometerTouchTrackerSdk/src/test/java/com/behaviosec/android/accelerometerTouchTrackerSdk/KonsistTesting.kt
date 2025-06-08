@@ -1,12 +1,7 @@
 package com.behaviosec.android.accelerometerTouchTrackerSdk
 
 import com.lemonappdev.konsist.api.ext.list.withNameContaining
-import com.lemonappdev.konsist.api.verify.assertTrue
 import com.lemonappdev.konsist.api.Konsist
-import com.lemonappdev.konsist.api.ext.list.*
-import com.lemonappdev.konsist.api.ext.list.packages
-import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
-import com.lemonappdev.konsist.api.ext.list.withoutNameEndingWith
 import org.junit.Assert
 import org.junit.Test
 
@@ -36,5 +31,23 @@ class KonsistTesting {
             .withNameContaining("Manager")
             .filterNot { it.packagee?.hasNameEndingWith("managers") == true }
         Assert.assertTrue(managers.isEmpty())
+    }
+
+    @Test
+    fun `all classes with ViewModel in name should be in viewmodel package`() {
+        val viewModels = Konsist.scopeFromProject()
+            .classes()
+            .withNameContaining("ViewModel")
+            .filterNot { it.packagee?.hasNameEndingWith("viewmodel") == true }
+        Assert.assertTrue(viewModels.isEmpty())
+    }
+
+    @Test
+    fun `all classes with Model in name should be in model package`() {
+        val models = Konsist.scopeFromProject()
+            .classes()
+            .withNameContaining("Model")
+            .filterNot { it.packagee?.hasNameEndingWith("model") == true }
+        Assert.assertTrue(models.isEmpty())
     }
 }

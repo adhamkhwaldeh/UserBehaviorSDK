@@ -46,7 +46,7 @@ plugins {
 //
 //            sourceLink {
 //                // localDirectory.set(project.file("src/main/java")) // Uncomment if needed
-////            remoteUrl.convention(URL("https://github.com/adhamkhwaldeh/WeatherSdk/tree/main/app/src/main/java"))
+////            remoteUrl.convention(URL("https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/tree/main/app/src/main/java"))
 //                remoteLineSuffix.set("#L")
 //            }
 //        }

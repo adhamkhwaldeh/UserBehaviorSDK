@@ -46,14 +46,16 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.material)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    testImplementation("com.lemonappdev:konsist:0.17.3")
-    testImplementation(libs.konsist)
+    // testImplementation(libs.konsist)
+    testImplementation(libs.konsist.v0173)
 
 }
 
@@ -85,7 +87,7 @@ dokka {
 
         sourceLink {
             // localDirectory.set(project.file("src/main/java")) // Uncomment if needed
-            remoteUrl.set(URL("https://github.com/adhamkhwaldeh/WeatherSdk/tree/main/app/src/main/java").toURI())
+            remoteUrl.set(URL("https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/tree/main/app/src/main/java").toURI())
             remoteLineSuffix.set("#L")
         }
     }

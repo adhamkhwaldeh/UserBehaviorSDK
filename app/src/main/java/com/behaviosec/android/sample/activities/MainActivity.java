@@ -1,21 +1,22 @@
 package com.behaviosec.android.sample.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.ActivityTouchManager;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccelerometerEventModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccuracyChangedModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.MotionEventModel;
 import com.behaviosec.android.sample.databinding.ActivityMainBinding;
 
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,19 +27,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //#region AccelerometerManager
-        AccelerometerManager accelerometerManager = new AccelerometerManager(this);
+        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new TouchTrackerConfig());
 
         accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
 
         accelerometerManager.addListener(new AccelerometerListener() {
+
             @Override
-            public void onAccuracyChanged(@Nullable Sensor sensor, int accuracy, @Nullable Date date) {
-                binding.accelerometerAccuracy.setText("Accuracy changed: " + accuracy + " at " + date);
+            public void onAccuracyChanged(@NonNull AccuracyChangedModel model) {
+                binding.accelerometerAccuracy.setText("Accuracy changed: " + model.getAccuracy() + " at " + model.getDate());
             }
 
             @Override
-            public void onSensorChanged(@NonNull SensorEvent event, @Nullable Date date) {
-                binding.accelerometerSensor.setText("Sensor changed: " + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + " at " + date);
+            public void onSensorChanged(@NonNull AccelerometerEventModel model) {
+                binding.accelerometerSensor.setText("Sensor changed: " + model.getEvent().values[0] + ", " + model.getEvent().values[1] + ", " + model.getEvent().values[2] + " at " + model.getDate());
             }
         });
 
@@ -53,12 +55,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         //#region ActivityTouchManager
-        ActivityTouchManager activityTouchManager = new ActivityTouchManager(this);
+        ActivityTouchManager activityTouchManager = new ActivityTouchManager(this, new TouchTrackerConfig());
 
-        activityTouchManager.setListener((event, date) -> {
-            Log.d("ActivityTouchManager", "Touch event: " + event + " at " + date);
-            binding.touchDetails.setText("Touch event: " + event + " at " + date);
-            return true; // Return false to indicate the event was not handled
+        activityTouchManager.setListener(new ActivityTouchListener() {
+            @Override
+            public boolean dispatchTouchEvent(@NonNull MotionEventModel model) {
+                Log.d("ActivityTouchManager", "Touch event: " + model.getEvent() + " at " + model.getDate());
+                binding.touchDetails.setText("Touch event: " + model.getEvent() + " at " + model.getDate());
+
+                return true;
+            }
         });
 
         binding.startTouchButton.setOnClickListener(v -> {
@@ -79,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         finishActivity();
     }
 

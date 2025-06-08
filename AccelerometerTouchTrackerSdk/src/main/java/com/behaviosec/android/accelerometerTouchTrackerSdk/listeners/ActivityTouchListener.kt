@@ -1,9 +1,9 @@
 package com.behaviosec.android.accelerometerTouchTrackerSdk.listeners
 
-import android.view.MotionEvent
-import java.util.Date
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.MotionEventModel
 
 interface ActivityTouchListener {
-
-    fun dispatchTouchEvent(event: MotionEvent, date: Date): Boolean
+    fun dispatchTouchEvent(model: MotionEventModel): Boolean{
+        return true //return true to continue executing the base or original event
+    }
 }

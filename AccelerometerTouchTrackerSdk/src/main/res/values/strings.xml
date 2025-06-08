@@ -1,0 +1,23 @@
+<resources>
+    <string name="accelerometer_sensor_not_available">Accelerometer sensor not available</string>
+    <string name="failed_to_start_accelerometer">Failed to start accelerometer: %1$s</string>
+    <string name="failed_to_stop_accelerometer">Failed to stop accelerometer: %1$s</string>
+    <string name="accelerometer_manager">AccelerometerManager</string>
+    <string name="error_starting_accelerometer">Error starting accelerometer</string>
+    <string name="error_stopping_accelerometer">Error stopping accelerometer</string>
+    <string name="accelerometer">Accelerometer</string>
+    <string name="accelerometer_values">x: %1$.2f, y: %2$.2f, z: %3$.2f</string>
+    <string name="accuracy_changed">Accuracy changed: %1$d</string>
+
+    <string name="app_touch_manager">AppTouchManager</string>
+    <string name="app_touch_manager_initialized">AppTouchManager initialized</string>
+    <string name="on_activity_created">onActivityCreated: %1$s</string>
+    <string name="on_activity_destroyed">onActivityDestroyed: %1$s</string>
+    <string name="failed_to_create_activity_touch_manager">Failed to create ActivityTouchManager: %1$s</string>
+    <string name="failed_to_remove_activity_touch_manager">Failed to remove ActivityTouchManager: %1$s</string>
+
+
+    <string name="global_touch_tracker">GlobalTouchTracker</string>
+    <string name="touch_event_action_xy">TouchEvent → action=%1$d x=%2$.2f y=%3$.2f</string>
+
+</resources>

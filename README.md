@@ -15,6 +15,8 @@
 7. [Common Errors & Troubleshooting]
 8. [FAQs]
 9. [Support]
+10. [Testing Recommendations]
+11. [Securing the Application with ProGuard/R8 Rules]
 
 ---
 
@@ -54,6 +56,7 @@ AccelerometerTouchTrackerSdkBuilder.initialize(
 this,
 "your api key"
 )
+
 ### Step 3: Test the Integration
 
 #### Update sdk status to launch
@@ -85,6 +88,26 @@ this,
 
 #### You can replace ForecastScreenFragment.newInstance(it.cityName) or ForecastScreen compose directly
 
+## Configuration Object
+
+You can configure the SDK using `TouchTrackerConfig` and its builder:
+
+```kotlin
+import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig
+import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel
+
+val config = TouchTrackerConfig.Builder()
+    .setLoggingEnabled(true)
+    .setLogLevel(LogLevel.DEBUG)
+    .setEventFilter(MyCustomEventFilter())
+    .build()
+
+val accelerometerManager = AccelerometerManager(context, config)
+val activityTouchManager = ActivityTouchManager(activity, config)
+```
+
+This allows you to customize logging, event filtering, and other behaviors.
+
 ## Demo
 
 ### Screenshots
@@ -103,10 +126,60 @@ https://www.weatherbit.io/api/weather-current
 https://www.weatherbit.io/api/weather-forecast-hourly
 
 ## Common Errors & Troubleshooting
-https://github.com/adhamkhwaldeh/WeatherSdk/issues
+https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
 
 ## FAQs
-https://github.com/adhamkhwaldeh/WeatherSdk/issues
+https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
 
 ## Support
-https://github.com/adhamkhwaldeh/WeatherSdk
+https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk
+
+## Testing Recommendations
+
+To further improve your SDK's reliability, add more **Unit Tests** and **Instrumentation Tests**:
+
+### Unit Tests
+- Cover all public methods in managers, listeners, models, and utility classes.
+- Use mocking frameworks (e.g., Mockito, MockK) for Android dependencies.
+- Test event filtering, error handling, and configuration logic.
+- Validate logger and metrics integration.
+- Ensure ViewModel logic and LiveData updates are tested.
+
+**Example Unit Test Files:**
+- `src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/AccelerometerManagerTest.kt`
+- `src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/ActivityTouchManagerTest.kt`
+- `src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/viewmodel/TouchSensorViewModelTest.kt`
+
+### Instrumentation Tests
+- Test integration with Android components (Activity, Service, etc.).
+- Simulate real touch and sensor events on device/emulator.
+- Verify lifecycle-aware behavior (start/stop tracking).
+- Validate LiveData and UI updates in real scenarios.
+
+**Example Instrumentation Test Files:**
+- `src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/AccelerometerIntegrationTest.kt`
+- `src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/TouchEventIntegrationTest.kt`
+
+> **Tip:**  
+> Place unit tests in `src/test/java` and instrumentation tests in `src/androidTest/java` under the appropriate package.
+
+Add tests for any new features or bug fixes to maintain high coverage and confidence in your SDK.
+
+## Securing the Application with ProGuard/R8 Rules
+
+To secure your application and SDK with ProGuard or R8:
+
+- **Enable minification and obfuscation** in your `build.gradle`:
+  ```groovy
+  buildTypes {
+      release {
+          minifyEnabled true
+          proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      }
+  }
+  ```
+
+- **Add these rules to your `proguard-rules.pro` file:**
+  ```proguard
+  # Keep SDK API surface
+  -keep class com.behavio

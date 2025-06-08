@@ -6,6 +6,11 @@ import android.view.MotionEvent
 import android.view.Window.Callback
 import com.behaviosec.android.accelerometerTouchTrackerSdk.helpers.DateHelpers
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchErrorListener
+import com.behaviosec.android.accelerometerTouchTrackerSdk.R
+import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.Logger
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.MotionEventModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig
 
 /**
  * Activity touch manager
@@ -13,14 +18,17 @@ import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTou
  * @constructor
  *
  * @param activity
+ * @param config
  */
-class ActivityTouchManager(activity: Activity) : BaseManager(), Callback {
+class ActivityTouchManager(
+    private val activity: Activity,
+    config: TouchTrackerConfig = TouchTrackerConfig()
+) : BaseManager(config), Callback {
 
     /**
      * This class is used to track touch events globally in an Activity.
      * It logs the touch events and can be extended to integrate with an analytics system.
      */
-
 
     // Store the original callback to delegate other window events
     private val originalCallback: Callback = activity.window.callback
@@ -28,9 +36,16 @@ class ActivityTouchManager(activity: Activity) : BaseManager(), Callback {
     init {
         // Set the new callback to the activity's window
         activity.window.callback = this
+        Logger.logLevel = config.logLevel
+        // isLoggingEnabled is now handled by BaseManager
     }
 
     private var activityTouchListener: ActivityTouchListener? = null
+
+    @Volatile
+    private var errorListener: ActivityTouchErrorListener? = null
+
+    private val activityManagersLock = Any()
 
     /**
      * Set listener
@@ -49,18 +64,49 @@ class ActivityTouchManager(activity: Activity) : BaseManager(), Callback {
         activityTouchListener = null
     }
 
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        if (isLoggingEnabled && isDebugMode) {
-            Log.d(
-                "GlobalTouchTracker",
-                "TouchEvent → action=${event.action} x=${event.x} y=${event.y}"
-            )
-            // If the manager is disabled, just delegate the event without logging
+    /**
+     * Set error listener
+     *
+     * @param listener
+     */
+    fun setErrorListener(listener: ActivityTouchErrorListener) {
+        synchronized(activityManagersLock) {
+            this.errorListener = listener
         }
-        // 👇 Log the global touch event
-        if (activityTouchListener != null && isEnabled) {
+    }
+
+    /**
+     * Remove error listener
+     *
+     */
+    fun removeErrorListener() {
+        synchronized(activityManagersLock) {
+            this.errorListener = null
+        }
+    }
+
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (isLoggingEnabled && config.isDebugMode) {
+            Logger.d(
+                activity.getString(R.string.global_touch_tracker),
+                activity.getString(
+                    R.string.touch_event_action_xy,
+                    event.action,
+                    event.x,
+                    event.y
+                )
+            )
+        }
+        // If the manager is disabled, just delegate the event without logging
+        if (activityTouchListener != null && config.isEnabled) {
             val continueBase =
-                activityTouchListener!!.dispatchTouchEvent(event, DateHelpers.getCurrentDate())
+                activityTouchListener!!.dispatchTouchEvent(
+                    MotionEventModel(
+                        event,
+                        DateHelpers.getCurrentDate()
+                    )
+                )
             return if (continueBase) {
                 originalCallback.dispatchTouchEvent(event)
             } else {

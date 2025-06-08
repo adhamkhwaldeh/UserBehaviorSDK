@@ -15,7 +15,7 @@ dokka = "2.0.0"
 ktlint = "10.2.0"
 detekt = "1.23.1"
 mockito = "5.7.0"
-konsist = "0.17.3"
+konsistVersion = "0.17.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,9 +23,9 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+konsist-v0173 = { module = "com.lemonappdev:konsist", version.ref = "konsistVersion" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
-konsist = { group = "com.lemonappdev", name = "konsist", version = "konsist" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

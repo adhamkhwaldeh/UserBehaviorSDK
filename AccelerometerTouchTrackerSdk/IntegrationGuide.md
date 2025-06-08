@@ -1,6 +1,6 @@
 # Module AccelerometerTouchTrackerSdk
 
-# Integration Guide: [Weather Gini SDK]
+# Integration Guide: [AccelerometerTouchTrackerSdk]
 
 ## Table of Contents
 1. [Introduction]
@@ -19,14 +19,14 @@
 
 ## Introduction
 
-This guide provides step-by-step instructions for integrating [Weather Sdk] into your project.
-Follow the instructions to quickly get started and connect your system with [Weather Sdk].
+This guide provides step-by-step instructions for integrating [AccelerometerTouchTrackerSdk] into your project.
+Follow the instructions to quickly get started and connect your system with [AccelerometerTouchTrackerSdk].
 
 ---
 
 ## Prerequisites
 Before you begin the integration process, make sure you have the following:
-- A ApiKey service from [Weather Sdk]
+- A ApiKey service from [AccelerometerTouchTrackerSdk]
 - Access to your [system’s] configuration settings
 
 ## Setup Instructions
@@ -93,10 +93,10 @@ https://www.weatherbit.io/api/weather-current
 https://www.weatherbit.io/api/weather-forecast-hourly
 
 ## Common Errors & Troubleshooting
-https://github.com/adhamkhwaldeh/WeatherSdk/issues
+https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
 
 ## FAQs
-https://github.com/adhamkhwaldeh/WeatherSdk/issues
+https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
 
 ## Support
-https://github.com/adhamkhwaldeh/WeatherSdk
+https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk

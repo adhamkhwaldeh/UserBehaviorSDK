@@ -1,19 +1,20 @@
 package com.behaviosec.android.sample;
 
 import android.app.Application;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.behaviosec.android.accelerometerTouchTrackerSdk.AccelerometerTouchTrackerCore;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AppTouchManager;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccelerometerEventModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccuracyChangedModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.MotionEventModel;
 
-import java.util.Date;
 
 public class SampleApp extends Application {
 
@@ -24,21 +25,24 @@ public class SampleApp extends Application {
         new AccelerometerTouchTrackerCore().initialize();
 
         //#region AccelerometerManager
-        AccelerometerManager accelerometerManager = new AccelerometerManager(this);
+        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new TouchTrackerConfig());
 
         accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
         accelerometerManager.start();
 
         accelerometerManager.addListener(new AccelerometerListener() {
             @Override
-            public void onAccuracyChanged(@Nullable Sensor sensor, int accuracy, @Nullable Date date) {
-                Log.d("SampleApp Accuracy changed:", "Accuracy changed: " + accuracy + " at " + date);
+            public void onAccuracyChanged(@NonNull AccuracyChangedModel model) {
+                Log.d("SampleApp Accuracy changed:", "Accuracy changed: " + model.getAccuracy() + " at " + model.getDate());
+
             }
 
             @Override
-            public void onSensorChanged(@NonNull SensorEvent event, @Nullable Date date) {
-                Log.d("SampleApp Sensor changed:", "Sensor changed: " + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + " at " + date);
+            public void onSensorChanged(@NonNull AccelerometerEventModel model) {
+                Log.d("SampleApp Sensor changed:", "Sensor changed: " + model.getEvent().values[0] + ", " + model.getEvent().values[1] + ", " + model.getEvent().values[2] + " at " + model.getDate());
+
             }
+
         });
 
         //#endregion
@@ -47,9 +51,12 @@ public class SampleApp extends Application {
 
         AppTouchManager appTouchManager = new AppTouchManager(this);
 
-        appTouchManager.setGlobalTouchListener((event, date) -> {
-            Log.d("SampleApp", "Global touch event: " + event.toString() + " at " + date.toString());
-            return true;
+        appTouchManager.setGlobalTouchListener(new ActivityTouchListener() {
+            @Override
+            public boolean dispatchTouchEvent(@NonNull MotionEventModel model) {
+                Log.d("SampleApp", "Global touch event: " + model.getEvent() + " at " + model.getDate());
+                return true;
+            }
         });
 
         //#endregion

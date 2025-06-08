@@ -1,10 +1,9 @@
 package com.behaviosec.android.accelerometerTouchTrackerSdk.listeners
 
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import java.util.Date
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccelerometerEventModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccuracyChangedModel
 
 interface AccelerometerListener {
-    fun onSensorChanged(event: SensorEvent, date: Date) {}
-    fun onAccuracyChanged(sensor: Sensor?, accuracy: Int, date: Date) {}
+    fun onSensorChanged(model: AccelerometerEventModel) {}
+    fun onAccuracyChanged(model: AccuracyChangedModel) {}
 }
