@@ -1,0 +1,8 @@
+// ...existing code...
+tasks.register("konsistCheck", JavaExec) {
+    group = "verification"
+    description = "Run Konsist consistency checks"
+    classpath = sourceSets.test.runtimeClasspath
+    main = "com.lemonappdev.konsist.runner.KonsistRunnerKt"
+}
+// ...existing code...

@@ -1,71 +1,58 @@
 package com.behaviosec.android.sample;
 
-import android.app.Activity;
 import android.app.Application;
-import android.os.Bundle;
-import android.view.Window;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.behaviosec.android.gesturedetectorsdk.Listeners.AccelerometerListener;
-import com.behaviosec.android.gesturedetectorsdk.GestureDetectorBuilder;
-import com.behaviosec.android.gesturedetectorsdk.GlobalTouchTracker;
-import com.behaviosec.android.gesturedetectorsdk.TouchInterceptorLayout;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.AccelerometerTouchTrackerCore;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AppTouchManager;
 
-public class SampleApp extends Application implements Application.ActivityLifecycleCallbacks {
+import java.util.Date;
 
-    private AccelerometerListener accelerometerListener;
+public class SampleApp extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        accelerometerListener = new AccelerometerListener(this);
-        accelerometerListener.start();
-        TouchInterceptorLayout layout = new TouchInterceptorLayout(this);
-        new GestureDetectorBuilder().setLoggingEnabled(true)
-                .setEnabled(true).setDebugMode(true).build(getApplicationContext());
 
-        // Register activity lifecycle to hook into Window
-        registerActivityLifecycleCallbacks(this);
-    }
+        new AccelerometerTouchTrackerCore().initialize();
 
-    @Override
-    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
-        Window window = activity.getWindow();
-        Window.Callback currentCallback = window.getCallback();
-        if (!(currentCallback instanceof GlobalTouchTracker)) {
-            window.setCallback(new GlobalTouchTracker(currentCallback));
-        }
-    }
+        //#region AccelerometerManager
+        AccelerometerManager accelerometerManager = new AccelerometerManager(this);
 
-    @Override
-    public void onActivityStarted(@NonNull Activity activity) {
+        accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
+        accelerometerManager.start();
 
-    }
+        accelerometerManager.addListener(new AccelerometerListener() {
+            @Override
+            public void onAccuracyChanged(@Nullable Sensor sensor, int accuracy, @Nullable Date date) {
+                Log.d("SampleApp Accuracy changed:", "Accuracy changed: " + accuracy + " at " + date);
+            }
 
-    @Override
-    public void onActivityResumed(@NonNull Activity activity) {
+            @Override
+            public void onSensorChanged(@NonNull SensorEvent event, @Nullable Date date) {
+                Log.d("SampleApp Sensor changed:", "Sensor changed: " + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + " at " + date);
+            }
+        });
 
-    }
+        //#endregion
 
-    @Override
-    public void onActivityPaused(@NonNull Activity activity) {
+        //#region AppTouchManager
 
-    }
+        AppTouchManager appTouchManager = new AppTouchManager(this);
 
-    @Override
-    public void onActivityStopped(@NonNull Activity activity) {
+        appTouchManager.setGlobalTouchListener((event, date) -> {
+            Log.d("SampleApp", "Global touch event: " + event.toString() + " at " + date.toString());
+            return true;
+        });
 
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(@NonNull Activity activity) {
+        //#endregion
 
     }
 

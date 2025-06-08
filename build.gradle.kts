@@ -19,7 +19,7 @@ plugins {
 //
 //// Configure Dokka using the extension
 //    extensions.configure<org.jetbrains.dokka.gradle.DokkaExtension> {
-//        moduleName.set("GestureDetectorSdk") // Or use project.name if it should be dynamic per subproject
+//        moduleName.set("AccelerometerTouchTrackerSdk") // Or use project.name if it should be dynamic per subproject
 //
 //        dokkaPublications.configureEach {
 //            if (this.name == "html") { // Assuming you only want to configure the 'html' publication
@@ -38,7 +38,7 @@ plugins {
 //            sourceRoots.from(project.file("src/main/java")) // Use project.file() for clarity
 //
 //            includes.from(project.file("README.md"))
-//            includes.from(project.file("GestureDetectorSdk/IntegrationGuide.md"))
+//            includes.from(project.file("AccelerometerTouchTrackerSdk/IntegrationGuide.md"))
 //
 //            skipEmptyPackages.set(true)
 //            // includeNonPublic.set(false) // Uncomment if needed

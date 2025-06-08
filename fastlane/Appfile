@@ -1,0 +1,2 @@
+# Add your package name and other configuration here if needed
+package_name("com.behaviosec.android.sample")

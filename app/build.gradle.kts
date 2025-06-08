@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace = "com.behaviosec.android.sample"
-    compileSdk = Integer.getInteger(libs.versions.compileSdk.get())
-    compileSdkVersion =  libs.versions.compileSdkVersion.get()
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkVersion = libs.versions.compileSdkVersion.get()
 
     defaultConfig {
         applicationId = "com.behaviosec.android.sample"
-        minSdk = Integer.getInteger(libs.versions.minSdk.get())
-        targetSdk = Integer.getInteger(libs.versions.targetSdk.get())
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -34,6 +34,12 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -44,6 +50,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(project(":GestureDetectorSdk"))
+    implementation(project(":AccelerometerTouchTrackerSdk"))
 
 }

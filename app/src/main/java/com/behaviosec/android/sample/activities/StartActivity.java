@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.behaviosec.android.gesturedetectorsdk.GlobalTouchTracker;
 import com.behaviosec.android.sample.R;
 import com.behaviosec.android.sample.SampleApp;
 
@@ -28,13 +27,9 @@ public class StartActivity extends AppCompatActivity {
         application = (SampleApp) getApplication();
 
         Button startButton = findViewById(R.id.start_button);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToLogin();
-            }
+        startButton.setOnClickListener(v -> {
+            goToLogin();
         });
-//        getWindow().setCallback(new GlobalTouchTracker(getWindow().getCallback()));
     }
 
     private void goToLogin() {
