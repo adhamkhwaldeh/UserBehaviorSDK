@@ -8,7 +8,7 @@ import android.view.Window;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.behaviosec.android.gesturedetectorsdk.AccelerometerListener;
+import com.behaviosec.android.gesturedetectorsdk.Listeners.AccelerometerListener;
 import com.behaviosec.android.gesturedetectorsdk.GestureDetectorBuilder;
 import com.behaviosec.android.gesturedetectorsdk.GlobalTouchTracker;
 import com.behaviosec.android.gesturedetectorsdk.TouchInterceptorLayout;

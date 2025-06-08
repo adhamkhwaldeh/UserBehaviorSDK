@@ -1,4 +1,4 @@
-# Module AccelerometerTouchTrackerSdk
+# Module GestureDetectorSdk
 
 # Integration Guide: [Weather Gini SDK]
 
@@ -9,12 +9,11 @@
     1. [Step 1: Install Dependencies]
     2. [Step 2: Configure the Integration]
     3. [Step 3: Test the Integration]
-4. [Demo]
-5. [Authentication]
-6. [API Reference]
-7. [Common Errors & Troubleshooting]
-8. [FAQs]
-9. [Support]
+4. [Authentication]
+5. [API Reference]
+6. [Common Errors & Troubleshooting]
+7. [FAQs]
+8. [Support]
 
 ---
 
@@ -50,18 +49,18 @@ use Gradle:
 
 Next, you’ll need to configure your integration settings.
 Add the following details in your application class .
-AccelerometerTouchTrackerSdkBuilder.initialize(
+GestureDetectorSdkBuilder.initialize(
 this,
 "your api key"
 )
 ### Step 3: Test the Integration
 
 #### Update sdk status to launch
-        AccelerometerTouchTrackerSdkBuilder.sdkStatus.value =
+        GestureDetectorSdkBuilder.sdkStatus.value =
                             WeatherSdkStatus.OnLaunchForecast(cityName)
 
 #### Observe SDK status and replace it with  ForecastScreenFragment
-     AccelerometerTouchTrackerSdkBuilder.sdkStatus.observe(this) {
+     GestureDetectorSdkBuilder.sdkStatus.observe(this) {
             if (it is WeatherSdkStatus.OnFinish) {
                 replace(EnterCityScreenFragment(), EnterCityScreenFragment::class.java.name)
             } else if (it is WeatherSdkStatus.OnLaunchForecast) {
@@ -73,7 +72,7 @@ this,
         }
 
 #### Observe SDK status and replace it with ForecastScreen if you are using compose
-    val sdkStatus = AccelerometerTouchTrackerSdkBuilder.sdkStatus.observeAsState()
+    val sdkStatus = GestureDetectorSdkBuilder.sdkStatus.observeAsState()
     LaunchedEffect(sdkStatus.value) {
         val current = sdkStatus.value
         if (current is WeatherSdkStatus.OnFinish) {
@@ -84,15 +83,6 @@ this,
     }
 
 #### You can replace ForecastScreenFragment.newInstance(it.cityName) or ForecastScreen compose directly
-
-## Demo
-
-### Screenshots
-
-- **Dashboard View**
-
-| !["](./Docs/Screenshot_2025-02-02-13-06-07-136_com.adham.gini.weatherSDK.jpg) | !["](./Docs/Screenshot_2025-02-02-13-06-11-775_com.adham.gini.weatherSDK.jpg) | !["](./Docs/Screenshot_2025-02-02-13-06-21-436_com.adham.gini.weatherSDK.jpg) |
-|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
 
 ## Authorization
 You need to get Gini Weather Api key (e.g register to website )
