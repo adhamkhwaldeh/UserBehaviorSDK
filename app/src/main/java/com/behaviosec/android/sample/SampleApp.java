@@ -11,9 +11,9 @@ import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.Acceleromet
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AppTouchManager;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccelerometerEventModel;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccuracyChangedModel;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.MotionEventModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccelerometerEventModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccuracyChangedModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.MotionEventModel;
 
 
 public class SampleApp extends Application {

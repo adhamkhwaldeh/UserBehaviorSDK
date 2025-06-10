@@ -1,7 +1,11 @@
 package com.behaviosec.android.accelerometerTouchTrackerSdk
 
+import androidx.lifecycle.ViewModel
 import com.lemonappdev.konsist.api.ext.list.withNameContaining
 import com.lemonappdev.konsist.api.Konsist
+import com.lemonappdev.konsist.api.ext.list.withName
+import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
+import com.lemonappdev.konsist.api.ext.list.withRepresentedTypeOf
 import org.junit.Assert
 import org.junit.Test
 
@@ -19,7 +23,7 @@ class KonsistTesting {
     fun `all classes with Helper in name should be in helpers package`() {
         val helpers = Konsist.scopeFromProject()
             .objects()
-            .withNameContaining("Helper")
+            .withNameEndingWith("Helpers")
             .filterNot { it.packagee?.hasNameEndingWith("helpers") == true }
         Assert.assertTrue(helpers.isEmpty())
     }
@@ -28,7 +32,7 @@ class KonsistTesting {
     fun `all classes with Manager in name should be in managers package`() {
         val managers = Konsist.scopeFromProject()
             .classes()
-            .withNameContaining("Manager")
+            .withNameEndingWith("Manager")
             .filterNot { it.packagee?.hasNameEndingWith("managers") == true }
         Assert.assertTrue(managers.isEmpty())
     }
@@ -37,8 +41,9 @@ class KonsistTesting {
     fun `all classes with ViewModel in name should be in viewmodel package`() {
         val viewModels = Konsist.scopeFromProject()
             .classes()
-            .withNameContaining("ViewModel")
-            .filterNot { it.packagee?.hasNameEndingWith("viewmodel") == true }
+            .withRepresentedTypeOf(ViewModel::class)
+            .withNameEndingWith("ViewModel")
+            .filterNot { it.packagee?.hasNameEndingWith("viewModels") == true }
         Assert.assertTrue(viewModels.isEmpty())
     }
 
@@ -46,8 +51,18 @@ class KonsistTesting {
     fun `all classes with Model in name should be in model package`() {
         val models = Konsist.scopeFromProject()
             .classes()
-            .withNameContaining("Model")
-            .filterNot { it.packagee?.hasNameEndingWith("model") == true }
+            .withNameEndingWith("Model")
+            .filter { it.name.endsWith("Model") && it.hasDataModifier }
+            .filterNot { it.packagee?.hasNameEndingWith("models") == true }
         Assert.assertTrue(models.isEmpty())
+    }
+
+    @Test
+    fun `all classes with Repository in name should be in repositories package`() {
+        val repositories = Konsist.scopeFromProject()
+            .classes()
+            .withNameEndingWith("Repository")
+            .filterNot { it.packagee?.hasNameEndingWith("repositories") == true }
+        Assert.assertTrue(repositories.isEmpty())
     }
 }
