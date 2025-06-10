@@ -1,0 +1,50 @@
+name: SDK Versioning
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Bump versionCode and versionName
+        id: bump_version
+        run: |
+          VERSION_FILE="AccelerometerTouchTrackerSdk/build.gradle"
+          # Extract current versionName
+          CURRENT_VERSION=$(grep versionName $VERSION_FILE | head -1 | awk -F\" '{print $2}')
+          # Bump patch version
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          # Update versionName
+          sed -i "s/versionName \".*\"/versionName \"$NEW_VERSION\"/" $VERSION_FILE
+          # Bump versionCode
+          CURRENT_CODE=$(grep versionCode $VERSION_FILE | head -1 | awk '{print $2}')
+          NEW_CODE=$((CURRENT_CODE + 1))
+          sed -i "s/versionCode .*/versionCode $NEW_CODE/" $VERSION_FILE
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: bump SDK version to ${{ steps.bump_version.outputs.new_version }}"
+          branch: main
+
+      - name: Create Git tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag "v${{ steps.bump_version.outputs.new_version }}"
+          git push origin "v${{ steps.bump_version.outputs.new_version }}"

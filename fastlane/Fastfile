@@ -1,0 +1,42 @@
+default_platform(:android)
+
+platform :android do
+  desc "Build and run unit tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Build a debug APK"
+  lane :build_debug do
+    gradle(task: "assembleDebug")
+  end
+
+  desc "Build a release APK"
+  lane :build_release do
+    gradle(task: "assembleRelease")
+  end
+
+  desc "Beta lane (customize as needed)"
+  lane :beta do
+    gradle(task: "assembleRelease")
+    # Add deployment steps here (e.g., upload to Firebase/App Distribution)
+  end
+
+  desc "Bump library version"
+  lane :bump_version do |options|
+    new_version_code = options[:version_code] || (get_version_code + 1)
+    new_version_name = options[:version_name] || "1.0.${new_version_code}"
+
+    increment_version_code(
+      gradle_file_path: "AccelerometerTouchTrackerSdk/build.gradle",
+      version_code: new_version_code
+    )
+    increment_version_name(
+      gradle_file_path: "AccelerometerTouchTrackerSdk/build.gradle",
+      version_name: new_version_name
+    )
+    sh("git add AccelerometerTouchTrackerSdk/build.gradle")
+    sh("git commit -m 'Bump version to #{new_version_name} (#{new_version_code})'")
+    sh("git push")
+  end
+end

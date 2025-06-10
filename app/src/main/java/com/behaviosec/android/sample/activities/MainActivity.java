@@ -1,45 +1,98 @@
 package com.behaviosec.android.sample.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 
-import com.behaviosec.android.sample.R;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.ActivityTouchManager;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccelerometerEventModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccuracyChangedModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.MotionEventModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.repositories.HelpersRepository;
+import com.behaviosec.android.sample.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity
-{
-	private AppCompatButton logoutButton;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+public class MainActivity extends AppCompatActivity {
 
-		logoutButton = findViewById(R.id.logout_button);
-		logoutButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				finishActivity();
-			}
-		});
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-	@Override
-	public void onBackPressed()
-	{
-		finishActivity();
-	}
+        //#region AccelerometerManager
+        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new TouchTrackerConfig());
 
-	private void finishActivity()
-	{
-		Intent intent = new Intent(this, StartActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		startActivity(intent);
-	}
+        accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
+
+        accelerometerManager.addListener(new AccelerometerListener() {
+
+            @Override
+            public void onAccuracyChanged(@NonNull AccuracyChangedModel model) {
+                binding.accelerometerAccuracy.setText("Accuracy changed: " + model.getAccuracy() + " at " + model.getDate());
+            }
+
+            @Override
+            public void onSensorChanged(@NonNull AccelerometerEventModel model) {
+                binding.accelerometerSensor.setText("Sensor changed: " + model.getEvent().values[0] + ", " + model.getEvent().values[1] + ", " + model.getEvent().values[2] + " at " + model.getDate());
+            }
+        });
+
+        binding.startAccelerometerButton.setOnClickListener(v -> {
+            accelerometerManager.start();
+        });
+
+        binding.stopAccelerometerButton.setOnClickListener(v -> {
+            accelerometerManager.stop();
+        });
+        //#endregion
+
+
+        //#region ActivityTouchManager
+        ActivityTouchManager activityTouchManager = new ActivityTouchManager(this, new TouchTrackerConfig());
+
+        activityTouchManager.setListener(new ActivityTouchListener() {
+            @Override
+            public boolean dispatchTouchEvent(@NonNull MotionEventModel model) {
+                Log.d("ActivityTouchManager", "Touch event: " + model.getEvent() + " at " + model.getDate());
+                binding.touchDetails.setText("Touch event: " + model.getEvent() + " at " + model.getDate());
+
+                return true;
+            }
+        });
+
+        binding.startTouchButton.setOnClickListener(v -> {
+            activityTouchManager.setEnabled(true);
+        });
+
+        binding.stopTouchButton.setOnClickListener(v -> {
+            activityTouchManager.setEnabled(false);
+        });
+
+        //#endregion
+
+
+        binding.logoutButton.setOnClickListener(v -> {
+            finishActivity();
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishActivity();
+    }
+
+    private void finishActivity() {
+        Intent intent = new Intent(this, StartActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
 }
