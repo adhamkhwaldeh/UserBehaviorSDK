@@ -216,13 +216,19 @@ To upload the generated Dokka documentation to GitHub (for example, to a `gh-pag
    ```bash
    cp -r AccelerometerTouchTrackerSdk/build/dokkaDir/* .
    ```
+   > This command copies the generated documentation files into your current working directory (which should be the root of the `gh-pages` branch).  
+   > **However, copying files does not automatically add them to git or push them to GitHub.**
 
-4. **Commit and push the documentation:**
+4. **Add, commit, and push the documentation:**
    ```bash
    git add .
    git commit -m "Publish Dokka documentation"
    git push origin gh-pages --force
    ```
+   > You must run these commands after copying the files.  
+   > `git add .` stages the files, `git commit` saves them to your local branch, and `git push` uploads them to GitHub.
+
+If you skip the `git add`, `git commit`, or `git push` steps, the documentation will not appear on GitHub Pages.
 
 5. **(Optional) Automate with GitHub Actions:**  
    You can automate this process by adding a workflow that runs Dokka and pushes the output to `gh-pages` on every release or push to `main`.
@@ -254,6 +260,3 @@ https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
 
 ## Support
 https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk
-
-> **Contributions and suggestions are welcome!**  
-> Please open an issue or pull request on [GitHub](https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk) for any enhancements.

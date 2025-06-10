@@ -96,7 +96,7 @@ import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel
 val config = TouchTrackerConfig()
 config.setLoggingEnabled(true)
 config.setLogLevel(LogLevel.DEBUG)
-
+ 
 
 val accelerometerManager = AccelerometerManager(context, config)
 val activityTouchManager = ActivityTouchManager(activity, config)
@@ -216,6 +216,10 @@ To upload the generated Dokka documentation to GitHub (for example, to a `gh-pag
    ```bash
    cp -r AccelerometerTouchTrackerSdk/build/dokkaDir/* .
    ```
+   > **Note:**  
+   > This command copies the generated documentation files into your working directory for the `gh-pages` branch.  
+   > It does **not** add them to your project source code.  
+   > You must commit and push these files on the `gh-pages` branch to publish them via GitHub Pages.
 
 4. **Commit and push the documentation:**
    ```bash
@@ -254,6 +258,3 @@ https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
 
 ## Support
 https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk
-
-> **Contributions and suggestions are welcome!**  
-> Please open an issue or pull request on [GitHub](https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk) for any enhancements.
