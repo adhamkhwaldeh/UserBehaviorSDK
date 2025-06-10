@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>AccelerometerTouchTrackerSdk</title>
+    <link href="images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
+<link href="styles/style.css" rel="Stylesheet">
+<link href="styles/main.css" rel="Stylesheet">
+<link href="styles/prism.css" rel="Stylesheet">
+<link href="styles/logo-styles.css" rel="Stylesheet">
+<link href="styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="index.html">
+                    AccelerometerTouchTrackerSdk
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active=""
+                        data-filter=":AccelerometerTouchTrackerSdk/release">androidJvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":AccelerometerTouchTrackerSdk/release"
+                                       data-filter=":AccelerometerTouchTrackerSdk/release"/>
+                                <span class="checkbox--icon"></span>
+                                androidJvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    AccelerometerTouchTrackerSdk
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" id="content" pageIds="AccelerometerTouchTrackerSdk::////PointingToDeclaration//1321489693">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Accelerometer</span><wbr></wbr><span>Touch</span><wbr></wbr><span>Tracker</span><wbr></wbr><span><span>Sdk</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":AccelerometerTouchTrackerSdk/release"><h1 class="">Integration Guide: AccelerometerTouchTrackerSdk</h1><h2 class="">Table of Contents</h2><ol><li><p class="paragraph">Introduction</p></li><li><p class="paragraph">Prerequisites</p></li><li><p class="paragraph">Setup Instructions</p></li><ol><li><p class="paragraph">Step 1: Install Dependencies</p></li><li><p class="paragraph">Step 2: Configure the Integration</p></li><li><p class="paragraph">Step 3: Test the Integration</p></li></ol><li><p class="paragraph">Demo</p></li><li><p class="paragraph">Authentication</p></li><li><p class="paragraph">API Reference</p></li><li><p class="paragraph">Testing Recommendations</p></li><li><p class="paragraph">Securing the Application with ProGuard/R8 Rules</p></li><li><p class="paragraph">Documentation Generation</p></li><li><p class="paragraph">Code Conventions</p></li><li><p class="paragraph">Areas for Enhancement</p></li><li><p class="paragraph">Common Errors & Troubleshooting</p></li><li><p class="paragraph">FAQs</p></li><li><p class="paragraph">Support</p></li></ol><h2 class="">Introduction</h2><p class="paragraph">This guide provides step-by-step instructions for integrating AccelerometerTouchTrackerSdk into your project. Follow the instructions to quickly get started and connect your system with AccelerometerTouchTrackerSdk.</p><h2 class="">Prerequisites</h2><p class="paragraph">Before you begin the integration process, make sure you have the following:</p><ul><li><p class="paragraph">Access to your system’s configuration settings</p></li><li><p class="paragraph">In future will add A ApiKey service from AccelerometerTouchTrackerSdk</p></li></ul><h2 class="">Setup Instructions</h2><h3 class="">Step 1: Install Dependencies</h3><p class="paragraph">Start by installing the required dependencies to your project. Use one of the following commands based on your package manager. use Gradle:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">   repositories {
+       google()
+       mavenCentral()
+   }
+   
+   dependencies {
+      implementation 'com.relx.AccelerometerTouchTrackerSdk:latest'
+   }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">Step 2: Configure the Integration</h3><p class="paragraph">Next, you’ll need to configure your integration settings. Add the following details in your application class . AccelerometerTouchTrackerCore.initialize() **We will add &quot;AccelerometerTouchTrackerSdk api key&quot; in the forthcoming releases **</p><h3 class="">Step 3: Test the Integration</h3><h4 class="">Use Managers with related callback interfaces</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    AccelerometerManager with AccelerometerListener and  errorListener
+    ActivityTouchManager with ActivityTouchListener and  errorListener
+    AppTouchManager with AppTouchListener and  errorListener</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">Use TouchSensorViewModel to observe the data</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    val touchSensorViewModel = ViewModelProvider(this).get(TouchSensorViewModel::class.java)
+    touchSensorViewModel.lastAccelerometerEvent.observe(this) { events ->
+        // Handle Accelerometer
+    }
+    touchSensorViewModel.lastAccuracyEvent.observe(this) { events ->
+        // Handle Accuracy
+    }
+    touchSensorViewModel.accelerometerError.observe(this) { error ->
+        // Handle errors
+    }
+    touchSensorViewModel.lastMotionEvent.observe(this) { events ->
+        // Handle Touch Events
+    }
+    touchSensorViewModel.motionError.observe(this) { error ->
+         // Handle errors
+    }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h2 class="">Configuration Object</h2><p class="paragraph">You can configure the SDK using <code class="lang-kotlin">TouchTrackerConfig</code>:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig<br>import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel<br><br>val config = TouchTrackerConfig()<br>config.setLoggingEnabled(true)<br>config.setLogLevel(LogLevel.DEBUG)<br> <br><br>val accelerometerManager = AccelerometerManager(context, config)<br>val activityTouchManager = ActivityTouchManager(activity, config)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">This allows you to customize logging, and other behaviors. Currently I have Added a local Logger but in real project we can use services like firebase crash report.</p><h2 class="">Demo</h2><h3 class="">Screenshots</h3><ul><li><p class="paragraph"><strong>Dashboard View</strong></p></li></ul><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody></tbody></table><h2 class="">Authorization</h2><p class="paragraph">So far no authentication is required for the SDK. In future releases, we will add an API key service to enhance security.</p><h2 class="">Testing Recommendations</h2><p class="paragraph">To further improve your SDK's reliability, add more <strong>Unit Tests</strong> and <strong>Instrumentation Tests</strong>:</p><h3 class="">Unit Tests</h3><ul><li><p class="paragraph">Cover all public methods in managers, listeners, models, and utility classes.</p></li><li><p class="paragraph">Use mocking frameworks (e.g., Mockito, MockK) for Android dependencies.</p></li><li><p class="paragraph">Test error handling, and configuration logic.</p></li><li><p class="paragraph">Validate logger and metrics integration.</p></li><li><p class="paragraph">Ensure ViewModel logic and LiveData updates are tested.</p></li></ul><p class="paragraph"><strong>Example Unit Test Files:</strong></p><ul><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/AccelerometerManagerTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/ActivityTouchManagerTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/viewmodel/TouchSensorViewModelTest.kt</code></p></li></ul><h3 class="">Instrumentation Tests</h3><ul><li><p class="paragraph">Test integration with Android components (Activity, Service, etc.).</p></li><li><p class="paragraph">Simulate real touch and sensor events on device/emulator.</p></li><li><p class="paragraph">Verify lifecycle-aware behavior (start/stop tracking).</p></li><li><p class="paragraph">Validate LiveData and UI updates in real scenarios.</p></li></ul><p class="paragraph"><strong>Example Instrumentation Test Files:</strong></p><ul><li><p class="paragraph"><code class="lang-kotlin">src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/AccelerometerIntegrationTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/TouchEventIntegrationTest.kt</code></p></li></ul><blockquote class="quotation"><p class="paragraph"><strong>Tip:</strong><br>> Place unit tests in <code class="lang-kotlin">src/test/java</code> and instrumentation tests in <code class="lang-kotlin">src/androidTest/java</code> under the appropriate package.</p></blockquote><p class="paragraph">Add tests for any new features or bug fixes to maintain high coverage and confidence in your SDK.</p><h2 class="">Securing the Application with ProGuard/R8 Rules</h2><p class="paragraph">To secure your application and SDK with ProGuard or R8:</p><ul><li><p class="paragraph"><strong>Enable minification and obfuscation</strong> in your <code class="lang-kotlin">build.gradle</code>:</p><div class="sample-container"><pre><code class="block lang-groovy" theme="idea">buildTypes {<br>    release {<br>        minifyEnabled true<br>        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'<br>    }<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Add these rules to your </strong><code class="strong lang-kotlin"><strong>proguard-rules.pro</strong></code><strong> file:</strong></p><div class="sample-container"><pre><code class="block lang-proguard" theme="idea"># Keep SDK API surface<br>-keep class com.behaviosec.android.accelerometerTouchTrackerSdk.** { *; }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li></ul><h2 class="">Documentation Generation</h2><p class="paragraph">The SDK uses <strong>KDoc</strong> for inline documentation of all public classes, methods, and properties.<br>Documentation is automatically generated using <a href="https://github.com/Kotlin/dokka">Dokka</a>.</p><h3 class="">How to Generate Documentation</h3><ol><li><p class="paragraph"><strong>Write KDoc Comments:</strong><br>   All public APIs are documented using KDoc.<br>   Example:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">/**<br> * Starts tracking accelerometer events.<br> * @param config The configuration object.<br> */<br>fun startTracking(config: TouchTrackerConfig){}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Generate HTML Documentation with Dokka:</strong><br>   Run the following Gradle command from the project root:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">./gradlew dokkaHtml</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The generated documentation will be available in the <code class="lang-kotlin">build/dokka/html</code> directory.</p></li><li><p class="paragraph"><strong>Custom Guides:</strong><br>   You can add Markdown files (e.g., <code class="lang-kotlin">IntegrationGuide.md</code>) to be included in the generated documentation.</p></li></ol><blockquote class="quotation"><p class="paragraph">Keeping your KDoc up to date ensures that the generated documentation is always accurate and helpful for SDK consumers.</p></blockquote><h2 class="">Publishing Dokka Documentation to GitHub</h2><p class="paragraph">To upload the generated Dokka documentation to GitHub (for example, to a <code class="lang-kotlin">gh-pages</code> branch):</p><ol><li><p class="paragraph"><strong>Generate the documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">./gradlew dokkaHtml</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The output will be in <code class="lang-kotlin">build/dokka/html</code>.</p></li><li><p class="paragraph"><strong>Switch to the </strong><code class="strong lang-kotlin"><strong>gh-pages</strong></code><strong> branch (or create it if it doesn't exist):</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">git checkout --orphan gh-pages</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Copy the generated documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">cp -r build/dokka/html/* .</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Commit and push the documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">git add .<br>git commit -m &quot;Publish Dokka documentation&quot;<br>git push origin gh-pages --force</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>(Optional) Automate with GitHub Actions:</strong><br>   You can automate this process by adding a workflow that runs Dokka and pushes the output to <code class="lang-kotlin">gh-pages</code> on every release or push to <code class="lang-kotlin">main</code>.</p></li></ol><blockquote class="quotation"><p class="paragraph">This allows you to host your documentation via GitHub Pages at <code class="lang-kotlin">https://&lt;username&gt;.github.io/&lt;repo&gt;/</code>.</p></blockquote><h2 class="">Code Conventions</h2><ol><li><p class="paragraph"><strong>Implement libraries ktlint and detekt</strong></p></li><li><p class="paragraph"><strong>Add detekt and ktlint check within the automation in github actions</strong></p></li></ol><h2 class="">Areas for Enhancement</h2><p class="paragraph">The following areas are recommended for further enhancement to improve the SDK's robustness, flexibility, and usability:</p><ul><li><p class="paragraph"><strong>Analytics Integration:</strong> Provide hooks for integrating with analytics or crash reporting tools.</p></li><li><p class="paragraph"><strong>Add SonarQube </strong>&<strong>Unit </strong>&<strong> Instrumentation Tests</strong> to cover all required test cases (many cases need to be covered I've added samples only),   We need to increase test coverage, especially for edge cases and error handling.</p></li><li><p class="paragraph"><strong>Add Dependency Injection</strong> Support DI frameworks (like Hilt or Dagger) for easier integration and testing.</p></li><li><p class="paragraph"><strong>Introduce UseCases</strong> I just Implemented the code in simple way but we have to introduce use cases between Manager or Repository and ViewModel for more complex cases</p></li><li><p class="paragraph"><strong>Add Sample Fore ViewModel</strong> we I've implemented Managers as Sample and add the viewModel in the documentation only</p></li><li><p class="paragraph"><strong>CI/CD with github actions and fastlane</strong> I've added a sample workflow for CI/CD using GitHub Actions, but it can be enhanced with more steps like code quality checks, automated testing, and deployment.</p></li></ul><h2 class="">Common Errors & Troubleshooting</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues</p><h2 class="">FAQs</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues</p><h2 class="">Support</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk</p><blockquote class="quotation"><p class="paragraph"><strong>Contributions and suggestions are welcome!</strong><br>> Please open an issue or pull request on <a href="https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk">GitHub</a> for any enhancements.</p></blockquote><h1 class="">Integration Guide: AccelerometerTouchTrackerSdk</h1><h2 class="">Table of Contents</h2><ol><li><p class="paragraph">Introduction</p></li><li><p class="paragraph">Prerequisites</p></li><li><p class="paragraph">Setup Instructions</p></li><ol><li><p class="paragraph">Step 1: Install Dependencies</p></li><li><p class="paragraph">Step 2: Configure the Integration</p></li><li><p class="paragraph">Step 3: Test the Integration</p></li></ol><li><p class="paragraph">Demo</p></li><li><p class="paragraph">Authentication</p></li><li><p class="paragraph">API Reference</p></li><li><p class="paragraph">Testing Recommendations</p></li><li><p class="paragraph">Securing the Application with ProGuard/R8 Rules</p></li><li><p class="paragraph">Documentation Generation</p></li><li><p class="paragraph">Code Conventions</p></li><li><p class="paragraph">Areas for Enhancement</p></li><li><p class="paragraph">Common Errors & Troubleshooting</p></li><li><p class="paragraph">FAQs</p></li><li><p class="paragraph">Support</p></li></ol><h2 class="">Introduction</h2><p class="paragraph">This guide provides step-by-step instructions for integrating AccelerometerTouchTrackerSdk into your project. Follow the instructions to quickly get started and connect your system with AccelerometerTouchTrackerSdk.</p><h2 class="">Prerequisites</h2><p class="paragraph">Before you begin the integration process, make sure you have the following:</p><ul><li><p class="paragraph">Access to your system’s configuration settings</p></li><li><p class="paragraph">In future will add A ApiKey service from AccelerometerTouchTrackerSdk</p></li></ul><h2 class="">Setup Instructions</h2><h3 class="">Step 1: Install Dependencies</h3><p class="paragraph">Start by installing the required dependencies to your project. Use one of the following commands based on your package manager. use Gradle:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">   repositories {
+       google()
+       mavenCentral()
+   }
+   
+   dependencies {
+      implementation 'com.relx.AccelerometerTouchTrackerSdk:latest'
+   }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">Step 2: Configure the Integration</h3><p class="paragraph">Next, you’ll need to configure your integration settings. Add the following details in your application class . AccelerometerTouchTrackerCore.initialize() **We will add &quot;AccelerometerTouchTrackerSdk api key&quot; in the forthcoming releases **</p><h3 class="">Step 3: Test the Integration</h3><h4 class="">Use Managers with related callback interfaces</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    AccelerometerManager with AccelerometerListener and  errorListener
+    ActivityTouchManager with ActivityTouchListener and  errorListener
+    AppTouchManager with AppTouchListener and  errorListener</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">Use TouchSensorViewModel to observe the data</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    val touchSensorViewModel = ViewModelProvider(this).get(TouchSensorViewModel::class.java)
+    touchSensorViewModel.lastAccelerometerEvent.observe(this) { events ->
+        // Handle Accelerometer
+    }
+    touchSensorViewModel.lastAccuracyEvent.observe(this) { events ->
+        // Handle Accuracy
+    }
+    touchSensorViewModel.accelerometerError.observe(this) { error ->
+        // Handle errors
+    }
+    touchSensorViewModel.lastMotionEvent.observe(this) { events ->
+        // Handle Touch Events
+    }
+    touchSensorViewModel.motionError.observe(this) { error ->
+         // Handle errors
+    }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h2 class="">Configuration Object</h2><p class="paragraph">You can configure the SDK using <code class="lang-kotlin">TouchTrackerConfig</code>:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig<br>import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel<br><br>val config = TouchTrackerConfig()<br>config.setLoggingEnabled(true)<br>config.setLogLevel(LogLevel.DEBUG)<br> <br><br>val accelerometerManager = AccelerometerManager(context, config)<br>val activityTouchManager = ActivityTouchManager(activity, config)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">This allows you to customize logging, and other behaviors. Currently I have Added a local Logger but in real project we can use services like firebase crash report.</p><h2 class="">Demo</h2><h3 class="">Screenshots</h3><ul><li><p class="paragraph"><strong>Dashboard View</strong></p></li></ul><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody></tbody></table><h2 class="">Authorization</h2><p class="paragraph">So far no authentication is required for the SDK. In future releases, we will add an API key service to enhance security.</p><h2 class="">Testing Recommendations</h2><p class="paragraph">To further improve your SDK's reliability, add more <strong>Unit Tests</strong> and <strong>Instrumentation Tests</strong>:</p><h3 class="">Unit Tests</h3><ul><li><p class="paragraph">Cover all public methods in managers, listeners, models, and utility classes.</p></li><li><p class="paragraph">Use mocking frameworks (e.g., Mockito, MockK) for Android dependencies.</p></li><li><p class="paragraph">Test error handling, and configuration logic.</p></li><li><p class="paragraph">Validate logger and metrics integration.</p></li><li><p class="paragraph">Ensure ViewModel logic and LiveData updates are tested.</p></li></ul><p class="paragraph"><strong>Example Unit Test Files:</strong></p><ul><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/AccelerometerManagerTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/ActivityTouchManagerTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/viewmodel/TouchSensorViewModelTest.kt</code></p></li></ul><h3 class="">Instrumentation Tests</h3><ul><li><p class="paragraph">Test integration with Android components (Activity, Service, etc.).</p></li><li><p class="paragraph">Simulate real touch and sensor events on device/emulator.</p></li><li><p class="paragraph">Verify lifecycle-aware behavior (start/stop tracking).</p></li><li><p class="paragraph">Validate LiveData and UI updates in real scenarios.</p></li></ul><p class="paragraph"><strong>Example Instrumentation Test Files:</strong></p><ul><li><p class="paragraph"><code class="lang-kotlin">src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/AccelerometerIntegrationTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/TouchEventIntegrationTest.kt</code></p></li></ul><blockquote class="quotation"><p class="paragraph"><strong>Tip:</strong><br>> Place unit tests in <code class="lang-kotlin">src/test/java</code> and instrumentation tests in <code class="lang-kotlin">src/androidTest/java</code> under the appropriate package.</p></blockquote><p class="paragraph">Add tests for any new features or bug fixes to maintain high coverage and confidence in your SDK.</p><h2 class="">Securing the Application with ProGuard/R8 Rules</h2><p class="paragraph">To secure your application and SDK with ProGuard or R8:</p><ul><li><p class="paragraph"><strong>Enable minification and obfuscation</strong> in your <code class="lang-kotlin">build.gradle</code>:</p><div class="sample-container"><pre><code class="block lang-groovy" theme="idea">buildTypes {<br>    release {<br>        minifyEnabled true<br>        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'<br>    }<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Add these rules to your </strong><code class="strong lang-kotlin"><strong>proguard-rules.pro</strong></code><strong> file:</strong></p><div class="sample-container"><pre><code class="block lang-proguard" theme="idea"># Keep SDK API surface<br>-keep class com.behaviosec.android.accelerometerTouchTrackerSdk.** { *; }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li></ul><h2 class="">Documentation Generation</h2><p class="paragraph">The SDK uses <strong>KDoc</strong> for inline documentation of all public classes, methods, and properties.<br>Documentation is automatically generated using <a href="https://github.com/Kotlin/dokka">Dokka</a>.</p><h3 class="">How to Generate Documentation</h3><ol><li><p class="paragraph"><strong>Write KDoc Comments:</strong><br>   All public APIs are documented using KDoc.<br>   Example:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">/**<br> * Starts tracking accelerometer events.<br> * @param config The configuration object.<br> */<br>fun startTracking(config: TouchTrackerConfig){}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Generate HTML Documentation with Dokka:</strong><br>   Run the following Gradle command from the project root:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">./gradlew dokkaHtml</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The generated documentation will be available in the <code class="lang-kotlin">build/dokka/html</code> directory.</p></li><li><p class="paragraph"><strong>Custom Guides:</strong><br>   You can add Markdown files (e.g., <code class="lang-kotlin">IntegrationGuide.md</code>) to be included in the generated documentation.</p></li></ol><blockquote class="quotation"><p class="paragraph">Keeping your KDoc up to date ensures that the generated documentation is always accurate and helpful for SDK consumers.</p></blockquote><h2 class="">Publishing Dokka Documentation to GitHub</h2><p class="paragraph">To upload the generated Dokka documentation to GitHub (for example, to a <code class="lang-kotlin">gh-pages</code> branch):</p><ol><li><p class="paragraph"><strong>Generate the documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">./gradlew dokkaHtml</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The output will be in <code class="lang-kotlin">build/dokka/html</code>.</p></li><li><p class="paragraph"><strong>Switch to the </strong><code class="strong lang-kotlin"><strong>gh-pages</strong></code><strong> branch (or create it if it doesn't exist):</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">git checkout --orphan gh-pages</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Copy the generated documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">cp -r build/dokka/html/* .</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Commit and push the documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">git add .<br>git commit -m &quot;Publish Dokka documentation&quot;<br>git push origin gh-pages --force</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>(Optional) Automate with GitHub Actions:</strong><br>   You can automate this process by adding a workflow that runs Dokka and pushes the output to <code class="lang-kotlin">gh-pages</code> on every release or push to <code class="lang-kotlin">main</code>.</p></li></ol><blockquote class="quotation"><p class="paragraph">This allows you to host your documentation via GitHub Pages at <code class="lang-kotlin">https://&lt;username&gt;.github.io/&lt;repo&gt;/</code>.</p></blockquote><h2 class="">Code Conventions</h2><ol><li><p class="paragraph"><strong>Implement libraries ktlint and detekt</strong></p></li><li><p class="paragraph"><strong>Add detekt and ktlint check within the automation in github actions</strong></p></li></ol><h2 class="">Areas for Enhancement</h2><p class="paragraph">The following areas are recommended for further enhancement to improve the SDK's robustness, flexibility, and usability:</p><ul><li><p class="paragraph"><strong>Analytics Integration:</strong> Provide hooks for integrating with analytics or crash reporting tools.</p></li><li><p class="paragraph"><strong>Add SonarQube </strong>&<strong>Unit </strong>&<strong> Instrumentation Tests</strong> to cover all required test cases (many cases need to be covered I've added samples only),   We need to increase test coverage, especially for edge cases and error handling.</p></li><li><p class="paragraph"><strong>Add Dependency Injection</strong> Support DI frameworks (like Hilt or Dagger) for easier integration and testing.</p></li><li><p class="paragraph"><strong>Introduce UseCases</strong> I just Implemented the code in simple way but we have to introduce use cases between Manager or Repository and ViewModel for more complex cases</p></li><li><p class="paragraph"><strong>Add Sample Fore ViewModel</strong> we I've implemented Managers as Sample and add the viewModel in the documentation only</p></li><li><p class="paragraph"><strong>CI/CD with github actions and fastlane</strong> I've added a sample workflow for CI/CD using GitHub Actions, but it can be enhanced with more steps like code quality checks, automated testing, and deployment.</p></li></ul><h2 class="">Common Errors & Troubleshooting</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues</p><h2 class="">FAQs</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues</p><h2 class="">Support</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk</p><blockquote class="quotation"><p class="paragraph"><strong>Contributions and suggestions are welcome!</strong><br>> Please open an issue or pull request on <a href="https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk">GitHub</a> for any enhancements.</p></blockquote><h1 class="">Integration Guide: AccelerometerTouchTrackerSdk</h1><h2 class="">Table of Contents</h2><ol><li><p class="paragraph">Introduction</p></li><li><p class="paragraph">Prerequisites</p></li><li><p class="paragraph">Setup Instructions</p></li><ol><li><p class="paragraph">Step 1: Install Dependencies</p></li><li><p class="paragraph">Step 2: Configure the Integration</p></li><li><p class="paragraph">Step 3: Test the Integration</p></li></ol><li><p class="paragraph">Demo</p></li><li><p class="paragraph">Authentication</p></li><li><p class="paragraph">API Reference</p></li><li><p class="paragraph">Testing Recommendations</p></li><li><p class="paragraph">Securing the Application with ProGuard/R8 Rules</p></li><li><p class="paragraph">Documentation Generation</p></li><li><p class="paragraph">Code Conventions</p></li><li><p class="paragraph">Areas for Enhancement</p></li><li><p class="paragraph">Common Errors & Troubleshooting</p></li><li><p class="paragraph">FAQs</p></li><li><p class="paragraph">Support</p></li></ol><h2 class="">Introduction</h2><p class="paragraph">This guide provides step-by-step instructions for integrating AccelerometerTouchTrackerSdk into your project. Follow the instructions to quickly get started and connect your system with AccelerometerTouchTrackerSdk.</p><h2 class="">Prerequisites</h2><p class="paragraph">Before you begin the integration process, make sure you have the following:</p><ul><li><p class="paragraph">Access to your system’s configuration settings</p></li><li><p class="paragraph">In future will add A ApiKey service from AccelerometerTouchTrackerSdk</p></li></ul><h2 class="">Setup Instructions</h2><h3 class="">Step 1: Install Dependencies</h3><p class="paragraph">Start by installing the required dependencies to your project. Use one of the following commands based on your package manager. use Gradle:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">   repositories {
+       google()
+       mavenCentral()
+   }
+   
+   dependencies {
+      implementation 'com.relx.AccelerometerTouchTrackerSdk:latest'
+   }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">Step 2: Configure the Integration</h3><p class="paragraph">Next, you’ll need to configure your integration settings. Add the following details in your application class . AccelerometerTouchTrackerCore.initialize() **We will add &quot;AccelerometerTouchTrackerSdk api key&quot; in the forthcoming releases **</p><h3 class="">Step 3: Test the Integration</h3><h4 class="">Use Managers with related callback interfaces</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    AccelerometerManager with AccelerometerListener and  errorListener
+    ActivityTouchManager with ActivityTouchListener and  errorListener
+    AppTouchManager with AppTouchListener and  errorListener</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">Use TouchSensorViewModel to observe the data</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">    val touchSensorViewModel = ViewModelProvider(this).get(TouchSensorViewModel::class.java)
+    touchSensorViewModel.lastAccelerometerEvent.observe(this) { events ->
+        // Handle Accelerometer
+    }
+    touchSensorViewModel.lastAccuracyEvent.observe(this) { events ->
+        // Handle Accuracy
+    }
+    touchSensorViewModel.accelerometerError.observe(this) { error ->
+        // Handle errors
+    }
+    touchSensorViewModel.lastMotionEvent.observe(this) { events ->
+        // Handle Touch Events
+    }
+    touchSensorViewModel.motionError.observe(this) { error ->
+         // Handle errors
+    }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h2 class="">Configuration Object</h2><p class="paragraph">You can configure the SDK using <code class="lang-kotlin">TouchTrackerConfig</code>:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig<br>import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel<br><br>val config = TouchTrackerConfig()<br>config.setLoggingEnabled(true)<br>config.setLogLevel(LogLevel.DEBUG)<br> <br><br>val accelerometerManager = AccelerometerManager(context, config)<br>val activityTouchManager = ActivityTouchManager(activity, config)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">This allows you to customize logging, and other behaviors. Currently I have Added a local Logger but in real project we can use services like firebase crash report.</p><h2 class="">Demo</h2><h3 class="">Screenshots</h3><ul><li><p class="paragraph"><strong>Dashboard View</strong></p></li></ul><table><thead><tr><th><img alt="&quot;" src="./Docs/Screenshot_20250610_023950.png"></th><th><img alt="&quot;" src="./Docs/Screenshot_20250610_024108.png"></th><th><img alt="&quot;" src="./Docs/Screenshot_20250610_024149.png"></th></tr></thead><tbody></tbody></table><h2 class="">Authorization</h2><p class="paragraph">So far no authentication is required for the SDK. In future releases, we will add an API key service to enhance security.</p><h2 class="">Testing Recommendations</h2><p class="paragraph">To further improve your SDK's reliability, add more <strong>Unit Tests</strong> and <strong>Instrumentation Tests</strong>:</p><h3 class="">Unit Tests</h3><ul><li><p class="paragraph">Cover all public methods in managers, listeners, models, and utility classes.</p></li><li><p class="paragraph">Use mocking frameworks (e.g., Mockito, MockK) for Android dependencies.</p></li><li><p class="paragraph">Test error handling, and configuration logic.</p></li><li><p class="paragraph">Validate logger and metrics integration.</p></li><li><p class="paragraph">Ensure ViewModel logic and LiveData updates are tested.</p></li></ul><p class="paragraph"><strong>Example Unit Test Files:</strong></p><ul><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/AccelerometerManagerTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/ActivityTouchManagerTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/viewmodel/TouchSensorViewModelTest.kt</code></p></li></ul><h3 class="">Instrumentation Tests</h3><ul><li><p class="paragraph">Test integration with Android components (Activity, Service, etc.).</p></li><li><p class="paragraph">Simulate real touch and sensor events on device/emulator.</p></li><li><p class="paragraph">Verify lifecycle-aware behavior (start/stop tracking).</p></li><li><p class="paragraph">Validate LiveData and UI updates in real scenarios.</p></li></ul><p class="paragraph"><strong>Example Instrumentation Test Files:</strong></p><ul><li><p class="paragraph"><code class="lang-kotlin">src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/AccelerometerIntegrationTest.kt</code></p></li><li><p class="paragraph"><code class="lang-kotlin">src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/TouchEventIntegrationTest.kt</code></p></li></ul><blockquote class="quotation"><p class="paragraph"><strong>Tip:</strong><br>> Place unit tests in <code class="lang-kotlin">src/test/java</code> and instrumentation tests in <code class="lang-kotlin">src/androidTest/java</code> under the appropriate package.</p></blockquote><p class="paragraph">Add tests for any new features or bug fixes to maintain high coverage and confidence in your SDK.</p><h2 class="">Securing the Application with ProGuard/R8 Rules</h2><p class="paragraph">To secure your application and SDK with ProGuard or R8:</p><ul><li><p class="paragraph"><strong>Enable minification and obfuscation</strong> in your <code class="lang-kotlin">build.gradle</code>:</p><div class="sample-container"><pre><code class="block lang-groovy" theme="idea">buildTypes {<br>    release {<br>        minifyEnabled true<br>        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'<br>    }<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Add these rules to your </strong><code class="strong lang-kotlin"><strong>proguard-rules.pro</strong></code><strong> file:</strong></p><div class="sample-container"><pre><code class="block lang-proguard" theme="idea"># Keep SDK API surface<br>-keep class com.behaviosec.android.accelerometerTouchTrackerSdk.** { *; }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li></ul><h2 class="">Documentation Generation</h2><p class="paragraph">The SDK uses <strong>KDoc</strong> for inline documentation of all public classes, methods, and properties.<br>Documentation is automatically generated using <a href="https://github.com/Kotlin/dokka">Dokka</a>.</p><h3 class="">How to Generate Documentation</h3><ol><li><p class="paragraph"><strong>Write KDoc Comments:</strong><br>   All public APIs are documented using KDoc.<br>   Example:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">/**<br> * Starts tracking accelerometer events.<br> * @param config The configuration object.<br> */<br>fun startTracking(config: TouchTrackerConfig){}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Generate HTML Documentation with Dokka:</strong><br>   Run the following Gradle command from the project root:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">./gradlew dokkaHtml</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The generated documentation will be available in the <code class="lang-kotlin">build/dokka/html</code> directory.</p></li><li><p class="paragraph"><strong>Custom Guides:</strong><br>   You can add Markdown files (e.g., <code class="lang-kotlin">IntegrationGuide.md</code>) to be included in the generated documentation.</p></li></ol><blockquote class="quotation"><p class="paragraph">Keeping your KDoc up to date ensures that the generated documentation is always accurate and helpful for SDK consumers.</p></blockquote><h2 class="">Publishing Dokka Documentation to GitHub</h2><p class="paragraph">To upload the generated Dokka documentation to GitHub (for example, to a <code class="lang-kotlin">gh-pages</code> branch):</p><ol><li><p class="paragraph"><strong>Generate the documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">./gradlew dokkaHtml</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The output will be in <code class="lang-kotlin">build/dokka/html</code>.</p></li><li><p class="paragraph"><strong>Switch to the </strong><code class="strong lang-kotlin"><strong>gh-pages</strong></code><strong> branch (or create it if it doesn't exist):</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">git checkout --orphan gh-pages</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Copy the generated documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">cp -r build/dokka/html/* .</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>Commit and push the documentation:</strong></p><div class="sample-container"><pre><code class="block lang-bash" theme="idea">git add .<br>git commit -m &quot;Publish Dokka documentation&quot;<br>git push origin gh-pages --force</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></li><li><p class="paragraph"><strong>(Optional) Automate with GitHub Actions:</strong><br>   You can automate this process by adding a workflow that runs Dokka and pushes the output to <code class="lang-kotlin">gh-pages</code> on every release or push to <code class="lang-kotlin">main</code>.</p></li></ol><blockquote class="quotation"><p class="paragraph">This allows you to host your documentation via GitHub Pages at <code class="lang-kotlin">https://&lt;username&gt;.github.io/&lt;repo&gt;/</code>.</p></blockquote><h2 class="">Code Conventions</h2><ol><li><p class="paragraph"><strong>Implement libraries ktlint and detekt</strong></p></li><li><p class="paragraph"><strong>Add detekt and ktlint check within the automation in github actions</strong></p></li></ol><h2 class="">Areas for Enhancement</h2><p class="paragraph">The following areas are recommended for further enhancement to improve the SDK's robustness, flexibility, and usability:</p><ul><li><p class="paragraph"><strong>Analytics Integration:</strong> Provide hooks for integrating with analytics or crash reporting tools.</p></li><li><p class="paragraph"><strong>Add SonarQube </strong>&<strong>Unit </strong>&<strong> Instrumentation Tests</strong> to cover all required test cases (many cases need to be covered I've added samples only),   We need to increase test coverage, especially for edge cases and error handling.</p></li><li><p class="paragraph"><strong>Add Dependency Injection</strong> Support DI frameworks (like Hilt or Dagger) for easier integration and testing.</p></li><li><p class="paragraph"><strong>Introduce UseCases</strong> I just Implemented the code in simple way but we have to introduce use cases between Manager or Repository and ViewModel for more complex cases</p></li><li><p class="paragraph"><strong>Add Sample Fore ViewModel</strong> we I've implemented Managers as Sample and add the viewModel in the documentation only</p></li><li><p class="paragraph"><strong>CI/CD with github actions and fastlane</strong> I've added a sample workflow for CI/CD using GitHub Actions, but it can be enhanced with more steps like code quality checks, automated testing, and deployment.</p></li></ul><h2 class="">Common Errors & Troubleshooting</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues</p><h2 class="">FAQs</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues</p><h2 class="">Support</h2><p class="paragraph">https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk</p><blockquote class="quotation"><p class="paragraph"><strong>Contributions and suggestions are welcome!</strong><br>> Please open an issue or pull request on <a href="https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk">GitHub</a> for any enhancements.</p></blockquote></div></div>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="1369669155%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk" id="1369669155%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1369669155%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1254774129%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk.config" id="1254774129%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk.config/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk.config</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1254774129%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="2037777658%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk.helpers" id="2037777658%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk.helpers/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk.helpers</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2037777658%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1094503564%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk.listeners" id="-1094503564%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk.listeners/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk.listeners</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1094503564%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-2042090156%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk.logging" id="-2042090156%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk.logging/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk.logging</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2042090156%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1958319189%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk.managers" id="1958319189%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk.managers/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk.managers</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1958319189%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-287434087%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk.models" id="-287434087%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk.models/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk.models</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-287434087%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1741881943%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk.repositories" id="1741881943%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk.repositories/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk.repositories</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1741881943%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="500094686%2FPackages%2F1321489693" anchor-label="com.behaviosec.android.accelerometerTouchTrackerSdk.viewModels" id="500094686%2FPackages%2F1321489693" data-filterable-set=":AccelerometerTouchTrackerSdk/release"></a>
+    <div class="table-row" data-filterable-current=":AccelerometerTouchTrackerSdk/release" data-filterable-set=":AccelerometerTouchTrackerSdk/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-accelerometer-touch-tracker-sdk/com.behaviosec.android.accelerometerTouchTrackerSdk.viewModels/index.html">com.behaviosec.android.accelerometerTouchTrackerSdk.viewModels</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="500094686%2FPackages%2F1321489693"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2025 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
