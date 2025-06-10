@@ -58,16 +58,16 @@ use Gradle:
 Next, you’ll need to configure your integration settings.
 Add the following details in your application class .
 AccelerometerTouchTrackerCore.initialize()
-**We will add "AccelerometerTouchTrackerSdk api key" in the forthcoming releases ** 
+**We will add "AccelerometerTouchTrackerSdk api key" in the forthcoming releases **
 
 ### Step 3: Test the Integration
 
-#### Use Managers with related callback interfaces 
+#### Use Managers with related callback interfaces
         AccelerometerManager with AccelerometerListener and  errorListener
         ActivityTouchManager with ActivityTouchListener and  errorListener
         AppTouchManager with AppTouchListener and  errorListener
-       
-#### Use TouchSensorViewModel to observe the data 
+
+#### Use TouchSensorViewModel to observe the data
         val touchSensorViewModel = ViewModelProvider(this).get(TouchSensorViewModel::class.java)
         touchSensorViewModel.lastAccelerometerEvent.observe(this) { events ->
             // Handle Accelerometer
@@ -239,7 +239,7 @@ To upload the generated Dokka documentation to GitHub (for example, to a `gh-pag
 The following areas are recommended for further enhancement to improve the SDK's robustness, flexibility, and usability:
 
 - **Analytics Integration:** Provide hooks for integrating with analytics or crash reporting tools.
-- **Add SonarQube &Unit & Instrumentation Tests** to cover all required test cases (many cases need to be covered I've added samples only), 
+- **Add SonarQube &Unit & Instrumentation Tests** to cover all required test cases (many cases need to be covered I've added samples only),
   We need to increase test coverage, especially for edge cases and error handling.
 - **Add Dependency Injection** Support DI frameworks (like Hilt or Dagger) for easier integration and testing.
 - **Introduce UseCases** I just Implemented the code in simple way but we have to introduce use cases between Manager or Repository and ViewModel for more complex cases
