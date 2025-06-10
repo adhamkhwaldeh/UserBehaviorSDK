@@ -1,71 +1,66 @@
 package com.behaviosec.android.sample;
 
-import android.app.Activity;
 import android.app.Application;
-import android.os.Bundle;
-import android.view.Window;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.behaviosec.android.gesturedetectorsdk.Listeners.AccelerometerListener;
-import com.behaviosec.android.gesturedetectorsdk.GestureDetectorBuilder;
-import com.behaviosec.android.gesturedetectorsdk.GlobalTouchTracker;
-import com.behaviosec.android.gesturedetectorsdk.TouchInterceptorLayout;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.AccelerometerTouchTrackerCore;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AppTouchManager;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccelerometerEventModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccuracyChangedModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.MotionEventModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.repositories.HelpersRepository;
 
-public class SampleApp extends Application implements Application.ActivityLifecycleCallbacks {
 
-    private AccelerometerListener accelerometerListener;
+public class SampleApp extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        accelerometerListener = new AccelerometerListener(this);
-        accelerometerListener.start();
-        TouchInterceptorLayout layout = new TouchInterceptorLayout(this);
-        new GestureDetectorBuilder().setLoggingEnabled(true)
-                .setEnabled(true).setDebugMode(true).build(getApplicationContext());
 
-        // Register activity lifecycle to hook into Window
-        registerActivityLifecycleCallbacks(this);
-    }
+        new AccelerometerTouchTrackerCore().initialize();
 
-    @Override
-    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
-        Window window = activity.getWindow();
-        Window.Callback currentCallback = window.getCallback();
-        if (!(currentCallback instanceof GlobalTouchTracker)) {
-            window.setCallback(new GlobalTouchTracker(currentCallback));
-        }
-    }
+        //#region AccelerometerManager
+        AccelerometerManager accelerometerManager = new AccelerometerManager(this,new HelpersRepository(), new TouchTrackerConfig());
 
-    @Override
-    public void onActivityStarted(@NonNull Activity activity) {
+        accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
+        accelerometerManager.start();
 
-    }
+        accelerometerManager.addListener(new AccelerometerListener() {
+            @Override
+            public void onAccuracyChanged(@NonNull AccuracyChangedModel model) {
+                Log.d("SampleApp Accuracy changed:", "Accuracy changed: " + model.getAccuracy() + " at " + model.getDate());
 
-    @Override
-    public void onActivityResumed(@NonNull Activity activity) {
+            }
 
-    }
+            @Override
+            public void onSensorChanged(@NonNull AccelerometerEventModel model) {
+                Log.d("SampleApp Sensor changed:", "Sensor changed: " + model.getEvent().values[0] + ", " + model.getEvent().values[1] + ", " + model.getEvent().values[2] + " at " + model.getDate());
 
-    @Override
-    public void onActivityPaused(@NonNull Activity activity) {
+            }
 
-    }
+        });
 
-    @Override
-    public void onActivityStopped(@NonNull Activity activity) {
+        //#endregion
 
-    }
+        //#region AppTouchManager
 
-    @Override
-    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
+        AppTouchManager appTouchManager = new AppTouchManager(this);
 
-    }
+        appTouchManager.setGlobalTouchListener(new ActivityTouchListener() {
+            @Override
+            public boolean dispatchTouchEvent(@NonNull MotionEventModel model) {
+                Log.d("SampleApp", "Global touch event: " + model.getEvent() + " at " + model.getDate());
+                return true;
+            }
+        });
 
-    @Override
-    public void onActivityDestroyed(@NonNull Activity activity) {
+        //#endregion
 
     }
 
