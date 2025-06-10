@@ -6,9 +6,9 @@
 1. [Introduction]
 2. [Prerequisites]
 3. [Setup Instructions]
-    1. [Step 1: Install Dependencies]
-    2. [Step 2: Configure the Integration]
-    3. [Step 3: Test the Integration]
+   1. [Step 1: Install Dependencies]
+   2. [Step 2: Configure the Integration]
+   3. [Step 3: Test the Integration]
 4. [Demo]
 5. [Authentication]
 6. [API Reference]
@@ -96,7 +96,7 @@ import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel
 val config = TouchTrackerConfig()
 config.setLoggingEnabled(true)
 config.setLogLevel(LogLevel.DEBUG)
- 
+
 
 val accelerometerManager = AccelerometerManager(context, config)
 val activityTouchManager = ActivityTouchManager(activity, config)
@@ -188,7 +188,7 @@ Documentation is automatically generated using [Dokka](https://github.com/Kotlin
 2. **Generate HTML Documentation with Dokka:**  
    Run the following Gradle command from the project root:
    ```
-   ./gradlew dokkaHtml
+   ./gradlew :AccelerometerTouchTrackerSdk:dokkaGeneratePublicationHtml
    ```
    The generated documentation will be available in the `build/dokka/html` directory.
 
@@ -203,9 +203,9 @@ To upload the generated Dokka documentation to GitHub (for example, to a `gh-pag
 
 1. **Generate the documentation:**
    ```bash
-   ./gradlew dokkaHtml
+   ./gradlew :AccelerometerTouchTrackerSdk:dokkaGeneratePublicationHtml
    ```
-   The output will be in `build/dokka/html`.
+   The output will be in `AccelerometerTouchTrackerSdk/build/dokkaDir`.
 
 2. **Switch to the `gh-pages` branch (or create it if it doesn't exist):**
    ```bash
@@ -214,7 +214,7 @@ To upload the generated Dokka documentation to GitHub (for example, to a `gh-pag
 
 3. **Copy the generated documentation:**
    ```bash
-   cp -r build/dokka/html/* .
+   cp -r AccelerometerTouchTrackerSdk/build/dokkaDir/* .
    ```
 
 4. **Commit and push the documentation:**
