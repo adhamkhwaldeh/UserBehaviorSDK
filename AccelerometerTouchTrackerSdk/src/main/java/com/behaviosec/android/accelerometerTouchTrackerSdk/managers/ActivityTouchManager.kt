@@ -1,7 +1,6 @@
 package com.behaviosec.android.accelerometerTouchTrackerSdk.managers
 
 import android.app.Activity
-import android.util.Log
 import android.view.MotionEvent
 import android.view.Window.Callback
 import com.behaviosec.android.accelerometerTouchTrackerSdk.helpers.DateHelpers
@@ -9,7 +8,7 @@ import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTou
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchErrorListener
 import com.behaviosec.android.accelerometerTouchTrackerSdk.R
 import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.Logger
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.MotionEventModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.MotionEventModel
 import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig
 
 /**

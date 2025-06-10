@@ -1,4 +1,4 @@
-package com.behaviosec.android.accelerometerTouchTrackerSdk.viewmodel
+package com.behaviosec.android.accelerometerTouchTrackerSdk.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
@@ -10,12 +10,19 @@ import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTou
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.ActivityTouchManager
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccelerometerEventModel
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccuracyChangedModel
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.ManagerErrorModel
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.MotionEventModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccelerometerEventModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccuracyChangedModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.ManagerErrorModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.MotionEventModel
 import kotlinx.coroutines.launch
 
+/**
+ * Touch sensor view model
+ *
+ * @property accelerometerManager
+ * @property activityTouchManager
+ * @constructor Create empty Touch sensor view model
+ */
 class TouchSensorViewModel(
     private val accelerometerManager: AccelerometerManager,
     private val activityTouchManager: ActivityTouchManager
@@ -70,6 +77,10 @@ class TouchSensorViewModel(
         })
     }
 
+    /**
+     * Start tracking
+     *
+     */
     fun startTracking() {
         viewModelScope.launch {
             accelerometerManager.start()
@@ -77,6 +88,10 @@ class TouchSensorViewModel(
         }
     }
 
+    /**
+     * Stop tracking
+     *
+     */
     fun stopTracking() {
         viewModelScope.launch {
             accelerometerManager.stop()

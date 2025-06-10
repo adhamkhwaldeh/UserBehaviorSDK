@@ -1,6 +1,6 @@
 # Module AccelerometerTouchTrackerSdk
 
-# Integration Guide: [Weather Gini SDK]
+# Integration Guide: [AccelerometerTouchTrackerSdk]
 
 ## Table of Contents
 1. [Introduction]
@@ -17,20 +17,25 @@
 9. [Support]
 10. [Testing Recommendations]
 11. [Securing the Application with ProGuard/R8 Rules]
+12. [Documentation Generation]
+13. [Code Conventions]
+14. [Areas for Enhancement]
+
 
 ---
 
 ## Introduction
 
-This guide provides step-by-step instructions for integrating [Weather Sdk] into your project.
-Follow the instructions to quickly get started and connect your system with [Weather Sdk].
+This guide provides step-by-step instructions for integrating [AccelerometerTouchTrackerSdk] into your project.
+Follow the instructions to quickly get started and connect your system with [AccelerometerTouchTrackerSdk].
 
 ---
 
 ## Prerequisites
 Before you begin the integration process, make sure you have the following:
-- A ApiKey service from [Weather Sdk]
 - Access to your [system’s] configuration settings
+- In future will add A ApiKey service from [AccelerometerTouchTrackerSdk]
+
 
 ## Setup Instructions
 
@@ -45,68 +50,60 @@ use Gradle:
        }
        
        dependencies {
-          implementation 'com.gini.weatherSdk:latest'
+          implementation 'com.relx.AccelerometerTouchTrackerSdk:latest'
        }
 
 ### Step 2: Configure the Integration
 
 Next, you’ll need to configure your integration settings.
 Add the following details in your application class .
-AccelerometerTouchTrackerSdkBuilder.initialize(
-this,
-"your api key"
-)
+AccelerometerTouchTrackerCore.initialize()
+**We will add "AccelerometerTouchTrackerSdk api key" in the forthcoming releases ** 
 
 ### Step 3: Test the Integration
 
-#### Update sdk status to launch
-        AccelerometerTouchTrackerSdkBuilder.sdkStatus.value =
-                            WeatherSdkStatus.OnLaunchForecast(cityName)
-
-#### Observe SDK status and replace it with  ForecastScreenFragment
-     AccelerometerTouchTrackerSdkBuilder.sdkStatus.observe(this) {
-            if (it is WeatherSdkStatus.OnFinish) {
-                replace(EnterCityScreenFragment(), EnterCityScreenFragment::class.java.name)
-            } else if (it is WeatherSdkStatus.OnLaunchForecast) {
-                replace(
-                    ForecastScreenFragment.newInstance(it.cityName),
-                    ForecastScreenFragment::class.java.name
-                )
-            }
+#### Use Managers with related callback interfaces 
+        AccelerometerManager with AccelerometerListener and  errorListener
+        ActivityTouchManager with ActivityTouchListener and  errorListener
+        AppTouchManager with AppTouchListener and  errorListener
+       
+#### Use TouchSensorViewModel to observe the data 
+        val touchSensorViewModel = ViewModelProvider(this).get(TouchSensorViewModel::class.java)
+        touchSensorViewModel.lastAccelerometerEvent.observe(this) { events ->
+            // Handle Accelerometer
         }
-
-#### Observe SDK status and replace it with ForecastScreen if you are using compose
-    val sdkStatus = AccelerometerTouchTrackerSdkBuilder.sdkStatus.observeAsState()
-    LaunchedEffect(sdkStatus.value) {
-        val current = sdkStatus.value
-        if (current is WeatherSdkStatus.OnFinish) {
-            navController.navigateUp()
-        } else if (current is WeatherSdkStatus.OnLaunchForecast) {
-            navController.navigate(NavigationItem.forecastRouteWithParams(current.cityName))
+        touchSensorViewModel.lastAccuracyEvent.observe(this) { events ->
+            // Handle Accuracy
         }
-    }
-
-#### You can replace ForecastScreenFragment.newInstance(it.cityName) or ForecastScreen compose directly
+        touchSensorViewModel.accelerometerError.observe(this) { error ->
+            // Handle errors
+        }
+        touchSensorViewModel.lastMotionEvent.observe(this) { events ->
+            // Handle Touch Events
+        }
+        touchSensorViewModel.motionError.observe(this) { error ->
+             // Handle errors
+        }
 
 ## Configuration Object
 
-You can configure the SDK using `TouchTrackerConfig` and its builder:
+You can configure the SDK using `TouchTrackerConfig`:
 
 ```kotlin
 import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig
 import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel
 
-val config = TouchTrackerConfig.Builder()
+val config = TouchTrackerConfig()
     .setLoggingEnabled(true)
     .setLogLevel(LogLevel.DEBUG)
-    .setEventFilter(MyCustomEventFilter())
-    .build()
+ 
 
 val accelerometerManager = AccelerometerManager(context, config)
 val activityTouchManager = ActivityTouchManager(activity, config)
 ```
 
-This allows you to customize logging, event filtering, and other behaviors.
+This allows you to customize logging, and other behaviors.
+Currently I have Added a local Logger but in real project we can use services like firebase crash report.
 
 ## Demo
 
@@ -114,16 +111,11 @@ This allows you to customize logging, event filtering, and other behaviors.
 
 - **Dashboard View**
 
-| !["](./Docs/Screenshot_2025-02-02-13-06-07-136_com.adham.gini.weatherSDK.jpg) | !["](./Docs/Screenshot_2025-02-02-13-06-11-775_com.adham.gini.weatherSDK.jpg) | !["](./Docs/Screenshot_2025-02-02-13-06-21-436_com.adham.gini.weatherSDK.jpg) |
+| !["](./Screenshot_20250610_023950.png) | !["](./Docs/Screenshot_20250610_024108.png) | !["](./Docs/Screenshot_20250610_024149.png) |
 |-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
 
 ## Authorization
-You need to get Gini Weather Api key (e.g register to website )
-
-## Api reference
-https://www.weatherbit.io/
-https://www.weatherbit.io/api/weather-current
-https://www.weatherbit.io/api/weather-forecast-hourly
+So far no authentication is required for the SDK. In future releases, we will add an API key service to enhance security.
 
 ## Common Errors & Troubleshooting
 https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
@@ -141,7 +133,7 @@ To further improve your SDK's reliability, add more **Unit Tests** and **Instrum
 ### Unit Tests
 - Cover all public methods in managers, listeners, models, and utility classes.
 - Use mocking frameworks (e.g., Mockito, MockK) for Android dependencies.
-- Test event filtering, error handling, and configuration logic.
+- Test error handling, and configuration logic.
 - Validate logger and metrics integration.
 - Ensure ViewModel logic and LiveData updates are tested.
 
@@ -182,4 +174,86 @@ To secure your application and SDK with ProGuard or R8:
 - **Add these rules to your `proguard-rules.pro` file:**
   ```proguard
   # Keep SDK API surface
-  -keep class com.behavio
+  -keep class com.behaviosec.android.accelerometerTouchTrackerSdk.** { *; }
+  ```
+## Documentation Generation
+
+The SDK uses **KDoc** for inline documentation of all public classes, methods, and properties.  
+Documentation is automatically generated using [Dokka](https://github.com/Kotlin/dokka).
+
+### How to Generate Documentation
+
+1. **Write KDoc Comments:**  
+   All public APIs are documented using KDoc.  
+   Example:
+   ```kotlin
+   /**
+    * Starts tracking accelerometer events.
+    * @param config The configuration object.
+    */
+   fun startTracking(config: TouchTrackerConfig){}
+   ```
+
+2. **Generate HTML Documentation with Dokka:**  
+   Run the following Gradle command from the project root:
+   ```
+   ./gradlew dokkaHtml
+   ```
+   The generated documentation will be available in the `build/dokka/html` directory.
+
+3. **Custom Guides:**  
+   You can add Markdown files (e.g., `IntegrationGuide.md`) to be included in the generated documentation.
+
+> Keeping your KDoc up to date ensures that the generated documentation is always accurate and helpful for SDK consumers.
+
+## Publishing Dokka Documentation to GitHub
+
+To upload the generated Dokka documentation to GitHub (for example, to a `gh-pages` branch):
+
+1. **Generate the documentation:**
+   ```bash
+   ./gradlew dokkaHtml
+   ```
+   The output will be in `build/dokka/html`.
+
+2. **Switch to the `gh-pages` branch (or create it if it doesn't exist):**
+   ```bash
+   git checkout --orphan gh-pages
+   ```
+
+3. **Copy the generated documentation:**
+   ```bash
+   cp -r build/dokka/html/* .
+   ```
+
+4. **Commit and push the documentation:**
+   ```bash
+   git add .
+   git commit -m "Publish Dokka documentation"
+   git push origin gh-pages --force
+   ```
+
+5. **(Optional) Automate with GitHub Actions:**  
+   You can automate this process by adding a workflow that runs Dokka and pushes the output to `gh-pages` on every release or push to `main`.
+
+> This allows you to host your documentation via GitHub Pages at `https://<username>.github.io/<repo>/`.
+
+## Code Conventions
+
+1. **Implement libraries ktlint and detekt**
+2. **Add detekt and ktlint check within the automation in github actions**
+
+## Areas for Enhancement
+
+The following areas are recommended for further enhancement to improve the SDK's robustness, flexibility, and usability:
+
+- **Analytics Integration:** Provide hooks for integrating with analytics or crash reporting tools.
+- **Add SonarQube &Unit & Instrumentation Tests** to cover all required test cases (many cases need to be covered I've added samples only), 
+  We need to increase test coverage, especially for edge cases and error handling.
+- **Add Dependency Injection** Support DI frameworks (like Hilt or Dagger) for easier integration and testing.
+- **Introduce UseCases** I just Implemented the code in simple way but we have to introduce use cases between Manager or Repository and ViewModel for more complex cases
+- **Add Sample Fore ViewModel** we I've implemented Managers as Sample and add the viewModel in the documentation only
+- **CI/CD with github actions and fastlane** I've added a sample workflow for CI/CD using GitHub Actions, but it can be enhanced with more steps like code quality checks, automated testing, and deployment.
+- 
+> **Contributions and suggestions are welcome!**  
+> Please open an issue or pull request on [GitHub](https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk) for any enhancements.

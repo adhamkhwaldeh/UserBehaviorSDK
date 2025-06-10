@@ -7,8 +7,14 @@ import com.behaviosec.android.accelerometerTouchTrackerSdk.R
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AppTouchErrorListener
 import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.Logger
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.ManagerErrorModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.ManagerErrorModel
 
+/**
+ * App touch manager
+ *
+ * @property application
+ * @constructor Create empty App touch manager
+ */
 class AppTouchManager(
     private val application: Application
 ) : Application.ActivityLifecycleCallbacks {

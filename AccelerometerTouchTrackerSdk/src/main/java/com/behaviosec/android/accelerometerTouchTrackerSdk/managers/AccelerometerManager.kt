@@ -6,17 +6,26 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import com.behaviosec.android.accelerometerTouchTrackerSdk.R
-import com.behaviosec.android.accelerometerTouchTrackerSdk.helpers.DateHelpers
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerErrorListener
 import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.Logger
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccelerometerEventModel
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.AccuracyChangedModel
-import com.behaviosec.android.accelerometerTouchTrackerSdk.model.ManagerErrorModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccelerometerEventModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccuracyChangedModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.ManagerErrorModel
 import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig
+import com.behaviosec.android.accelerometerTouchTrackerSdk.repositories.HelpersRepository
 
+/**
+ * Accelerometer manager
+ *
+ * @property context
+ * @constructor
+ *
+ * @param config
+ */
 class AccelerometerManager(
     private val context: Context,
+    private val helpersRepository: HelpersRepository,
     config: TouchTrackerConfig = TouchTrackerConfig()
 ) : BaseManager(config), SensorEventListener {
 
@@ -39,24 +48,42 @@ class AccelerometerManager(
         isLoggingEnabled = config.isLoggingEnabled
     }
 
+    /**
+     * Add listener
+     *
+     * @param listener
+     */
     fun addListener(listener: AccelerometerListener) {
         synchronized(activityManagersLock) {
             this.accelerometerListener = listener
         }
     }
 
+    /**
+     * Add error listener
+     *
+     * @param listener
+     */
     fun addErrorListener(listener: AccelerometerErrorListener) {
         synchronized(activityManagersLock) {
             this.errorListener = listener
         }
     }
 
+    /**
+     * Remove error listener
+     *
+     */
     fun removeErrorListener() {
         synchronized(activityManagersLock) {
             this.errorListener = null
         }
     }
 
+    /**
+     * Start
+     *
+     */
     fun start() {
         try {
             if (accelerometer == null) {
@@ -86,6 +113,10 @@ class AccelerometerManager(
         }
     }
 
+    /**
+     * Stop
+     *
+     */
     fun stop() {
         try {
             sensorManager.unregisterListener(this)
@@ -112,7 +143,7 @@ class AccelerometerManager(
             listener?.onSensorChanged(
                 AccelerometerEventModel(
                     event,
-                    DateHelpers.getCurrentDate()
+                    helpersRepository.getCurrentDate()
                 )
             )
         }
@@ -132,7 +163,7 @@ class AccelerometerManager(
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         accelerometerListener?.onAccuracyChanged(
             AccuracyChangedModel(
-                sensor, accuracy, DateHelpers.getCurrentDate()
+                sensor, accuracy, helpersRepository.getCurrentDate()
             )
         )
         if (isLoggingEnabled && config.isDebugMode) {

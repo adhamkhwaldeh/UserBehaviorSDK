@@ -44,6 +44,7 @@
                         android:id="@+id/start_accelerometer_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
                         android:layout_weight="1"
                         android:text="start" />
 
@@ -51,6 +52,7 @@
                         android:id="@+id/stop_accelerometer_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
                         android:layout_weight="1"
                         android:text="stop" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -61,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/field_margin"
                     android:layout_marginBottom="@dimen/field_margin"
-                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -71,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/field_margin"
                     android:layout_marginBottom="@dimen/field_margin"
-                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -96,6 +98,7 @@
                         android:id="@+id/start_touch_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
                         android:layout_weight="1"
                         android:text="start" />
 
@@ -103,6 +106,7 @@
                         android:id="@+id/stop_touch_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
                         android:layout_weight="1"
                         android:text="stop" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -113,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/field_margin"
                     android:layout_marginBottom="@dimen/field_margin"
-                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:textAppearance="@android:style/TextAppearance.Small"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 

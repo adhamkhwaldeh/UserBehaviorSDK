@@ -6,6 +6,9 @@ import android.hardware.SensorEvent
 import android.hardware.SensorManager
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccelerometerEventModel
+import com.behaviosec.android.accelerometerTouchTrackerSdk.repositories.HelpersRepository
+import com.behaviosec.android.accelerometerTouchTrackerSdk.repositories.MockedRepository
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -24,11 +27,13 @@ class AccelerometerManagerTest {
         sensorManager = mock(SensorManager::class.java)
         sensor = mock(Sensor::class.java)
         listener = mock(AccelerometerListener::class.java)
+        val helpersRepository = mock(HelpersRepository::class.java)
 
         `when`(context.getSystemService(Context.SENSOR_SERVICE)).thenReturn(sensorManager)
         `when`(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)).thenReturn(sensor)
+        `when`(helpersRepository.getCurrentDate()).thenReturn(MockedRepository.mockDate)
 
-        manager = AccelerometerManager(context)
+        manager = AccelerometerManager(context,helpersRepository)
         manager.addListener(listener)
         manager.setEnabled(true)
     }
@@ -36,13 +41,15 @@ class AccelerometerManagerTest {
     @Test
     fun testOnSensorChanged_callsListener() {
         val event = mock(SensorEvent::class.java)
+        event.accuracy = MockedRepository.accuracy
         manager.onSensorChanged(event)
-        verify(listener).onSensorChanged(eq(event), any())
+        verify(listener).onSensorChanged(AccelerometerEventModel(event, MockedRepository.mockDate))
     }
 
     @Test
     fun testOnAccuracyChanged_callsListener() {
-        manager.onAccuracyChanged(sensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH)
-        verify(listener).onAccuracyChanged(eq(sensor), eq(SensorManager.SENSOR_STATUS_ACCURACY_HIGH), any())
+        val mockedAccuracy = MockedRepository.getMockedAccuracy(sensor)
+        manager.onAccuracyChanged(sensor, mockedAccuracy.accuracy)
+        verify(listener).onAccuracyChanged(mockedAccuracy)
     }
 }

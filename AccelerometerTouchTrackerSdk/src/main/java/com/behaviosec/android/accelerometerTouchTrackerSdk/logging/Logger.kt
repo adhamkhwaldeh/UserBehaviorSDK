@@ -2,17 +2,90 @@ package com.behaviosec.android.accelerometerTouchTrackerSdk.logging
 
 import android.util.Log
 
-enum class LogLevel { NONE, ERROR, WARN, INFO, DEBUG }
+/**
+ * Log level
+ *
+ * @constructor Create empty Log level
+ */
+enum class LogLevel {
+    /**
+     * None
+     *
+     * @constructor Create empty None
+     */
+    NONE,
 
-//You can Integrate with external logging/analytics frameworks (e.g., Timber, Crashlytics).
+    /**
+     * Error
+     *
+     * @constructor Create empty Error
+     */
+    ERROR,
+
+    /**
+     * Warn
+     *
+     * @constructor Create empty Warn
+     */
+    WARN,
+
+    /**
+     * Info
+     *
+     * @constructor Create empty Info
+     */
+    INFO,
+
+    /**
+     * Debug
+     *
+     * @constructor Create empty Debug
+     */
+    DEBUG }
+
+/**
+ * Logger
+ *
+ * @constructor Create empty Logger
+ *///You can Integrate with external logging/analytics frameworks (e.g., Timber, Crashlytics).
 object Logger {
+    
     var logLevel: LogLevel = LogLevel.INFO
+    
     private var customLogger: ((level: LogLevel, tag: String, message: String, throwable: Throwable?) -> Unit)? =
         null
 
+    /**
+     * D
+     *
+     * @param tag
+     * @param message
+     */
     fun d(tag: String, message: String) = log(LogLevel.DEBUG, tag, message)
+
+    /**
+     * I
+     *
+     * @param tag
+     * @param message
+     */
     fun i(tag: String, message: String) = log(LogLevel.INFO, tag, message)
+
+    /**
+     * W
+     *
+     * @param tag
+     * @param message
+     */
     fun w(tag: String, message: String) = log(LogLevel.WARN, tag, message)
+
+    /**
+     * E
+     *
+     * @param tag
+     * @param message
+     * @param throwable
+     */
     fun e(tag: String, message: String, throwable: Throwable? = null) =
         log(LogLevel.ERROR, tag, message, throwable)
 
