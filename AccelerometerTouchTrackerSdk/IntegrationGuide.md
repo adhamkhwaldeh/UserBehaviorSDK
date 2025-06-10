@@ -94,8 +94,8 @@ import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerCo
 import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel
 
 val config = TouchTrackerConfig()
-    .setLoggingEnabled(true)
-    .setLogLevel(LogLevel.DEBUG)
+config.setLoggingEnabled(true)
+config.setLogLevel(LogLevel.DEBUG)
  
 
 val accelerometerManager = AccelerometerManager(context, config)
