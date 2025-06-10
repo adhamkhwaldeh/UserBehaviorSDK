@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerErrorListener;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.ActivityTouchManager;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccelerometerEventModel;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccuracyChangedModel;
+import com.behaviosec.android.accelerometerTouchTrackerSdk.models.ManagerErrorModel;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.models.MotionEventModel;
 import com.behaviosec.android.accelerometerTouchTrackerSdk.repositories.HelpersRepository;
 import com.behaviosec.android.sample.databinding.ActivityMainBinding;
@@ -45,6 +47,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        accelerometerManager.addErrorListener(new AccelerometerErrorListener() {
+            @Override
+            public void onAccelerometerError(@NonNull ManagerErrorModel error) {
+                Log.e("AccelerometerManager", "Error: " + error.getMessage() + " at " + error.getDate());
+                binding.accelerometerAccuracy.setText("Error: " + error.getMessage() + " at " + error.getDate());
+                binding.accelerometerSensor.setText("Error: " + error.getMessage() + " at " + error.getDate());
+            }
+        });
+
         binding.startAccelerometerButton.setOnClickListener(v -> {
             accelerometerManager.start();
         });
@@ -65,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
                 binding.touchDetails.setText("Touch event: " + model.getEvent() + " at " + model.getDate());
 
                 return true;
+            }
+        });
+
+        activityTouchManager.setErrorListener(new AccelerometerErrorListener() {
+            @Override
+            public void onAccelerometerError(@NonNull ManagerErrorModel error) {
+                Log.e("ActivityTouchManager", "Error: " + error.getMessage() + " at " + error.getDate());
+                binding.touchDetails.setText("Error: " + error.getMessage() + " at " + error.getDate());
             }
         });
 
