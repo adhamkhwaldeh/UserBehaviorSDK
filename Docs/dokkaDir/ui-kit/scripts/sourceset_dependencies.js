@@ -1,1 +1,0 @@
-sourceset_dependencies='{":AccelerometerTouchTrackerSdk/debug":[],":AccelerometerTouchTrackerSdk/main":[],":AccelerometerTouchTrackerSdk/release":[]}'

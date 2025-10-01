@@ -7,18 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerErrorListener;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.AccelerometerListener;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchErrorListener;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.listeners.ActivityTouchListener;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.AccelerometerManager;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.managers.ActivityTouchManager;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccelerometerEventModel;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.models.AccuracyChangedModel;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.models.ManagerErrorModel;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.models.MotionEventModel;
-import com.behaviosec.android.accelerometerTouchTrackerSdk.repositories.HelpersRepository;
+import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig;
+import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerErrorListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.ActivityTouchErrorListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.ActivityTouchListener;
+import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager;
+import com.behaviosec.android.userBehaviorSDK.managers.ActivityTouchManager;
+import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel;
+import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel;
+import com.behaviosec.android.userBehaviorSDK.models.ManagerErrorModel;
+import com.behaviosec.android.userBehaviorSDK.models.MotionEventModel;
+import com.behaviosec.android.userBehaviorSDK.repositories.HelpersRepository;
 import com.behaviosec.android.sample.databinding.ActivityMainBinding;
 
 
