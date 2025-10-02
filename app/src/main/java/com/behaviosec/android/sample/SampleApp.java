@@ -8,9 +8,9 @@ import androidx.annotation.NonNull;
 import com.behaviosec.android.userBehaviorSDK.UserBehaviorCoreSDK;
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig;
 import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener;
 import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager;
-import com.behaviosec.android.userBehaviorSDK.managers.AppTouchManager;
+import com.behaviosec.android.userBehaviorSDK.managers.touchs.AppTouchManager;
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel;
 import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel;
 import com.behaviosec.android.userBehaviorSDK.models.MotionEventModel;
@@ -52,7 +52,7 @@ public class SampleApp extends Application {
 
         AppTouchManager appTouchManager = new AppTouchManager(this,new TouchTrackerConfig());
 
-        appTouchManager.addListener(new ActivityTouchListener() {
+        appTouchManager.addListener(new TouchListener() {
             @Override
             public boolean dispatchTouchEvent(@NonNull MotionEventModel model) {
                 Log.d("SampleApp", "Global touch event: " + model.getEvent() + " at " + model.getDate());

@@ -13,7 +13,11 @@ import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel
 import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel
 import com.behaviosec.android.userBehaviorSDK.models.ManagerErrorModel
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.TouchErrorListener
+import com.behaviosec.android.userBehaviorSDK.managers.base.IBaseManager
 import com.behaviosec.android.userBehaviorSDK.repositories.HelpersRepository
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Accelerometer manager
@@ -26,11 +30,18 @@ import com.behaviosec.android.userBehaviorSDK.repositories.HelpersRepository
 class AccelerometerManager(
     private val context: Context,
     private val helpersRepository: HelpersRepository,
-    config: TouchTrackerConfig = TouchTrackerConfig()
-) : BaseManager<AccelerometerListener, AccelerometerErrorListener>(config) {
+    override val config: TouchTrackerConfig = TouchTrackerConfig(),
+) : IBaseManager<AccelerometerListener, AccelerometerErrorListener> {
 
-    private var sensorManager: SensorManager =
+    override val listeners: CopyOnWriteArrayList<AccelerometerListener> =
+        CopyOnWriteArrayList<AccelerometerListener>()
+
+    override val errorListeners: CopyOnWriteArrayList<AccelerometerErrorListener> =
+        CopyOnWriteArrayList<AccelerometerErrorListener>()
+
+    private val sensorManager: SensorManager by lazy {
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    }
 
     private var accelerometer: Sensor? =
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -46,7 +57,7 @@ class AccelerometerManager(
                     listener.onSensorChanged(model)
                 }
             }
-            if (isLoggingEnabled && config.isDebugMode && event != null) {
+            if (config.isLoggingEnabled && config.isDebugMode && event != null) {
                 Logger.d(
                     context.getString(R.string.accelerometer),
                     context.getString(
@@ -67,7 +78,7 @@ class AccelerometerManager(
             for (listener in listeners) {
                 listener.onAccuracyChanged(model)
             }
-            if (isLoggingEnabled && config.isDebugMode) {
+            if (config.isLoggingEnabled && config.isDebugMode) {
                 Logger.d(
                     context.getString(R.string.accelerometer),
                     context.getString(R.string.accuracy_changed, accuracy)
@@ -78,7 +89,6 @@ class AccelerometerManager(
 
     init {
         Logger.logLevel = config.logLevel
-        isLoggingEnabled = config.isLoggingEnabled
     }
 
 
@@ -137,7 +147,7 @@ class AccelerometerManager(
                         context.getString(R.string.failed_to_stop_accelerometer, e.message ?: ""),
                     )
                 )
-                if (isLoggingEnabled && config.isDebugMode) {
+                if (config.isLoggingEnabled && config.isDebugMode) {
                     Logger.e(
                         context.getString(R.string.accelerometer_manager),
                         context.getString(R.string.error_stopping_accelerometer),
@@ -163,7 +173,6 @@ class AccelerometerManager(
     override fun resume() {
         start()
     }
-
     //#endregion
 
 }

@@ -1,18 +1,25 @@
-package com.behaviosec.android.userBehaviorSDK.managers
+package com.behaviosec.android.userBehaviorSDK.managers.touchs
 
 import android.app.Activity
+import android.view.ActionMode
+import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.SearchEvent
+import android.view.View
 import android.view.Window.Callback
+import android.view.WindowManager
+import android.view.accessibility.AccessibilityEvent
 import com.behaviosec.android.userBehaviorSDK.helpers.DateHelpers
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener
-import com.behaviosec.android.userBehaviorSDK.listeners.errors.ActivityTouchErrorListener
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.behaviosec.android.userBehaviorSDK.R
 import com.behaviosec.android.userBehaviorSDK.logging.Logger
 import com.behaviosec.android.userBehaviorSDK.models.MotionEventModel
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener
-import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
-import com.behaviosec.android.userBehaviorSDK.models.ManagerErrorModel
+import com.behaviosec.android.userBehaviorSDK.managers.ITouchManager
+import com.behaviosec.android.userBehaviorSDK.managers.base.IBaseManager
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -25,12 +32,18 @@ import java.util.concurrent.CopyOnWriteArrayList
  */
 class ActivityTouchManager(
     private val activity: Activity,
-    config: TouchTrackerConfig = TouchTrackerConfig()
-) : BaseManager<ActivityTouchListener,ActivityTouchErrorListener>(config){
+    override val config: TouchTrackerConfig = TouchTrackerConfig(),
+) : IBaseManager<TouchListener, TouchErrorListener>, ITouchManager {
+
+    override val listeners: CopyOnWriteArrayList<TouchListener> =
+        CopyOnWriteArrayList<TouchListener>()
+
+    override val errorListeners: CopyOnWriteArrayList<TouchErrorListener> =
+        CopyOnWriteArrayList<TouchErrorListener>()
 
     private val callback = object : Callback {
         override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-            if (isLoggingEnabled && config.isDebugMode) {
+            if (config.isLoggingEnabled && config.isDebugMode) {
                 Logger.d(
                     activity.getString(R.string.global_touch_tracker),
                     activity.getString(
@@ -42,7 +55,7 @@ class ActivityTouchManager(
                 )
             }
             // If the manager is disabled, just delegate the event without logging
-            if (isTrackingEnabled && config.isEnabled && listeners.isNotEmpty()) {
+            if (config.isEnabled && listeners.isNotEmpty()) {
                 val model = MotionEventModel(event, DateHelpers.getCurrentDate())
                 var continueBase = true
                 for (listener in listeners) {
@@ -62,10 +75,10 @@ class ActivityTouchManager(
         }
 
         // Boilerplate: delegate other methods
-        override fun dispatchKeyEvent(event: android.view.KeyEvent) =
+        override fun dispatchKeyEvent(event: KeyEvent) =
             originalCallback.dispatchKeyEvent(event)
 
-        override fun dispatchKeyShortcutEvent(event: android.view.KeyEvent) =
+        override fun dispatchKeyShortcutEvent(event: KeyEvent) =
             originalCallback.dispatchKeyShortcutEvent(event)
 
         override fun dispatchTrackballEvent(event: MotionEvent) =
@@ -74,29 +87,29 @@ class ActivityTouchManager(
         override fun dispatchGenericMotionEvent(event: MotionEvent) =
             originalCallback.dispatchGenericMotionEvent(event)
 
-        override fun dispatchPopulateAccessibilityEvent(event: android.view.accessibility.AccessibilityEvent) =
+        override fun dispatchPopulateAccessibilityEvent(event: AccessibilityEvent) =
             originalCallback.dispatchPopulateAccessibilityEvent(event)
 
         override fun onCreatePanelView(featureId: Int) =
             originalCallback.onCreatePanelView(featureId)
 
-        override fun onCreatePanelMenu(featureId: Int, menu: android.view.Menu) =
+        override fun onCreatePanelMenu(featureId: Int, menu: Menu) =
             originalCallback.onCreatePanelMenu(featureId, menu)
 
         override fun onPreparePanel(
             featureId: Int,
-            view: android.view.View?,
-            menu: android.view.Menu
+            view: View?,
+            menu: Menu
         ) =
             originalCallback.onPreparePanel(featureId, view, menu)
 
-        override fun onMenuOpened(featureId: Int, menu: android.view.Menu) =
+        override fun onMenuOpened(featureId: Int, menu: Menu) =
             originalCallback.onMenuOpened(featureId, menu)
 
-        override fun onMenuItemSelected(featureId: Int, item: android.view.MenuItem) =
+        override fun onMenuItemSelected(featureId: Int, item: MenuItem) =
             originalCallback.onMenuItemSelected(featureId, item)
 
-        override fun onWindowAttributesChanged(attrs: android.view.WindowManager.LayoutParams) =
+        override fun onWindowAttributesChanged(attrs: WindowManager.LayoutParams) =
             originalCallback.onWindowAttributesChanged(attrs)
 
         override fun onContentChanged() = originalCallback.onContentChanged()
@@ -105,26 +118,26 @@ class ActivityTouchManager(
 
         override fun onAttachedToWindow() = originalCallback.onAttachedToWindow()
         override fun onDetachedFromWindow() = originalCallback.onDetachedFromWindow()
-        override fun onPanelClosed(featureId: Int, menu: android.view.Menu) =
+        override fun onPanelClosed(featureId: Int, menu: Menu) =
             originalCallback.onPanelClosed(featureId, menu)
 
         override fun onSearchRequested() = originalCallback.onSearchRequested()
-        override fun onSearchRequested(event: android.view.SearchEvent) =
+        override fun onSearchRequested(event: SearchEvent) =
             originalCallback.onSearchRequested(event)
 
-        override fun onWindowStartingActionMode(callback: android.view.ActionMode.Callback) =
+        override fun onWindowStartingActionMode(callback: ActionMode.Callback) =
             originalCallback.onWindowStartingActionMode(callback)
 
         override fun onWindowStartingActionMode(
-            callback: android.view.ActionMode.Callback,
+            callback: ActionMode.Callback,
             type: Int
         ) =
             originalCallback.onWindowStartingActionMode(callback, type)
 
-        override fun onActionModeStarted(mode: android.view.ActionMode) =
+        override fun onActionModeStarted(mode: ActionMode) =
             originalCallback.onActionModeStarted(mode)
 
-        override fun onActionModeFinished(mode: android.view.ActionMode) =
+        override fun onActionModeFinished(mode: ActionMode) =
             originalCallback.onActionModeFinished(mode)
 
     }
@@ -144,22 +157,6 @@ class ActivityTouchManager(
         // isLoggingEnabled is now handled by BaseManager
     }
 
-    @Volatile
-    private var isTrackingEnabled: Boolean = true
-
-    /**
-     * Enable tracking
-     */
-    fun enableTracking() {
-        isTrackingEnabled = true
-    }
-
-    /**
-     * Disable tracking
-     */
-    fun disableTracking() {
-        isTrackingEnabled = false
-    }
 
     //#region Base Manager actions
     override fun start() {
@@ -167,7 +164,10 @@ class ActivityTouchManager(
     }
 
     override fun stop() {
-        activity.window.callback = null
+        // Restore the original callback only if ours is still the current one.
+        if (activity.window.callback === callback) {
+            activity.window.callback = originalCallback
+        }
     }
 
     override fun pause() {

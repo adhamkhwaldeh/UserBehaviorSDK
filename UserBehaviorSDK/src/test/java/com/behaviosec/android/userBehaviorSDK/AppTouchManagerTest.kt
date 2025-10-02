@@ -4,8 +4,8 @@ package com.behaviosec.android.userBehaviorSDK
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener
-import com.behaviosec.android.userBehaviorSDK.managers.AppTouchManager
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener
+import com.behaviosec.android.userBehaviorSDK.managers.touchs.AppTouchManager
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -42,7 +42,7 @@ class AppTouchManagerTest {
     fun testSetGlobalTouchListener_setsListenerForExistingManagers() {
         val bundle = mock(Bundle::class.java)
 //        appTouchManager.onActivityCreated(mockActivity, bundle)
-        val mockListener = mock(ActivityTouchListener::class.java)
+        val mockListener = mock(TouchListener::class.java)
 //        appTouchManager.setGlobalTouchListener(mockListener)
         // No exception means the listener was set; further checks require exposing internals or using reflection.
     }

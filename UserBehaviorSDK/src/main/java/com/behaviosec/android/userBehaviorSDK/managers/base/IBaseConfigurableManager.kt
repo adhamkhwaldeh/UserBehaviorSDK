@@ -1,18 +1,18 @@
-package com.behaviosec.android.userBehaviorSDK.managers
+package com.behaviosec.android.userBehaviorSDK.managers.base
 
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig
 
 /**
  * IBaseConfigurableManager interface for managers that support configuration.
  */
-abstract class BaseConfigurableManager(val config: TouchTrackerConfig) {
+interface IBaseConfigurableManager {
+
+    val config: TouchTrackerConfig
 
     /**
      * Configure the manager with the provided configuration object.
      * @param config configuration data
      */
-
-    protected var isLoggingEnabled: Boolean = config.isLoggingEnabled
 
     /**
      * Set enabled
@@ -20,7 +20,7 @@ abstract class BaseConfigurableManager(val config: TouchTrackerConfig) {
      * @param enabled
      * @return
      */
-    fun setEnabled(enabled: Boolean): BaseConfigurableManager {
+    fun setEnabled(enabled: Boolean): IBaseConfigurableManager {
         this.config.isEnabled = enabled
         return this
     }
@@ -31,7 +31,7 @@ abstract class BaseConfigurableManager(val config: TouchTrackerConfig) {
      * @param debugMode
      * @return
      */
-    fun setDebugMode(debugMode: Boolean): BaseConfigurableManager {
+    fun setDebugMode(debugMode: Boolean): IBaseConfigurableManager {
         this.config.isDebugMode = debugMode
         return this
     }
@@ -42,10 +42,11 @@ abstract class BaseConfigurableManager(val config: TouchTrackerConfig) {
      * @param loggingEnabled
      * @return
      */
-    fun setLoggingEnabled(loggingEnabled: Boolean): BaseConfigurableManager {
-        this.isLoggingEnabled = loggingEnabled
+    fun setLoggingEnabled(loggingEnabled: Boolean): IBaseConfigurableManager {
+        config.setEnabled(loggingEnabled)
         return this
     }
+
 
 }
 

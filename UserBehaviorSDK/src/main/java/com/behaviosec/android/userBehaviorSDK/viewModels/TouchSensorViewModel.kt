@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
 import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener
-import com.behaviosec.android.userBehaviorSDK.listeners.errors.ActivityTouchErrorListener
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.TouchErrorListener
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager
-import com.behaviosec.android.userBehaviorSDK.managers.ActivityTouchManager
+import com.behaviosec.android.userBehaviorSDK.managers.touchs.ActivityTouchManager
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel
 import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel
 import com.behaviosec.android.userBehaviorSDK.models.ManagerErrorModel
@@ -63,14 +63,14 @@ class TouchSensorViewModel(
             }
         })
 
-        activityTouchManager.addListener(object : ActivityTouchListener {
+        activityTouchManager.addListener(object : TouchListener {
             override fun dispatchTouchEvent(event: MotionEventModel): Boolean {
                 _lastMotionEvent.postValue(event)
                 return super.dispatchTouchEvent(event)
             }
         })
 
-        activityTouchManager.addErrorListener(object : ActivityTouchErrorListener {
+        activityTouchManager.addErrorListener(object : TouchErrorListener {
             override fun onError(error: ManagerErrorModel) {
                 _motionError.postValue(error)
             }

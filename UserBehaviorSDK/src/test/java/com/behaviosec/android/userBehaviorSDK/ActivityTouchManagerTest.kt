@@ -1,7 +1,7 @@
 package com.behaviosec.android.userBehaviorSDK
 
 
-import com.behaviosec.android.userBehaviorSDK.managers.ActivityTouchManager
+import com.behaviosec.android.userBehaviorSDK.managers.touchs.ActivityTouchManager
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test

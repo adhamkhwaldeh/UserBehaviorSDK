@@ -10,10 +10,10 @@ import android.util.Log;
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig;
 import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener;
 import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.errors.ActivityTouchErrorListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.TouchErrorListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener;
 import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager;
-import com.behaviosec.android.userBehaviorSDK.managers.ActivityTouchManager;
+import com.behaviosec.android.userBehaviorSDK.managers.TouchManager;
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel;
 import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel;
 import com.behaviosec.android.userBehaviorSDK.models.ManagerErrorModel;
@@ -65,21 +65,22 @@ public class MainActivity extends AppCompatActivity {
         });
         //#endregion
 
+        TouchManager activityTouchManager = new TouchManager.Builder().forActivity(this).build();
 
+        //        touchManager.start();
         //#region ActivityTouchManager
-        ActivityTouchManager activityTouchManager = new ActivityTouchManager(this, new TouchTrackerConfig());
+//        ActivityTouchManager activityTouchManager = new ActivityTouchManager(this, new TouchTrackerConfig());
 
-        activityTouchManager.addListener(new ActivityTouchListener() {
+        activityTouchManager.addListener(new TouchListener() {
             @Override
             public boolean dispatchTouchEvent(@NonNull MotionEventModel model) {
                 Log.d("ActivityTouchManager", "Touch event: " + model.getEvent() + " at " + model.getDate());
                 binding.touchDetails.setText("Touch event: " + model.getEvent() + " at " + model.getDate());
-
                 return true;
             }
         });
 
-        activityTouchManager.addErrorListener(new ActivityTouchErrorListener() {
+        activityTouchManager.addErrorListener(new TouchErrorListener() {
             @Override
             public void onError(@NonNull ManagerErrorModel error) {
                 Log.e("ActivityTouchManager", "Error: " + error.getMessage());
@@ -88,11 +89,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.startTouchButton.setOnClickListener(v -> {
-            activityTouchManager.setEnabled(true);
+            activityTouchManager.start();
+//            activityTouchManager.setEnabled(true);
         });
 
         binding.stopTouchButton.setOnClickListener(v -> {
-            activityTouchManager.setEnabled(false);
+            activityTouchManager.stop();
+//            activityTouchManager.setEnabled(false);
         });
 
         //#endregion

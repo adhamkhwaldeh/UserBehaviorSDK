@@ -1,14 +1,17 @@
-package com.behaviosec.android.userBehaviorSDK.managers
+package com.behaviosec.android.userBehaviorSDK.managers.touchs
 
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.behaviosec.android.userBehaviorSDK.R
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener
-import com.behaviosec.android.userBehaviorSDK.listeners.errors.AppTouchErrorListener
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.behaviosec.android.userBehaviorSDK.logging.Logger
+import com.behaviosec.android.userBehaviorSDK.managers.ITouchManager
+import com.behaviosec.android.userBehaviorSDK.managers.base.IBaseManager
 import com.behaviosec.android.userBehaviorSDK.models.ManagerErrorModel
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * App touch manager
@@ -18,8 +21,14 @@ import com.behaviosec.android.userBehaviorSDK.models.ManagerErrorModel
  */
 class AppTouchManager(
     private val application: Application,
-    config: TouchTrackerConfig = TouchTrackerConfig()
-) : BaseManager<ActivityTouchListener, AppTouchErrorListener>(config) {
+    override val config: TouchTrackerConfig = TouchTrackerConfig()
+) : IBaseManager<TouchListener, TouchErrorListener>, ITouchManager {
+
+    override val listeners: CopyOnWriteArrayList<TouchListener> =
+        CopyOnWriteArrayList<TouchListener>()
+
+    override val errorListeners: CopyOnWriteArrayList<TouchErrorListener> =
+        CopyOnWriteArrayList<TouchErrorListener>()
     private val activityManagers = mutableMapOf<Activity, ActivityTouchManager>()
 
     //    Using activityManagersLock provides thread safety when accessing or modifying the activityManagers map.
@@ -125,8 +134,9 @@ class AppTouchManager(
     /**
      * Add a global listener to receive touch events from all activities.
      */
-    override fun addListener(listener: ActivityTouchListener) {
-        super.addListener(listener)
+    override fun addListener(listener: TouchListener) {
+        super<IBaseManager>.addListener(listener)
+        super<ITouchManager>.addListener(listener)
         synchronized(activityManagersLock) {
             activityManagers.values.forEach { it.addListener(listener) }
         }
@@ -135,8 +145,9 @@ class AppTouchManager(
     /**
      * Remove a global listener from all activities.
      */
-    override fun removeListener(listener: ActivityTouchListener) {
-        super.removeListener(listener)
+    override fun removeListener(listener: TouchListener) {
+        super<IBaseManager>.removeListener(listener)
+        super<ITouchManager>.removeListener(listener)
         synchronized(activityManagersLock) {
             activityManagers.values.forEach { it.removeListener(listener) }
         }
@@ -146,7 +157,8 @@ class AppTouchManager(
      * Remove all global listeners from all activities.
      */
     override fun clearListeners() {
-        super.clearListeners()
+        super<IBaseManager>.clearListeners()
+        super<ITouchManager>.clearListeners()
         synchronized(activityManagersLock) {
             activityManagers.values.forEach { it.clearListeners() }
         }

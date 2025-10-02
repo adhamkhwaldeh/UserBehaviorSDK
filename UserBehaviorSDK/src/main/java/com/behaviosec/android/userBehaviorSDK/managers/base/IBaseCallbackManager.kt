@@ -1,13 +1,10 @@
-package com.behaviosec.android.userBehaviorSDK.managers
+package com.behaviosec.android.userBehaviorSDK.managers.base
 
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.IDataListener
-import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
 import java.util.concurrent.CopyOnWriteArrayList
 
 interface IBaseCallbackManager<T> where T : IDataListener {
     val listeners: CopyOnWriteArrayList<T>
-        get() = CopyOnWriteArrayList<T>()
 
     /**
      * Add listener
