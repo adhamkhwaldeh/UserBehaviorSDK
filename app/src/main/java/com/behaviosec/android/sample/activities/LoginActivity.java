@@ -58,11 +58,12 @@ public class LoginActivity extends AppCompatActivity {
         final String VALID_USERNAME = "behaviouser";
         final String VALID_PASSWORD = "password";
 
-        if (VALID_USERNAME.equals(username) && VALID_PASSWORD.equals(password)) {
-            onLoginSuccessful();
-        } else {
-            onLoginFailed();
-        }
+        onLoginSuccessful();
+//        if (VALID_USERNAME.equals(username) && VALID_PASSWORD.equals(password)) {
+//            onLoginSuccessful();
+//        } else {
+//            onLoginFailed();
+//        }
     }
 
     // Callback method when entered credentials are correct

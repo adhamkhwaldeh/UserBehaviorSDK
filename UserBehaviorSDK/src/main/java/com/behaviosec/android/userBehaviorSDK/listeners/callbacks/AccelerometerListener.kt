@@ -1,4 +1,4 @@
-package com.behaviosec.android.userBehaviorSDK.listeners
+package com.behaviosec.android.userBehaviorSDK.listeners.callbacks
 
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel
 import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel
@@ -8,7 +8,7 @@ import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel
  *
  * @constructor Create empty Accelerometer listener
  */
-interface AccelerometerListener {
+interface AccelerometerListener : IDataListener {
     /**
      * On sensor changed
      *

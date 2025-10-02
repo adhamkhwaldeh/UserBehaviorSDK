@@ -6,8 +6,8 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import com.behaviosec.android.userBehaviorSDK.R
-import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerListener
-import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerErrorListener
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
 import com.behaviosec.android.userBehaviorSDK.logging.Logger
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel
 import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel
@@ -27,7 +27,7 @@ class AccelerometerManager(
     private val context: Context,
     private val helpersRepository: HelpersRepository,
     config: TouchTrackerConfig = TouchTrackerConfig()
-) : BaseManager(config), SensorEventListener {
+) : BaseManager<AccelerometerListener, AccelerometerErrorListener>(config) {
 
     private var sensorManager: SensorManager =
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -35,80 +35,89 @@ class AccelerometerManager(
     private var accelerometer: Sensor? =
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
-    private val activityManagersLock = Any()
+    private val sensorEventListener = object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent?) {
+            if (config.isEnabled) {
+                val model = AccelerometerEventModel(
+                    event,
+                    helpersRepository.getCurrentDate()
+                )
+                for (listener in listeners) {
+                    listener.onSensorChanged(model)
+                }
+            }
+            if (isLoggingEnabled && config.isDebugMode && event != null) {
+                Logger.d(
+                    context.getString(R.string.accelerometer),
+                    context.getString(
+                        R.string.accelerometer_values,
+                        event.values[0],
+                        event.values[1],
+                        event.values[2]
+                    )
+                )
+            }
 
-    @Volatile
-    private var accelerometerListener: AccelerometerListener? = null
+        }
 
-    @Volatile
-    private var errorListener: AccelerometerErrorListener? = null
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+            val model = AccuracyChangedModel(
+                sensor, accuracy, helpersRepository.getCurrentDate()
+            )
+            for (listener in listeners) {
+                listener.onAccuracyChanged(model)
+            }
+            if (isLoggingEnabled && config.isDebugMode) {
+                Logger.d(
+                    context.getString(R.string.accelerometer),
+                    context.getString(R.string.accuracy_changed, accuracy)
+                )
+            }
+        }
+    }
 
     init {
         Logger.logLevel = config.logLevel
         isLoggingEnabled = config.isLoggingEnabled
     }
 
-    /**
-     * Add listener
-     *
-     * @param listener
-     */
-    fun addListener(listener: AccelerometerListener) {
-        synchronized(activityManagersLock) {
-            this.accelerometerListener = listener
-        }
-    }
 
-    /**
-     * Add error listener
-     *
-     * @param listener
-     */
-    fun addErrorListener(listener: AccelerometerErrorListener) {
-        synchronized(activityManagersLock) {
-            this.errorListener = listener
-        }
-    }
-
-    /**
-     * Remove error listener
-     *
-     */
-    fun removeErrorListener() {
-        synchronized(activityManagersLock) {
-            this.errorListener = null
-        }
-    }
-
+    //#region Base Manager actions
     /**
      * Start
      *
      */
-    fun start() {
-        try {
-            if (accelerometer == null) {
-                errorListener?.onAccelerometerError(
+    override fun start() {
+        synchronized(this) {
+            try {
+                if (accelerometer == null) {
+                    notifyErrorListeners(
+                        ManagerErrorModel(
+                            null,
+                            context.getString(R.string.accelerometer_sensor_not_available)
+                        )
+                    )
+                    return
+                }
+                sensorManager.registerListener(
+                    sensorEventListener,
+                    accelerometer,
+                    SensorManager.SENSOR_DELAY_UI
+                )
+            } catch (e: Exception) {
+                notifyErrorListeners(
                     ManagerErrorModel(
-                        null,
-                        context.getString(R.string.accelerometer_sensor_not_available)
+                        e,
+                        context.getString(R.string.failed_to_start_accelerometer, e.message ?: "")
                     )
                 )
-                return
-            }
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI)
-        } catch (e: Exception) {
-            errorListener?.onAccelerometerError(
-                ManagerErrorModel(
-                    e,
-                    context.getString(R.string.failed_to_start_accelerometer, e.message ?: "")
-                )
-            )
-            if (isLoggingEnabled && config.isDebugMode) {
-                Logger.e(
-                    context.getString(R.string.accelerometer_manager),
-                    context.getString(R.string.error_starting_accelerometer),
-                    e
-                )
+//                if (isLoggingEnabled && config.isDebugMode) {
+//                    Logger.e(
+//                        context.getString(R.string.accelerometer_manager),
+//                        context.getString(R.string.error_stopping_accelerometer),
+//                        e
+//                    )
+//                }
             }
         }
     }
@@ -117,61 +126,44 @@ class AccelerometerManager(
      * Stop
      *
      */
-    fun stop() {
-        try {
-            sensorManager.unregisterListener(this)
-        } catch (e: Exception) {
-            errorListener?.onAccelerometerError(
-                ManagerErrorModel(
-                    e,
-                    context.getString(R.string.failed_to_stop_accelerometer, e.message ?: ""),
+    override fun stop() {
+        synchronized(this) {
+            try {
+                sensorManager.unregisterListener(sensorEventListener)
+            } catch (e: Exception) {
+                notifyErrorListeners(
+                    ManagerErrorModel(
+                        e,
+                        context.getString(R.string.failed_to_stop_accelerometer, e.message ?: ""),
+                    )
                 )
-            )
-            if (isLoggingEnabled && config.isDebugMode) {
-                Logger.e(
-                    context.getString(R.string.accelerometer_manager),
-                    context.getString(R.string.error_stopping_accelerometer),
-                    e
-                )
+                if (isLoggingEnabled && config.isDebugMode) {
+                    Logger.e(
+                        context.getString(R.string.accelerometer_manager),
+                        context.getString(R.string.error_stopping_accelerometer),
+                        e
+                    )
+                }
             }
         }
     }
 
-    override fun onSensorChanged(event: SensorEvent) {
-        val listener = accelerometerListener
-        if (config.isEnabled) {
-            listener?.onSensorChanged(
-                AccelerometerEventModel(
-                    event,
-                    helpersRepository.getCurrentDate()
-                )
-            )
-        }
-        if (isLoggingEnabled && config.isDebugMode) {
-            Logger.d(
-                context.getString(R.string.accelerometer),
-                context.getString(
-                    R.string.accelerometer_values,
-                    event.values[0],
-                    event.values[1],
-                    event.values[2]
-                )
-            )
-        }
+    /**
+     * Pause
+     *
+     */
+    override fun pause() {
+        stop()
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        accelerometerListener?.onAccuracyChanged(
-            AccuracyChangedModel(
-                sensor, accuracy, helpersRepository.getCurrentDate()
-            )
-        )
-        if (isLoggingEnabled && config.isDebugMode) {
-            Logger.d(
-                context.getString(R.string.accelerometer),
-                context.getString(R.string.accuracy_changed, accuracy)
-            )
-        }
+    /**
+     * Resume
+     *
+     */
+    override fun resume() {
+        start()
     }
+
+    //#endregion
 
 }

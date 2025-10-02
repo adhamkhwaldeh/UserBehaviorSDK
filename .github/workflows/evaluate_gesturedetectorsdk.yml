@@ -1,14 +1,14 @@
-name: Evaluate AccelerometerTouchTrackerSdk
+name: Evaluate UserBehaviorSDK
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'AccelerometerTouchTrackerSdk/**'
+      - 'UserBehaviorSDK/**'
   push:
     branches: [ main ]
     paths:
-      - 'AccelerometerTouchTrackerSdk/**'
+      - 'UserBehaviorSDK/**'
 
 jobs:
   evaluate:
@@ -27,20 +27,20 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Build AccelerometerTouchTrackerSdk
-        run: ./gradlew :AccelerometerTouchTrackerSdk:build
+      - name: Build UserBehaviorSDK
+        run: ./gradlew :UserBehaviorSDK:build
 
       - name: Run unit tests
-        run: ./gradlew :AccelerometerTouchTrackerSdk:test
+        run: ./gradlew :UserBehaviorSDK:test
 
       - name: Run Android Lint
-        run: ./gradlew :AccelerometerTouchTrackerSdk:lint
+        run: ./gradlew :UserBehaviorSDK:lint
 
       - name: Run ktlint
-        run: ./gradlew :AccelerometerTouchTrackerSdk:ktlintCheck
+        run: ./gradlew :UserBehaviorSDK:ktlintCheck
 
       - name: Run detekt
-        run: ./gradlew :AccelerometerTouchTrackerSdk:detekt
+        run: ./gradlew :UserBehaviorSDK:detekt
 
       - name: Generate Dokka documentation
-        run: ./gradlew :AccelerometerTouchTrackerSdk:dokkaHtml
+        run: ./gradlew :UserBehaviorSDK:dokkaHtml

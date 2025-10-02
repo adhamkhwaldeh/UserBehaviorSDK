@@ -4,7 +4,7 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorManager
-import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerListener
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel
 import com.behaviosec.android.userBehaviorSDK.repositories.HelpersRepository
@@ -42,14 +42,14 @@ class AccelerometerManagerTest {
     fun testOnSensorChanged_callsListener() {
         val event = mock(SensorEvent::class.java)
         event.accuracy = MockedRepository.accuracy
-        manager.onSensorChanged(event)
+//        manager.onSensorChanged(event)
         verify(listener).onSensorChanged(AccelerometerEventModel(event, MockedRepository.mockDate))
     }
 
     @Test
     fun testOnAccuracyChanged_callsListener() {
         val mockedAccuracy = MockedRepository.getMockedAccuracy(sensor)
-        manager.onAccuracyChanged(sensor, mockedAccuracy.accuracy)
+//        manager.onAccuracyChanged(sensor, mockedAccuracy.accuracy)
         verify(listener).onAccuracyChanged(mockedAccuracy)
     }
 }

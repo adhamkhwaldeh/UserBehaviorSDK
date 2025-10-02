@@ -12,6 +12,6 @@ import java.util.Date
  * @constructor Create empty Accelerometer event model
  */
 data class AccelerometerEventModel(
-    val event: SensorEvent,
+    val event: SensorEvent?,
     val date: Date
 )

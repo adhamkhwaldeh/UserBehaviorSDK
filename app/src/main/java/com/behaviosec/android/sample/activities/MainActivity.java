@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig;
-import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerErrorListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.ActivityTouchErrorListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.ActivityTouchListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.ActivityTouchErrorListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener;
 import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager;
 import com.behaviosec.android.userBehaviorSDK.managers.ActivityTouchManager;
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel;
@@ -32,11 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
         //#region AccelerometerManager
         AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new TouchTrackerConfig());
-
-        accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
+        accelerometerManager.start();
+        accelerometerManager.setEnabled(true).setDebugMode(true).setLoggingEnabled(true);
 
         accelerometerManager.addListener(new AccelerometerListener() {
-
             @Override
             public void onAccuracyChanged(@NonNull AccuracyChangedModel model) {
                 binding.accelerometerAccuracy.setText("Accuracy changed: " + model.getAccuracy() + " at " + model.getDate());
@@ -50,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
         accelerometerManager.addErrorListener(new AccelerometerErrorListener() {
             @Override
-            public void onAccelerometerError(@NonNull ManagerErrorModel error) {
-                Log.e("AccelerometerManager", "Error: " + error.getMessage() );
-                binding.accelerometerAccuracy.setText("Error: " + error.getMessage() );
-                binding.accelerometerSensor.setText("Error: " + error.getMessage() );
+            public void onError(@NonNull ManagerErrorModel error) {
+                Log.e("AccelerometerManager", "Error: " + error.getMessage());
+                binding.accelerometerAccuracy.setText("Error: " + error.getMessage());
+                binding.accelerometerSensor.setText("Error: " + error.getMessage());
             }
         });
 
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         //#region ActivityTouchManager
         ActivityTouchManager activityTouchManager = new ActivityTouchManager(this, new TouchTrackerConfig());
 
-        activityTouchManager.setListener(new ActivityTouchListener() {
+        activityTouchManager.addListener(new ActivityTouchListener() {
             @Override
             public boolean dispatchTouchEvent(@NonNull MotionEventModel model) {
                 Log.d("ActivityTouchManager", "Touch event: " + model.getEvent() + " at " + model.getDate());
@@ -80,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        activityTouchManager.setErrorListener(new ActivityTouchErrorListener() {
+        activityTouchManager.addErrorListener(new ActivityTouchErrorListener() {
             @Override
-            public void onActivityTouchError(@NonNull ManagerErrorModel error) {
-                Log.e("ActivityTouchManager", "Error: " + error.getMessage() );
+            public void onError(@NonNull ManagerErrorModel error) {
+                Log.e("ActivityTouchManager", "Error: " + error.getMessage());
                 binding.touchDetails.setText("Error: " + error.getMessage());
             }
         });

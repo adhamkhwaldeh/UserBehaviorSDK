@@ -60,7 +60,7 @@ dependencies {
 }
 
 dokka {
-    moduleName.set("AccelerometerTouchTrackerSdk") // Or use project.name if it should be dynamic per subproject
+    moduleName.set("UserBehaviorSDK") // Or use project.name if it should be dynamic per subproject
 
     dokkaPublications.configureEach {
         if (this.name == "html") { // Assuming you only want to configure the 'html' publication
@@ -87,7 +87,7 @@ dokka {
 
         sourceLink {
             // localDirectory.set(project.file("src/main/java")) // Uncomment if needed
-            remoteUrl.set(URL("https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/tree/main/app/src/main/java").toURI())
+            remoteUrl.set(URL("https://github.com/adhamkhwaldeh/UserBehaviorSDK/tree/main/app/src/main/java").toURI())
             remoteLineSuffix.set("#L")
         }
     }

@@ -21,7 +21,7 @@ jobs:
       - name: Bump versionCode and versionName
         id: bump_version
         run: |
-          VERSION_FILE="AccelerometerTouchTrackerSdk/build.gradle"
+          VERSION_FILE="UserBehaviorSDK/build.gradle"
           # Extract current versionName
           CURRENT_VERSION=$(grep versionName $VERSION_FILE | head -1 | awk -F\" '{print $2}')
           # Bump patch version

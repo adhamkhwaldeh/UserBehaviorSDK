@@ -28,14 +28,14 @@ platform :android do
     new_version_name = options[:version_name] || "1.0.${new_version_code}"
 
     increment_version_code(
-      gradle_file_path: "AccelerometerTouchTrackerSdk/build.gradle",
+      gradle_file_path: "UserBehaviorSDK/build.gradle",
       version_code: new_version_code
     )
     increment_version_name(
-      gradle_file_path: "AccelerometerTouchTrackerSdk/build.gradle",
+      gradle_file_path: "UserBehaviorSDK/build.gradle",
       version_name: new_version_name
     )
-    sh("git add AccelerometerTouchTrackerSdk/build.gradle")
+    sh("git add UserBehaviorSDK/build.gradle")
     sh("git commit -m 'Bump version to #{new_version_name} (#{new_version_code})'")
     sh("git push")
   end

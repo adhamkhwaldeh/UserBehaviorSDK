@@ -11,4 +11,11 @@ package com.behaviosec.android.userBehaviorSDK.models
 data class ManagerErrorModel(
     val exception: Exception? = null,
     val message: String
-)
+
+) {
+    companion object {
+        fun fromException(exception: Exception): ManagerErrorModel {
+            return ManagerErrorModel(exception, exception.message ?: "Unknown error")
+        }
+    }
+}

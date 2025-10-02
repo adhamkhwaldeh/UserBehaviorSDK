@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerErrorListener
-import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerListener
-import com.behaviosec.android.userBehaviorSDK.listeners.ActivityTouchErrorListener
-import com.behaviosec.android.userBehaviorSDK.listeners.ActivityTouchListener
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener
+import com.behaviosec.android.userBehaviorSDK.listeners.errors.ActivityTouchErrorListener
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener
 import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager
 import com.behaviosec.android.userBehaviorSDK.managers.ActivityTouchManager
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel
@@ -58,20 +58,20 @@ class TouchSensorViewModel(
         })
 
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-            override fun onAccelerometerError(error: ManagerErrorModel) {
+            override fun onError(error: ManagerErrorModel) {
                 _accelerometerError.postValue(error)
             }
         })
 
-        activityTouchManager.setListener(object : ActivityTouchListener {
+        activityTouchManager.addListener(object : ActivityTouchListener {
             override fun dispatchTouchEvent(event: MotionEventModel): Boolean {
                 _lastMotionEvent.postValue(event)
                 return super.dispatchTouchEvent(event)
             }
         })
 
-        activityTouchManager.setErrorListener(object : ActivityTouchErrorListener {
-            override fun onActivityTouchError(error: ManagerErrorModel) {
+        activityTouchManager.addErrorListener(object : ActivityTouchErrorListener {
+            override fun onError(error: ManagerErrorModel) {
                 _motionError.postValue(error)
             }
         })

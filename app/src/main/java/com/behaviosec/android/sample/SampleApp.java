@@ -5,10 +5,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.behaviosec.android.userBehaviorSDK.AccelerometerTouchTrackerCore;
+import com.behaviosec.android.userBehaviorSDK.UserBehaviorCoreSDK;
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig;
-import com.behaviosec.android.userBehaviorSDK.listeners.AccelerometerListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.ActivityTouchListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ActivityTouchListener;
 import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager;
 import com.behaviosec.android.userBehaviorSDK.managers.AppTouchManager;
 import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel;
@@ -23,10 +23,10 @@ public class SampleApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        new AccelerometerTouchTrackerCore().initialize();
+        new UserBehaviorCoreSDK().initialize();
 
         //#region AccelerometerManager
-        AccelerometerManager accelerometerManager = new AccelerometerManager(this,new HelpersRepository(), new TouchTrackerConfig());
+        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new TouchTrackerConfig());
 
         accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
         accelerometerManager.start();
@@ -50,9 +50,9 @@ public class SampleApp extends Application {
 
         //#region AppTouchManager
 
-        AppTouchManager appTouchManager = new AppTouchManager(this);
+        AppTouchManager appTouchManager = new AppTouchManager(this,new TouchTrackerConfig());
 
-        appTouchManager.setGlobalTouchListener(new ActivityTouchListener() {
+        appTouchManager.addListener(new ActivityTouchListener() {
             @Override
             public boolean dispatchTouchEvent(@NonNull MotionEventModel model) {
                 Log.d("SampleApp", "Global touch event: " + model.getEvent() + " at " + model.getDate());

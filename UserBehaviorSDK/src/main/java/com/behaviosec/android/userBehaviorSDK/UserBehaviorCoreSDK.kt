@@ -5,7 +5,7 @@ package com.behaviosec.android.userBehaviorSDK
  *
  * @constructor Create empty Accelerometer touch tracker core
  */
-class AccelerometerTouchTrackerCore {
+class UserBehaviorCoreSDK {
 
     /**
      * Initialize

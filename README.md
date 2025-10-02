@@ -1,6 +1,6 @@
-# Module AccelerometerTouchTrackerSdk
+# Module UserBehaviorSDK
 
-# Integration Guide: [AccelerometerTouchTrackerSdk]
+# Integration Guide: [UserBehaviorSDK]
 
 ## Table of Contents
 1. [Introduction]
@@ -26,15 +26,15 @@
 
 ## Introduction
 
-This guide provides step-by-step instructions for integrating [AccelerometerTouchTrackerSdk] into your project.
-Follow the instructions to quickly get started and connect your system with [AccelerometerTouchTrackerSdk].
+This guide provides step-by-step instructions for integrating [UserBehaviorSDK] into your project.
+Follow the instructions to quickly get started and connect your system with [UserBehaviorSDK].
 
 ---
 
 ## Prerequisites
 Before you begin the integration process, make sure you have the following:
 - Access to your [system’s] configuration settings
-- In future will add A ApiKey service from [AccelerometerTouchTrackerSdk]
+- In future will add A ApiKey service from [UserBehaviorSDK]
 
 
 ## Setup Instructions
@@ -50,7 +50,7 @@ use Gradle:
        }
        
        dependencies {
-          implementation 'com.relx.AccelerometerTouchTrackerSdk:latest'
+          implementation 'com.behaviosec.android.userBehaviorSDK.UserBehaviorSDK:latest'
        }
 
 ### Step 2: Configure the Integration
@@ -58,7 +58,7 @@ use Gradle:
 Next, you’ll need to configure your integration settings.
 Add the following details in your application class .
 AccelerometerTouchTrackerCore.initialize()
-**We will add "AccelerometerTouchTrackerSdk api key" in the forthcoming releases **
+**We will add "UserBehaviorSDK api key" in the forthcoming releases **
 
 ### Step 3: Test the Integration
 
@@ -90,8 +90,8 @@ AccelerometerTouchTrackerCore.initialize()
 You can configure the SDK using `TouchTrackerConfig`:
 
 ```kotlin
-import com.behaviosec.android.accelerometerTouchTrackerSdk.config.TouchTrackerConfig
-import com.behaviosec.android.accelerometerTouchTrackerSdk.logging.LogLevel
+import com.behaviosec.android.UserBehaviorSDK.config.TouchTrackerConfig
+import com.behaviosec.android.UserBehaviorSDK.logging.LogLevel
 
 val config = TouchTrackerConfig()
 config.setLoggingEnabled(true)
@@ -129,9 +129,9 @@ To further improve your SDK's reliability, add more **Unit Tests** and **Instrum
 - Ensure ViewModel logic and LiveData updates are tested.
 
 **Example Unit Test Files:**
-- `src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/AccelerometerManagerTest.kt`
-- `src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/managers/ActivityTouchManagerTest.kt`
-- `src/test/java/com/behaviosec/android/accelerometerTouchTrackerSdk/viewmodel/TouchSensorViewModelTest.kt`
+- `src/test/java/com/behaviosec/android/UserBehaviorSDK/managers/AccelerometerManagerTest.kt`
+- `src/test/java/com/behaviosec/android/UserBehaviorSDK/managers/ActivityTouchManagerTest.kt`
+- `src/test/java/com/behaviosec/android/UserBehaviorSDK/viewmodel/TouchSensorViewModelTest.kt`
 
 ### Instrumentation Tests
 - Test integration with Android components (Activity, Service, etc.).
@@ -140,8 +140,8 @@ To further improve your SDK's reliability, add more **Unit Tests** and **Instrum
 - Validate LiveData and UI updates in real scenarios.
 
 **Example Instrumentation Test Files:**
-- `src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/AccelerometerIntegrationTest.kt`
-- `src/androidTest/java/com/behaviosec/android/accelerometerTouchTrackerSdk/TouchEventIntegrationTest.kt`
+- `src/androidTest/java/com/behaviosec/android/UserBehaviorSDK/AccelerometerIntegrationTest.kt`
+- `src/androidTest/java/com/behaviosec/android/UserBehaviorSDK/TouchEventIntegrationTest.kt`
 
 > **Tip:**  
 > Place unit tests in `src/test/java` and instrumentation tests in `src/androidTest/java` under the appropriate package.
@@ -165,7 +165,7 @@ To secure your application and SDK with ProGuard or R8:
 - **Add these rules to your `proguard-rules.pro` file:**
   ```proguard
   # Keep SDK API surface
-  -keep class com.behaviosec.android.accelerometerTouchTrackerSdk.** { *; }
+  -keep class com.behaviosec.android.UserBehaviorSDK.** { *; }
   ```
 ## Documentation Generation
 
@@ -188,7 +188,7 @@ Documentation is automatically generated using [Dokka](https://github.com/Kotlin
 2. **Generate HTML Documentation with Dokka:**  
    Run the following Gradle command from the project root:
    ```
-   ./gradlew :AccelerometerTouchTrackerSdk:dokkaGeneratePublicationHtml
+   ./gradlew :UserBehaviorSDK:dokkaGeneratePublicationHtml
    ```
    The generated documentation will be available in the `build/dokka/html` directory.
 
@@ -203,9 +203,9 @@ To upload the generated Dokka documentation to GitHub (for example, to a `gh-pag
 
 1. **Generate the documentation:**
    ```bash
-   ./gradlew :AccelerometerTouchTrackerSdk:dokkaGeneratePublicationHtml
+   ./gradlew :UserBehaviorSDK:dokkaGeneratePublicationHtml
    ```
-   The output will be in `AccelerometerTouchTrackerSdk/build/dokkaDir`.
+   The output will be in `UserBehaviorSDK/build/dokkaDir`.
 
 2. **Switch to the `gh-pages` branch (or create it if it doesn't exist):**
    ```bash
@@ -214,7 +214,7 @@ To upload the generated Dokka documentation to GitHub (for example, to a `gh-pag
 
 3. **Copy the generated documentation:**
    ```bash
-   cp -r AccelerometerTouchTrackerSdk/build/dokkaDir/* .
+   cp -r UserBehaviorSDK/build/dokkaDir/* .
    ```
    > This command copies the generated documentation files into your current working directory (which should be the root of the `gh-pages` branch).  
    > **However, copying files does not automatically add them to git or push them to GitHub.**
@@ -253,10 +253,10 @@ The following areas are recommended for further enhancement to improve the SDK's
 - **CI/CD with github actions and fastlane** I've added a sample workflow for CI/CD using GitHub Actions, but it can be enhanced with more steps like code quality checks, automated testing, and deployment.
 
 ## Common Errors & Troubleshooting
-https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
+https://github.com/adhamkhwaldeh/UserBehaviorSDK/issues
 
 ## FAQs
-https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk/issues
+https://github.com/adhamkhwaldeh/UserBehaviorSDK/issues
 
 ## Support
-https://github.com/adhamkhwaldeh/AccelerometerTouchTrackerSdk
+https://github.com/adhamkhwaldeh/UserBehaviorSDK

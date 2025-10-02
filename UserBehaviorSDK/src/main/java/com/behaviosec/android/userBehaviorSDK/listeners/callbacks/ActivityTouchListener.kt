@@ -1,4 +1,4 @@
-package com.behaviosec.android.userBehaviorSDK.listeners
+package com.behaviosec.android.userBehaviorSDK.listeners.callbacks
 
 import com.behaviosec.android.userBehaviorSDK.models.MotionEventModel
 
@@ -7,14 +7,14 @@ import com.behaviosec.android.userBehaviorSDK.models.MotionEventModel
  *
  * @constructor Create empty Activity touch listener
  */
-interface ActivityTouchListener {
+interface ActivityTouchListener : IDataListener {
     /**
      * Dispatch touch event
      *
-     * @param model
+     * @param event
      * @return
      */
-    fun dispatchTouchEvent(model: MotionEventModel): Boolean{
+    fun dispatchTouchEvent(event: MotionEventModel): Boolean {
         return true //return true to continue executing the base or original event
     }
 }
