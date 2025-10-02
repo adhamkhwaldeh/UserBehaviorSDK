@@ -30,8 +30,8 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @param activity
  * @param config
  */
-class ActivityTouchManager(
-    private val activity: Activity,
+internal class ActivityTouchManager(
+    val activity: Activity,
     override val config: TouchTrackerConfig = TouchTrackerConfig(),
 ) : IBaseManager<TouchListener, TouchErrorListener>, ITouchManager {
 

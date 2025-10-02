@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.behaviosec.android.userBehaviorSDK.UserBehaviorCoreSDK;
 import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig;
 import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener;
 import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //#region AccelerometerManager
+        UserBehaviorCoreSDK.Companion.getInstance(this).;
+
         AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new TouchTrackerConfig());
         accelerometerManager.start();
         accelerometerManager.setEnabled(true).setDebugMode(true).setLoggingEnabled(true);

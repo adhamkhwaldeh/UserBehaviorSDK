@@ -1,9 +1,9 @@
 package com.behaviosec.android.userBehaviorSDK.managers.base
 
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.IDataListener
+import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.ICallbackListener
 import java.util.concurrent.CopyOnWriteArrayList
 
-interface IBaseCallbackManager<T> where T : IDataListener {
+interface IBaseCallbackManager<T> where T : ICallbackListener {
     val listeners: CopyOnWriteArrayList<T>
 
     /**

@@ -8,7 +8,7 @@ import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel
  *
  * @constructor Create empty Accelerometer listener
  */
-interface AccelerometerListener : IDataListener {
+interface AccelerometerListener : ICallbackListener {
     /**
      * On sensor changed
      *

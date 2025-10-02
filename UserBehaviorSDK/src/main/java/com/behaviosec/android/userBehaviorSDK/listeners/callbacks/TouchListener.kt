@@ -7,7 +7,7 @@ import com.behaviosec.android.userBehaviorSDK.models.MotionEventModel
  *
  * @constructor Create empty Activity touch listener
  */
-interface TouchListener : IDataListener {
+interface TouchListener : ICallbackListener {
     /**
      * Dispatch touch event
      *
