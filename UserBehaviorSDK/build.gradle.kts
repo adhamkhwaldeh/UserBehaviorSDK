@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.behaviosec.android.userBehaviorSDK"
+    namespace = "com.github.adhamkhwaldeh.userBehaviorSDK"
     compileSdk = Integer.getInteger(libs.versions.compileSdk.get())
     compileSdkVersion = libs.versions.compileSdkVersion.get()
 

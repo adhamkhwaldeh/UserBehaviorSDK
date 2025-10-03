@@ -50,7 +50,7 @@ use Gradle:
        }
        
        dependencies {
-          implementation 'com.behaviosec.android.userBehaviorSDK.UserBehaviorSDK:latest'
+          implementation 'com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorSDK:latest'
        }
 
 ### Step 2: Configure the Integration
@@ -90,8 +90,8 @@ AccelerometerTouchTrackerCore.initialize()
 You can configure the SDK using `TouchTrackerConfig`:
 
 ```kotlin
-import com.behaviosec.android.UserBehaviorSDK.config.TouchTrackerConfig
-import com.behaviosec.android.UserBehaviorSDK.logging.LogLevel
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchTrackerConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.logging.LogLevel
 
 val config = TouchTrackerConfig()
 config.setLoggingEnabled(true)
@@ -165,7 +165,7 @@ To secure your application and SDK with ProGuard or R8:
 - **Add these rules to your `proguard-rules.pro` file:**
   ```proguard
   # Keep SDK API surface
-  -keep class com.behaviosec.android.UserBehaviorSDK.** { *; }
+  -keep class com.github.adhamkhwaldeh.userBehaviorSDK.** { *; }
   ```
 ## Documentation Generation
 

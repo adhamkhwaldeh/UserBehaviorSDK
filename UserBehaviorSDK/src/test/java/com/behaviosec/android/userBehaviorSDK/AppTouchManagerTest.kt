@@ -1,11 +1,11 @@
-package com.behaviosec.android.userBehaviorSDK
+package com.github.adhamkhwaldeh.userBehaviorSDK
 
 
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener
-import com.behaviosec.android.userBehaviorSDK.managers.touchs.AppTouchManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.AppTouchManager
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*

@@ -1,14 +1,14 @@
-package com.behaviosec.android.userBehaviorSDK
+package com.github.adhamkhwaldeh.userBehaviorSDK
 
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorManager
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener
-import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager
-import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel
-import com.behaviosec.android.userBehaviorSDK.repositories.HelpersRepository
-import com.behaviosec.android.userBehaviorSDK.repositories.MockedRepository
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
+import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.MockedRepository
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*

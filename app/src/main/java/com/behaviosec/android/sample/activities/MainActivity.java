@@ -7,19 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.behaviosec.android.userBehaviorSDK.UserBehaviorCoreSDK;
-import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig;
-import com.behaviosec.android.userBehaviorSDK.listeners.errors.AccelerometerErrorListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.errors.TouchErrorListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener;
-import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager;
-import com.behaviosec.android.userBehaviorSDK.managers.TouchManager;
-import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel;
-import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel;
-import com.behaviosec.android.userBehaviorSDK.models.ManagerErrorModel;
-import com.behaviosec.android.userBehaviorSDK.models.MotionEventModel;
-import com.behaviosec.android.userBehaviorSDK.repositories.HelpersRepository;
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig;
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener;
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener;
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.TouchManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel;
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel;
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel;
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel;
+import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository;
 import com.behaviosec.android.sample.databinding.ActivityMainBinding;
 
 
@@ -32,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //#region AccelerometerManager
-        UserBehaviorCoreSDK.Companion.getInstance(this).;
+//        UserBehaviorCoreSDK.Companion.getInstance(this).;
 
-        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new TouchTrackerConfig());
+        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new AccelerometerConfig());
         accelerometerManager.start();
         accelerometerManager.setEnabled(true).setDebugMode(true).setLoggingEnabled(true);
 

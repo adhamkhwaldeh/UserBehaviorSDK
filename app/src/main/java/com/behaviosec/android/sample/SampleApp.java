@@ -5,16 +5,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.behaviosec.android.userBehaviorSDK.UserBehaviorCoreSDK;
-import com.behaviosec.android.userBehaviorSDK.config.TouchTrackerConfig;
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
-import com.behaviosec.android.userBehaviorSDK.listeners.callbacks.TouchListener;
-import com.behaviosec.android.userBehaviorSDK.managers.AccelerometerManager;
-import com.behaviosec.android.userBehaviorSDK.managers.touchs.AppTouchManager;
-import com.behaviosec.android.userBehaviorSDK.models.AccelerometerEventModel;
-import com.behaviosec.android.userBehaviorSDK.models.AccuracyChangedModel;
-import com.behaviosec.android.userBehaviorSDK.models.MotionEventModel;
-import com.behaviosec.android.userBehaviorSDK.repositories.HelpersRepository;
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig;
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig;
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.AppTouchManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel;
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel;
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel;
+import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository;
 
 
 public class SampleApp extends Application {
@@ -23,10 +23,10 @@ public class SampleApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        new UserBehaviorCoreSDK().initialize();
+//        new UserBehaviorCoreSDK(this).initialize();
 
         //#region AccelerometerManager
-        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new TouchTrackerConfig());
+        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new AccelerometerConfig());
 
         accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
         accelerometerManager.start();
@@ -50,7 +50,7 @@ public class SampleApp extends Application {
 
         //#region AppTouchManager
 
-        AppTouchManager appTouchManager = new AppTouchManager(this,new TouchTrackerConfig());
+        AppTouchManager appTouchManager = new AppTouchManager(this, new TouchConfig());
 
         appTouchManager.addListener(new TouchListener() {
             @Override

@@ -1,4 +1,4 @@
-package com.behaviosec.android.userBehaviorSDK
+package com.github.adhamkhwaldeh.userBehaviorSDK
 
 import androidx.lifecycle.ViewModel
 import com.lemonappdev.konsist.api.ext.list.withNameContaining

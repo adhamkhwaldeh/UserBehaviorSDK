@@ -21,4 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 # Keep SDK API surface
--keep class com.behaviosec.android.userBehaviorSDK.** { *; }
+-keep class com.github.adhamkhwaldeh.userBehaviorSDK.** { *; }
