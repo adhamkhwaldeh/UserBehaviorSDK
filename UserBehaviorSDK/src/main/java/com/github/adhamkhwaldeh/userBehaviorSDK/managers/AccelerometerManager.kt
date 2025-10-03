@@ -24,11 +24,24 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
  *
  * @param config
  */
-internal class AccelerometerManager(
+internal class AccelerometerManager private constructor(
     private val context: Context,
     private val helpersRepository: HelpersRepository,
     config: AccelerometerConfig = AccelerometerConfig(),
 ) : BaseManager<AccelerometerListener, AccelerometerErrorListener, AccelerometerConfig>(config) {
+
+    companion object {
+        @JvmSynthetic
+        internal fun create(
+            context: Context,
+            helpersRepository: HelpersRepository,
+            config: AccelerometerConfig = AccelerometerConfig(),
+        ): AccelerometerManager = AccelerometerManager(
+            context = context,
+            helpersRepository = helpersRepository,
+            config = config
+        )
+    }
 
     private val sensorManager: SensorManager by lazy {
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager

@@ -1,5 +1,6 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 
+import android.app.Application
 import android.view.MotionEvent
 import android.view.View
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
@@ -34,11 +35,21 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
  * @param targetView The View to which the touch listener will be attached.
  * @param config Configuration for the manager.
  */
-internal class ViewTouchManager(
+internal class ViewTouchManager private constructor(
     private val targetView: View,
     config: TouchConfig = TouchConfig(),
 ) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config) {
 
+    companion object {
+        @JvmSynthetic
+        internal fun create(
+            targetView: View,
+            config: TouchConfig = TouchConfig(),
+        ): ViewTouchManager = ViewTouchManager(
+            targetView = targetView,
+            config = config
+        )
+    }
 
     private val touchListener: View.OnTouchListener = object : View.OnTouchListener {
 

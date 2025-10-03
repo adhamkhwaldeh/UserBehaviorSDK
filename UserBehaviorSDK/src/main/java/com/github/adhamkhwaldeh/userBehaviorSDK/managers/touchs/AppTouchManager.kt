@@ -17,10 +17,21 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
  * @property application
  * @constructor Create empty App touch manager
  */
-internal class AppTouchManager(
+internal class AppTouchManager private constructor(
     private val application: Application,
     config: TouchConfig = TouchConfig()
 ) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config) {
+
+    companion object {
+        @JvmSynthetic
+        internal fun create(
+            application: Application,
+            config: TouchConfig = TouchConfig(),
+        ): AppTouchManager = AppTouchManager(
+            application = application,
+            config = config
+        )
+    }
 
     private val activityManagers = mutableMapOf<Activity, ActivityTouchManager>()
 
@@ -32,7 +43,7 @@ internal class AppTouchManager(
     private val lifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             try {
-                val activityTouchManager = ActivityTouchManager(activity)
+                val activityTouchManager = ActivityTouchManager.create(activity)
                 // Add all global listeners to the new manager
                 listeners.forEach { activityTouchManager.addListener(it) }
                 synchronized(activityManagersLock) {

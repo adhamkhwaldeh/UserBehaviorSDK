@@ -1,6 +1,7 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 
 import android.app.Activity
+import android.content.Context
 import android.view.ActionMode
 import android.view.KeyEvent
 import android.view.Menu
@@ -15,10 +16,13 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 
 /**
  * Activity touch manager
@@ -28,10 +32,21 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
  * @param activity
  * @param config
  */
-internal class ActivityTouchManager(
+internal class ActivityTouchManager private constructor(
     val activity: Activity,
     config: TouchConfig = TouchConfig(),
 ) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config) {
+
+    companion object {
+        @JvmSynthetic
+        internal fun create(
+            activity: Activity,
+            config: TouchConfig = TouchConfig(),
+        ): ActivityTouchManager = ActivityTouchManager(
+            activity = activity,
+            config = config
+        )
+    }
 
     private val callback = object : Callback {
         override fun dispatchTouchEvent(event: MotionEvent): Boolean {

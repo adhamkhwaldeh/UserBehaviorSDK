@@ -33,7 +33,7 @@ internal class TouchManager private constructor(
     private val internalManager: IBaseManager<TouchListener, TouchErrorListener, TouchConfig>
 ) : IBaseManager<TouchListener, TouchErrorListener, TouchConfig> by internalManager {
 
-    class Builder() {
+    internal class Builder() {
 
         private var app: Application? = null
         private var activity: Activity? = null
@@ -70,11 +70,11 @@ internal class TouchManager private constructor(
                 throw IllegalArgumentException("Builder requires an Application, Activity, or View to create a TouchManager.")
             }
             val manager = if (app != null) {
-                AppTouchManager(app!!, config)
+                AppTouchManager.create(app!!, config)
             } else if (activity != null) {
-                ActivityTouchManager(activity!!, config)
+                ActivityTouchManager.create(activity!!, config)
             } else {
-                ViewTouchManager(targetView!!, config)
+                ViewTouchManager.create(targetView!!, config)
             }
             return TouchManager(manager)
         }

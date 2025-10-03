@@ -47,7 +47,7 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
         WeakHashMap<ManagerKey, IBaseManager<out ICallbackListener, out IErrorListener, out IManagerConfigInterface>>()
 
     private val accelerometerManager by lazy {
-        AccelerometerManager(appContext, HelpersRepository())
+        AccelerometerManager.create(appContext, HelpersRepository())
     }
 
     init {
@@ -136,9 +136,8 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
      */
     fun startAccelerometerTracking(config: AccelerometerConfig = AccelerometerConfig()) {
         if (behaviorManagers.containsKey(ManagerAccelerometerKey)) return
-        val manager = AccelerometerManager(appContext, HelpersRepository(), config)
-        manager.start()
-        behaviorManagers[ManagerAccelerometerKey] = manager
+        accelerometerManager.start()
+        behaviorManagers[ManagerAccelerometerKey] = accelerometerManager
     }
 
     /**

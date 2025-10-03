@@ -16,6 +16,7 @@ ktlint = "10.2.0"
 detekt = "1.23.1"
 mockito = "5.7.0"
 konsistVersion = "0.17.3"
+userbehaviorsdk = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,6 +27,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 konsist-v0173 = { module = "com.lemonappdev:konsist", version.ref = "konsistVersion" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+userbehaviorsdk = { module = "com.github.adhamkhwaldeh:UserBehaviorSDK", version.ref = "userbehaviorsdk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

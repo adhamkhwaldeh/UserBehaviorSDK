@@ -17,7 +17,7 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         minSdkVersion(libs.versions.minSdk.get().toInt())
 //        targetSdk = Integer.getInteger(libs.versions.targetSdk.toString())
-
+        version = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
