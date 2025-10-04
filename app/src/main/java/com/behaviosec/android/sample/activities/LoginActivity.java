@@ -13,7 +13,6 @@ import com.behaviosec.android.sample.fragments.InfoDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
-    private SampleApp application;
     private TextInputEditText usernameField;
     private TextInputEditText passwordField;
     private AppCompatButton loginButton;
@@ -23,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        application = (SampleApp) getApplication();
 
         usernameField = findViewById(R.id.username);
         passwordField = findViewById(R.id.password);

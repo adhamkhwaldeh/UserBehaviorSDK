@@ -11,10 +11,8 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener;
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager;
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.IAccelerometerManager;
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager;
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ApplicationTouchManager;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel;
@@ -25,11 +23,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class SampleApp extends Application {
 
+    static UserBehaviorCoreSDK userBehaviorCoreSDK;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-
-        UserBehaviorCoreSDK userBehaviorCoreSDK = UserBehaviorCoreSDK.Companion.getInstance(this);
+        userBehaviorCoreSDK =
+                UserBehaviorCoreSDK.Companion.getInstance(this);
 
         //#region AccelerometerManager
         IAccelerometerManager accelerometerManager = userBehaviorCoreSDK.getAccelerometerManager(new AccelerometerConfig());

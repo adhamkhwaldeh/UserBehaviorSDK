@@ -18,6 +18,8 @@ mockito = "5.7.0"
 konsistVersion = "0.17.3"
 userbehaviorsdk = "1.0.0"
 kotlinGradlePlugin = "1.9.24"
+composeBom = "2024.06.00"
+lifecycleRuntimeCompose = "2.8.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,11 +27,17 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-konsist-v0173 = { module = "com.lemonappdev:konsist", version.ref = "konsistVersion" }
+konsist= { module = "com.lemonappdev:konsist", version.ref = "konsistVersion" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 userbehaviorsdk = { module = "com.github.adhamkhwaldeh:UserBehaviorSDK", version.ref = "userbehaviorsdk" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+
+# Compose and Lifecycle dependencies
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,22 +1,21 @@
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.github.adhamkhwaldeh.userBehaviorSDKKtx"
+    namespace = "com.github.adhamkhwaldeh.userBehaviorSDKCompose"
     compileSdk = Integer.getInteger(libs.versions.compileSdk.get())
     compileSdkVersion = libs.versions.compileSdkVersion.get()
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
         minSdkVersion(libs.versions.minSdk.get().toInt())
-//        targetSdk = Integer.getInteger(libs.versions.targetSdk.toString())
-        version = "1.0.0"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
-
 
     buildTypes {
         release {
@@ -37,14 +36,16 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-//    implementation(libs.material)
+    implementation(libs.material)
+
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.compose.ui)
+    api(libs.androidx.compose.runtime)
+    api(libs.androidx.lifecycle.runtime.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation(project(":UserBehaviorSDK"))
 }

@@ -1,4 +1,4 @@
-package com.github.adhamkhwaldeh.userBehaviorSDK.viewModels
+package com.behaviosec.android.sample.viewModels
 
 import androidx.lifecycle.ViewModel
 

@@ -25,3 +25,4 @@ rootProject.name = "Sample"
 include(":app")
 include(":UserBehaviorSDK")
 include(":UserBehaviorSDK-ktx")
+include(":UserBehaviorSDK-Compose")

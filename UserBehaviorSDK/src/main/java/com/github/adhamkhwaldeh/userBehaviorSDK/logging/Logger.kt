@@ -1,105 +1,43 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.logging
 
-import android.util.Log
-
 /**
- * Log level
+ * A static proxy object for logging. This object holds a reference to an `ILogger` instance
+ * and forwards all logging calls to it.
  *
- * @constructor Create empty Log level
+ * By default, it uses the `DefaultLogger`. This can be overridden at any time by calling `setLogger`.
+ * This allows the SDK's logging to be redirected to a custom logging implementation.
+ *
+ * Example Usage in an Application's `onCreate`:
+ * ```
+ * if (BuildConfig.DEBUG) {
+ *     Logger.setLogger(MyCustomDebugLogger())
+ * }
+ * ```
  */
-enum class LogLevel {
-    /**
-     * None
-     *
-     * @constructor Create empty None
-     */
-    NONE,
+object Logger : ILogger {
+    private var logger: ILogger = DefaultLogger()
 
     /**
-     * Error
-     *
-     * @constructor Create empty Error
+     * Overrides the default logger with a custom implementation.
+     * @param newLogger The new `ILogger` instance to use for all subsequent log calls.
      */
-    ERROR,
-
-    /**
-     * Warn
-     *
-     * @constructor Create empty Warn
-     */
-    WARN,
-
-    /**
-     * Info
-     *
-     * @constructor Create empty Info
-     */
-    INFO,
-
-    /**
-     * Debug
-     *
-     * @constructor Create empty Debug
-     */
-    DEBUG }
-
-/**
- * Logger
- *
- * @constructor Create empty Logger
- *///You can Integrate with external logging/analytics frameworks (e.g., Timber, Crashlytics).
-object Logger {
-    
-    var logLevel: LogLevel = LogLevel.INFO
-    
-    private var customLogger: ((level: LogLevel, tag: String, message: String, throwable: Throwable?) -> Unit)? =
-        null
-
-    /**
-     * D
-     *
-     * @param tag
-     * @param message
-     */
-    fun d(tag: String, message: String) = log(LogLevel.DEBUG, tag, message)
-
-    /**
-     * I
-     *
-     * @param tag
-     * @param message
-     */
-    fun i(tag: String, message: String) = log(LogLevel.INFO, tag, message)
-
-    /**
-     * W
-     *
-     * @param tag
-     * @param message
-     */
-    fun w(tag: String, message: String) = log(LogLevel.WARN, tag, message)
-
-    /**
-     * E
-     *
-     * @param tag
-     * @param message
-     * @param throwable
-     */
-    fun e(tag: String, message: String, throwable: Throwable? = null) =
-        log(LogLevel.ERROR, tag, message, throwable)
-
-    private fun log(level: LogLevel, tag: String, message: String, throwable: Throwable? = null) {
-        if (level.ordinal > logLevel.ordinal || logLevel == LogLevel.NONE) return
-        customLogger?.invoke(level, tag, message, throwable) ?: run {
-            when (level) {
-                LogLevel.ERROR -> Log.e(tag, message, throwable)
-                LogLevel.WARN -> Log.w(tag, message)
-                LogLevel.INFO -> Log.i(tag, message)
-                LogLevel.DEBUG -> Log.d(tag, message)
-                else -> {}
-            }
-        }
+    fun setLogger(newLogger: ILogger) {
+        logger = newLogger
     }
 
+    override fun d(tag: String, message: String) {
+        logger.d(tag, message)
+    }
+
+    override fun e(tag: String, message: String, throwable: Throwable?) {
+        logger.e(tag, message, throwable)
+    }
+
+    override fun w(tag: String, message: String) {
+        logger.w(tag, message)
+    }
+
+    override fun i(tag: String, message: String) {
+        logger.i(tag, message)
+    }
 }

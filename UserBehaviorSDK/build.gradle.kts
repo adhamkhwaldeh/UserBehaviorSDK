@@ -43,11 +43,10 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.material)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
+//    implementation(libs.androidx.core.ktx)
+//    implementation(libs.androidx.appcompat)
+//    implementation(libs.material)
+//    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito)
@@ -55,7 +54,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // testImplementation(libs.konsist)
-    testImplementation(libs.konsist.v0173)
+    testImplementation(libs.konsist)
 
 }
 
