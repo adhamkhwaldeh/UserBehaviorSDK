@@ -8,6 +8,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 
@@ -17,17 +18,17 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
  * @property application
  * @constructor Create empty App touch manager
  */
-internal class AppTouchManager private constructor(
+internal class ApplicationTouchManager private constructor(
     private val application: Application,
     config: TouchConfig = TouchConfig()
-) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config) {
+) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config), ITouchManager {
 
     companion object {
         @JvmSynthetic
         internal fun create(
             application: Application,
             config: TouchConfig = TouchConfig(),
-        ): AppTouchManager = AppTouchManager(
+        ): ApplicationTouchManager = ApplicationTouchManager(
             application = application,
             config = config
         )
@@ -110,12 +111,20 @@ internal class AppTouchManager private constructor(
     }
 
     //#region Base Manager actions
+    var isManagerStarted = false
+
+    override fun isStarted(): Boolean {
+        return isManagerStarted
+    }
+
     override fun start() {
         application.registerActivityLifecycleCallbacks(lifecycleCallbacks)
+        isManagerStarted = true
     }
 
     override fun stop() {
         application.unregisterActivityLifecycleCallbacks(lifecycleCallbacks)
+        isManagerStarted = false
     }
 
     override fun pause() {

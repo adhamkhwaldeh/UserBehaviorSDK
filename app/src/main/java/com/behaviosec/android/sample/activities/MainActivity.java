@@ -7,19 +7,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK;
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig;
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener;
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager;
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.TouchManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.IAccelerometerManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.IBaseManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ActivityTouchManager;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel;
-import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository;
 import com.behaviosec.android.sample.databinding.ActivityMainBinding;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        UserBehaviorCoreSDK userBehaviorCoreSDK = UserBehaviorCoreSDK.Companion.getInstance(this);
         //#region AccelerometerManager
-//        UserBehaviorCoreSDK.Companion.getInstance(this).;
-
-        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new AccelerometerConfig());
+        IAccelerometerManager accelerometerManager = userBehaviorCoreSDK.getAccelerometerManager(new AccelerometerConfig());
+//        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(),new AccelerometerConfig() );
         accelerometerManager.start();
         accelerometerManager.setEnabled(true).setDebugMode(true).setLoggingEnabled(true);
 
@@ -67,11 +72,9 @@ public class MainActivity extends AppCompatActivity {
         });
         //#endregion
 
-        TouchManager activityTouchManager = new TouchManager.Builder().forActivity(this).build();
-
-        //        touchManager.start();
         //#region ActivityTouchManager
-//        ActivityTouchManager activityTouchManager = new ActivityTouchManager(this, new TouchTrackerConfig());
+
+        ITouchManager activityTouchManager = userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(this, new TouchConfig());
 
         activityTouchManager.addListener(new TouchListener() {
             @Override
@@ -101,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //#endregion
-
 
         binding.logoutButton.setOnClickListener(v -> {
             finishActivity();

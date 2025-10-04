@@ -8,7 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 
 abstract class BaseManager<TCall : ICallbackListener, TError : IErrorListener, TConfig : IManagerConfigInterface>(
-    internal val config: TConfig
+    internal var config: TConfig
 ) : IBaseManager<TCall, TError, TConfig> {
 
     internal val listeners: CopyOnWriteArrayList<TCall> = CopyOnWriteArrayList()
@@ -34,8 +34,8 @@ abstract class BaseManager<TCall : ICallbackListener, TError : IErrorListener, T
     override fun clearListeners() {
         listeners.clear()
     }
-    //#endregion
 
+    //#endregion
     internal val errorListeners: CopyOnWriteArrayList<TError> = CopyOnWriteArrayList()
     //#region Error Listener
     /**
@@ -110,6 +110,17 @@ abstract class BaseManager<TCall : ICallbackListener, TError : IErrorListener, T
      */
     override fun setLoggingEnabled(loggingEnabled: Boolean): IBaseConfigurableManager<TConfig> {
         config.isLoggingEnabled = loggingEnabled
+        return this
+    }
+
+    /**
+     * Update config
+     *
+     * @param config
+     * @return
+     */
+    override fun updateConfig(config: TConfig): IBaseConfigurableManager<TConfig> {
+        this.config = config
         return this
     }
     //#endregion

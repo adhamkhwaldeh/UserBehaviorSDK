@@ -5,16 +5,22 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK;
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig;
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener;
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager;
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.AppTouchManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.IAccelerometerManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager;
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ApplicationTouchManager;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel;
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel;
-import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class SampleApp extends Application {
@@ -23,10 +29,10 @@ public class SampleApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-//        new UserBehaviorCoreSDK(this).initialize();
+        UserBehaviorCoreSDK userBehaviorCoreSDK = UserBehaviorCoreSDK.Companion.getInstance(this);
 
         //#region AccelerometerManager
-        AccelerometerManager accelerometerManager = new AccelerometerManager(this, new HelpersRepository(), new AccelerometerConfig());
+        IAccelerometerManager accelerometerManager = userBehaviorCoreSDK.getAccelerometerManager(new AccelerometerConfig());
 
         accelerometerManager.setDebugMode(true).setLoggingEnabled(true);
         accelerometerManager.start();
@@ -45,12 +51,11 @@ public class SampleApp extends Application {
             }
 
         });
-
         //#endregion
 
         //#region AppTouchManager
 
-        AppTouchManager appTouchManager = new AppTouchManager(this, new TouchConfig());
+        ITouchManager appTouchManager = userBehaviorCoreSDK.fetchOrCreateApplicationTouchManager(this, new TouchConfig());
 
         appTouchManager.addListener(new TouchListener() {
             @Override
@@ -60,6 +65,12 @@ public class SampleApp extends Application {
             }
         });
 
+        appTouchManager.addErrorListener(new TouchErrorListener() {
+            @Override
+            public void onError(@NotNull ManagerErrorModel error) {
+
+            }
+        });
         //#endregion
 
     }

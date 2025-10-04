@@ -28,7 +28,8 @@ internal class AccelerometerManager private constructor(
     private val context: Context,
     private val helpersRepository: HelpersRepository,
     config: AccelerometerConfig = AccelerometerConfig(),
-) : BaseManager<AccelerometerListener, AccelerometerErrorListener, AccelerometerConfig>(config) {
+) : BaseManager<AccelerometerListener, AccelerometerErrorListener, AccelerometerConfig>(config),
+    IAccelerometerManager {
 
     companion object {
         @JvmSynthetic
@@ -92,6 +93,12 @@ internal class AccelerometerManager private constructor(
     }
 
     //#region Base Manager actions
+    var isManagerStarted = false
+
+    override fun isStarted(): Boolean {
+        return isManagerStarted
+    }
+
     /**
      * Start
      *
@@ -113,6 +120,7 @@ internal class AccelerometerManager private constructor(
                     accelerometer,
                     SensorManager.SENSOR_DELAY_UI
                 )
+                isManagerStarted = true
             } catch (e: Exception) {
                 notifyErrorListeners(
                     ManagerErrorModel(
@@ -139,6 +147,7 @@ internal class AccelerometerManager private constructor(
         synchronized(this) {
             try {
                 sensorManager.unregisterListener(sensorEventListener)
+                isManagerStarted = false
             } catch (e: Exception) {
                 notifyErrorListeners(
                     ManagerErrorModel(

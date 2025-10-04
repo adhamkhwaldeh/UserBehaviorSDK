@@ -14,6 +14,7 @@ interface IBaseManager<TCall : ICallbackListener, TError : IErrorListener,
     IBaseCallbackManager<TCall>, IBaseErrorManager<TError>,
     IBaseConfigurableManager<TConfig> {
 
+    fun isStarted(): Boolean
     fun start()
     fun stop()
     fun pause()

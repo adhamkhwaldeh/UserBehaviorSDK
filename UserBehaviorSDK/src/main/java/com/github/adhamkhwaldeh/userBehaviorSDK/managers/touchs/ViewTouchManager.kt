@@ -1,6 +1,5 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 
-import android.app.Application
 import android.view.MotionEvent
 import android.view.View
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
@@ -8,6 +7,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 
@@ -38,7 +38,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 internal class ViewTouchManager private constructor(
     private val targetView: View,
     config: TouchConfig = TouchConfig(),
-) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config) {
+) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config), ITouchManager {
 
     companion object {
         @JvmSynthetic
@@ -88,11 +88,18 @@ internal class ViewTouchManager private constructor(
     }
 
     //#region Base Manager actions
+    var isManagerStarted = false
+
+    override fun isStarted(): Boolean {
+        return isManagerStarted
+    }
+
     /**
      * Attaches the touch listener to the target view.
      */
     override fun start() {
         targetView.setOnTouchListener(touchListener)
+        isManagerStarted = true
     }
 
     /**
@@ -103,6 +110,7 @@ internal class ViewTouchManager private constructor(
         // it's safest to check if the listener is still 'this'. However, since there is no public
         // 'getOnTouchListener' method, clearing it is the most common and direct approach.
         targetView.setOnTouchListener(null)
+        isManagerStarted = false
     }
 
     override fun pause() {

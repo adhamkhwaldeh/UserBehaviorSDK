@@ -1,22 +1,22 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.behaviosec.android.sample"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    namespace = "com.github.adhamkhwaldeh.userBehaviorSDKKtx"
+    compileSdk = Integer.getInteger(libs.versions.compileSdk.get())
     compileSdkVersion = libs.versions.compileSdkVersion.get()
 
     defaultConfig {
-        applicationId = "com.behaviosec.android.sample"
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
-
+        minSdkVersion(libs.versions.minSdk.get().toInt())
+//        targetSdk = Integer.getInteger(libs.versions.targetSdk.toString())
+        version = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
+
 
     buildTypes {
         release {
@@ -34,24 +34,16 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
-
-    buildFeatures {
-        dataBinding = true
-        viewBinding = true
-    }
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation(project(":UserBehaviorSDK"))
-    implementation(project(":UserBehaviorSDK-ktx"))
-//    implementation(libs.userbehaviorsdk)
+//    implementation(libs.material)
+//    testImplementation(libs.junit)
+//    androidTestImplementation(libs.androidx.junit)
+//    androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(project(":UserBehaviorSDK"))
 }

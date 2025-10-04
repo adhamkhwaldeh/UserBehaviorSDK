@@ -6,6 +6,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.IAccelerometerManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.MockedRepository
@@ -19,7 +20,7 @@ class AccelerometerManagerTest {
     private lateinit var sensorManager: SensorManager
     private lateinit var sensor: Sensor
     private lateinit var listener: AccelerometerListener
-    private lateinit var manager: AccelerometerManager
+    private lateinit var manager: IAccelerometerManager
 
     @Before
     fun setUp() {
@@ -33,7 +34,7 @@ class AccelerometerManagerTest {
         `when`(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)).thenReturn(sensor)
         `when`(helpersRepository.getCurrentDate()).thenReturn(MockedRepository.mockDate)
 
-        manager = AccelerometerManager(context,helpersRepository)
+        manager = UserBehaviorCoreSDK.getInstance(context).getAccelerometerManager()
         manager.addListener(listener)
         manager.setEnabled(true)
     }

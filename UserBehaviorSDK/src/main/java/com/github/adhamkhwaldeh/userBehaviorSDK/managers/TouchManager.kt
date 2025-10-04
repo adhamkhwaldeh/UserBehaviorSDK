@@ -8,7 +8,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListene
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.IBaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ActivityTouchManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.AppTouchManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ApplicationTouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ViewTouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerActivityKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerApplicationKey
@@ -30,8 +30,8 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerViewKey
  * touchManager.start()
  */
 internal class TouchManager private constructor(
-    private val internalManager: IBaseManager<TouchListener, TouchErrorListener, TouchConfig>
-) : IBaseManager<TouchListener, TouchErrorListener, TouchConfig> by internalManager {
+    private val internalManager: ITouchManager
+) : ITouchManager by internalManager {
 
     internal class Builder() {
 
@@ -41,7 +41,8 @@ internal class TouchManager private constructor(
         private var targetView: View? = null
         private var config: TouchConfig = TouchConfig()
 
-        fun forManagerKey(managerKey: ManagerTouchKey) = apply {
+        @JvmSynthetic
+        internal fun forManagerKey(managerKey: ManagerTouchKey) = apply {
             when (managerKey) {
                 is ManagerActivityKey -> forActivity(managerKey.activity)
                 is ManagerApplicationKey -> forApp(managerKey.application)
@@ -49,28 +50,33 @@ internal class TouchManager private constructor(
             }
         }
 
+        @JvmSynthetic
         fun forApp(app: Application) = apply {
             this.app = app
         }
 
+        @JvmSynthetic
         fun forActivity(activity: Activity) = apply {
             this.activity = activity
         }
 
+        @JvmSynthetic
         fun forView(view: View) = apply {
             this.targetView = view
         }
 
+        @JvmSynthetic
         fun withConfig(config: TouchConfig) = apply {
             this.config = config
         }
 
+        @JvmSynthetic
         fun build(): TouchManager {
             if (app == null && activity == null && targetView == null) {
                 throw IllegalArgumentException("Builder requires an Application, Activity, or View to create a TouchManager.")
             }
             val manager = if (app != null) {
-                AppTouchManager.create(app!!, config)
+                ApplicationTouchManager.create(app!!, config)
             } else if (activity != null) {
                 ActivityTouchManager.create(activity!!, config)
             } else {
@@ -79,5 +85,5 @@ internal class TouchManager private constructor(
             return TouchManager(manager)
         }
     }
-}
 
+}

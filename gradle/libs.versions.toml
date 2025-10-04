@@ -17,6 +17,7 @@ detekt = "1.23.1"
 mockito = "5.7.0"
 konsistVersion = "0.17.3"
 userbehaviorsdk = "1.0.0"
+kotlinGradlePlugin = "1.9.24"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,6 +29,7 @@ konsist-v0173 = { module = "com.lemonappdev:konsist", version.ref = "konsistVers
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 userbehaviorsdk = { module = "com.github.adhamkhwaldeh:UserBehaviorSDK", version.ref = "userbehaviorsdk" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

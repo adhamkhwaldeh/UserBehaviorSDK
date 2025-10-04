@@ -31,6 +31,13 @@ interface IBaseConfigurableManager<T : IManagerConfigInterface> {
      */
     fun setLoggingEnabled(loggingEnabled: Boolean): IBaseConfigurableManager<T>
 
+    /**
+     * Update config
+     *
+     * @param config
+     * @return
+     */
+    fun updateConfig(config: T): IBaseConfigurableManager<T>
 
 }
 

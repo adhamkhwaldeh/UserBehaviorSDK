@@ -21,6 +21,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 
@@ -35,7 +36,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 internal class ActivityTouchManager private constructor(
     val activity: Activity,
     config: TouchConfig = TouchConfig(),
-) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config) {
+) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config), ITouchManager {
 
     companion object {
         @JvmSynthetic
@@ -158,6 +159,10 @@ internal class ActivityTouchManager private constructor(
     private val originalCallback: Callback = activity.window.callback
 
     //#region Base Manager actions
+    override fun isStarted(): Boolean {
+        return activity.window.callback == callback
+    }
+
     override fun start() {
         activity.window.callback = callback
     }
