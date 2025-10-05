@@ -291,12 +291,11 @@ state using `collectAsState()`.
 ---
 
 ## Screenshots
-
-|Main Screen | LiveData Screen | Coroutine Screen |
+|Main Screen | LiveData Screen | SDK Actions Screen |
 | :---: | :---: | :---: |
 | <img src="demos/Screenshot_20251005_221458.png" width="250"> | <img src="demos/Screenshot_20251005_214607.png" width="250"> | <img src="demos/Screenshot_20251005_214633.png" width="250"> |
 
-| Compose Screen | Main Screen |
+|  Sensors Screen | Compose Screen |
 | :---: | :---: |
 | <img src="demos/Screenshot_20251005_214703.png" width="250"> | <img src="demos/Screenshot_20251005_215314.png" width="250"> |
 
