@@ -43,13 +43,6 @@ public class StartActivity extends AppCompatActivity {
             startActivity(new Intent(this, SensorSampleActivity.class));
         });
 
-        binding.sensorSdkButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, SensorSdkActivity.class));
-        });
-
-        binding.sensorComposeButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, SensorComposeActivity.class));
-        });
 
     }
 

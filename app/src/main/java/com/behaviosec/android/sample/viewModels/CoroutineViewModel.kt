@@ -1,22 +1,28 @@
 package com.behaviosec.android.sample.viewModels
 
 
-import androidx.lifecycle.LiveData
+import android.app.Activity
+import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.AccelerometerResult
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accelerometerResultFlow
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accelerometerResultLiveData
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accuracyChangedEvents
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.errors
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.sensorChangedEvents
+import com.github.adhamkhwaldeh.userBehaviorSDKKtx.touchResultFlow
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -89,12 +95,63 @@ class CoroutineViewModel(
     }
     //#endregion
 
+    //#region Touch Managers
+    private var activityTouchManager: ITouchManager? = null
+    private var viewTouchManager: ITouchManager? = null
+
+    private val _activityTouchResult = MutableStateFlow<Result<MotionEventModel>?>(null)
+    val activityTouchResult: StateFlow<Result<MotionEventModel>?> = _activityTouchResult
+
+    private val _viewTouchResult = MutableStateFlow<Result<MotionEventModel>?>(null)
+    val viewTouchResult: StateFlow<Result<MotionEventModel>?> = _viewTouchResult
+
+    private var activityJob: Job? = null
+    private var viewJob: Job? = null
+
+    fun startActivityTouchTracking(activity: Activity) {
+        activityJob?.cancel() // Cancel previous job if any
+        activityTouchManager =
+            userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(activity, TouchConfig())
+        activityJob = viewModelScope.launch {
+            activityTouchManager?.touchResultFlow()?.collect {
+                _activityTouchResult.value = it
+            }
+        }
+        activityTouchManager?.start()
+    }
+
+    fun stopActivityTouchTracking() {
+        activityJob?.cancel()
+        activityTouchManager?.stop()
+        activityTouchManager = null
+    }
+
+    fun startViewTouchTracking(view: View) {
+        viewJob?.cancel() // Cancel previous job if any
+        viewTouchManager = userBehaviorCoreSDK.fetchOrCreateViewTouchManager(view, TouchConfig())
+        viewJob = viewModelScope.launch {
+            viewTouchManager?.touchResultFlow()?.collect {
+                _viewTouchResult.value = it
+            }
+        }
+        viewTouchManager?.start()
+    }
+
+    fun stopViewTouchTracking() {
+        viewJob?.cancel()
+        viewTouchManager?.stop()
+        viewTouchManager = null
+    }
+    //#endregion
+
     /**
      * Clean up resources when the ViewModel is destroyed.
      */
     override fun onCleared() {
         super.onCleared()
-        // Ensure the manager is stopped to prevent resource leaks
+        // Ensure all managers are stopped to prevent resource leaks
         stopTracking()
+        stopActivityTouchTracking()
+        stopViewTouchTracking()
     }
 }

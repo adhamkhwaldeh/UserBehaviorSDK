@@ -158,12 +158,15 @@ internal class ActivityTouchManager private constructor(
     private val originalCallback: Callback = activity.window.callback
 
     //#region Base Manager actions
+    var isManagerStarted = false
+
     override fun isStarted(): Boolean {
-        return activity.window.callback == callback
+        return isManagerStarted//activity.window.callback == callback
     }
 
     override fun start() {
         activity.window.callback = callback
+        isManagerStarted = true
     }
 
     override fun stop() {
@@ -171,6 +174,7 @@ internal class ActivityTouchManager private constructor(
         if (activity.window.callback === callback) {
             activity.window.callback = originalCallback
         }
+        isManagerStarted = false
     }
 
     override fun pause() {

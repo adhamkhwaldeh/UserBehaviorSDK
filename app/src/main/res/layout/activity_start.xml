@@ -76,18 +76,6 @@
                 android:layout_height="wrap_content"
                 android:text="Sensor Sample" />
 
-            <Button
-                android:id="@+id/sensor_sdk_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sensor SDK" />
-
-            <Button
-                android:id="@+id/sensor_compose_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sensor Compose" />
-
         </LinearLayout>
     </ScrollView>
 

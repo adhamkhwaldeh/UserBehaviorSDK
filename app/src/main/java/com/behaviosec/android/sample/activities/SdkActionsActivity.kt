@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.behaviosec.android.sample.databinding.ActivitySdkActionsBinding
+import com.behaviosec.android.sample.helpers.toMessage
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
@@ -32,7 +33,7 @@ class SdkActionsActivity : AppCompatActivity() {
         // Setup individual managers to see the effect of global controls
         setupAccelerometerManager()
         setupTouchManager()
-
+        setupViewTouchManager()
         // Setup global SDK action buttons
         setupGlobalSdkActions()
     }
@@ -57,33 +58,42 @@ class SdkActionsActivity : AppCompatActivity() {
     }
 
     private fun setupAccelerometerManager() {
-        val accelerometerManager = userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig())
+        val accelerometerManager =
+            userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig())
         accelerometerManager.setDebugMode(true).setLoggingEnabled(true)
 
         accelerometerManager.addListener(object : AccelerometerListener {
             override fun onAccuracyChanged(model: AccuracyChangedModel) {
-                binding.accelerometerDetails.text = "Accelerometer Accuracy: ${model.accuracy}"
+                binding.defaultXmlLayout.accelerometerAccuracy.text = model.toMessage()
             }
 
             override fun onSensorChanged(model: AccelerometerEventModel) {
-                // To avoid flooding the UI, you can show less frequent updates if needed
+                binding.defaultXmlLayout.accelerometerSensor.text = model.toMessage()
             }
         })
 
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
             override fun onError(error: ManagerErrorModel) {
                 Log.e("SDK_ACTIONS", "Accelerometer Error: ${error.message}")
-                binding.accelerometerDetails.text = "Accelerometer Error: ${error.message}"
             }
         })
+
+        binding.defaultXmlLayout.startAccelerometerButton.setOnClickListener {
+            accelerometerManager.start()
+        }
+        binding.defaultXmlLayout.stopAccelerometerButton.setOnClickListener {
+            accelerometerManager.stop()
+        }
+
     }
 
     private fun setupTouchManager() {
-        val activityTouchManager = userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(this, TouchConfig())
+        val activityTouchManager =
+            userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(this, TouchConfig())
 
         activityTouchManager.addListener(object : TouchListener {
-            override fun dispatchTouchEvent(model: MotionEventModel): Boolean {
-                binding.touchDetails.text = "Touch Event at: ${model.date}"
+            override fun dispatchTouchEvent(event: MotionEventModel): Boolean {
+                binding.defaultXmlLayout.touchDetails.text = event.toMessage()
                 return true // Return true to indicate the event was handled
             }
         })
@@ -91,9 +101,47 @@ class SdkActionsActivity : AppCompatActivity() {
         activityTouchManager.addErrorListener(object : TouchErrorListener {
             override fun onError(error: ManagerErrorModel) {
                 Log.e("SDK_ACTIONS", "Touch Error: ${error.message}")
-                binding.touchDetails.text = "Touch Error: ${error.message}"
             }
         })
+        binding.defaultXmlLayout.startTouchButton.setOnClickListener {
+            activityTouchManager.start()
+        }
+        binding.defaultXmlLayout.stopTouchButton.setOnClickListener {
+            activityTouchManager.stop()
+        }
+
+    }
+
+    private fun setupViewTouchManager() {
+        val viewTouchManager =
+            userBehaviorCoreSDK.fetchOrCreateViewTouchManager(
+                binding.defaultXmlLayout.greenView,
+                TouchConfig()
+            );
+
+        viewTouchManager.addListener(object : TouchListener {
+            override fun dispatchTouchEvent(model: MotionEventModel): Boolean {
+                val msg = model.toMessage()
+                Log.d("ActivityTouchManager", msg)
+                binding.defaultXmlLayout.touchViewDetails.text = msg
+                return true
+            }
+        })
+
+        viewTouchManager.addErrorListener(object : TouchErrorListener {
+            override fun onError(error: ManagerErrorModel) {
+                val msg = error.toMessage()
+                Log.e("ActivityTouchManager", msg)
+            }
+        })
+
+        binding.defaultXmlLayout.startTouchViewButton.setOnClickListener {
+            viewTouchManager.start()
+        }
+        binding.defaultXmlLayout.stopTouchViewButton.setOnClickListener {
+            viewTouchManager.stop()
+        }
+
     }
 
     override fun onStop() {

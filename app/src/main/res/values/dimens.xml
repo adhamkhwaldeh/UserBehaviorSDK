@@ -1,5 +1,6 @@
 <resources>
 
+    <dimen name="button_margin">4dp</dimen>
     <dimen name="field_margin">8dp</dimen>
 
     <dimen name="card_dialog_padding">8dp</dimen>

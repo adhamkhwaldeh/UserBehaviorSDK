@@ -1,6 +1,5 @@
 package com.behaviosec.android.sample.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -33,13 +32,12 @@ class KotlinSampleActivity : AppCompatActivity() {
 
         setupAccelerometerManager()
         setupTouchManager()
-
+        setupViewTouchManager()
     }
 
     private fun setupAccelerometerManager() {
         val accelerometerManager =
             userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig())
-        accelerometerManager.start()
         accelerometerManager.setEnabled(true).setDebugMode(true).setLoggingEnabled(true)
 
         accelerometerManager.addListener(object : AccelerometerListener {
@@ -89,6 +87,36 @@ class KotlinSampleActivity : AppCompatActivity() {
 
         binding.startTouchButton.setOnClickListener { activityTouchManager.start() }
         binding.stopTouchButton.setOnClickListener { activityTouchManager.stop() }
+    }
+
+    private fun setupViewTouchManager() {
+        val viewTouchManager =
+            userBehaviorCoreSDK.fetchOrCreateViewTouchManager(binding.greenView, TouchConfig());
+
+        viewTouchManager.addListener(object : TouchListener {
+            override fun dispatchTouchEvent(model: MotionEventModel): Boolean {
+                val msg = model.toMessage()
+                Log.d("ActivityTouchManager", msg)
+                binding.touchViewDetails.text = msg
+                return true
+            }
+        })
+
+        viewTouchManager.addErrorListener(object : TouchErrorListener {
+            override fun onError(error: ManagerErrorModel) {
+                val msg = error.toMessage()
+                Log.e("ActivityTouchManager", msg)
+                binding.touchViewDetails.text = msg
+            }
+        })
+
+        binding.startTouchViewButton.setOnClickListener {
+            viewTouchManager.start()
+        }
+        binding.stopTouchViewButton.setOnClickListener {
+            viewTouchManager.stop()
+        }
+
     }
 
 }

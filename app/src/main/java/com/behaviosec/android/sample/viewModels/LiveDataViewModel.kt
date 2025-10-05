@@ -1,22 +1,26 @@
 package com.behaviosec.android.sample.viewModels
 
-import androidx.activity.result.launch
+import android.app.Activity
+import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.AccelerometerResult
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accelerometerResultLiveData
-import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accuracyChangedEvents
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accuracyChangedEventsLiveData
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.errorsLiveData
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.sensorChangedLiveData
+import com.github.adhamkhwaldeh.userBehaviorSDKKtx.touchResultLiveData
 import kotlinx.coroutines.launch
 
 /**
@@ -68,90 +72,61 @@ class LiveDataViewModel(
 
     //#endregion
 
+    //#region Touch Managers
+    private val activityTouchManagerProvider = MutableLiveData<ITouchManager>()
+    val activityTouchResult: LiveData<Result<MotionEventModel>> = activityTouchManagerProvider.switchMap {
+        it.touchResultLiveData()
+    }
+
+    private val viewTouchManagerProvider = MutableLiveData<ITouchManager>()
+    val viewTouchResult: LiveData<Result<MotionEventModel>> = viewTouchManagerProvider.switchMap {
+        it.touchResultLiveData()
+    }
+
+    fun startActivityTouchTracking(activity: Activity) {
+        viewModelScope.launch {
+            val manager = userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(activity)
+            manager.start()
+            activityTouchManagerProvider.postValue(manager)
+        }
+    }
+
+    fun stopActivityTouchTracking() {
+        viewModelScope.launch {
+            activityTouchManagerProvider.value?.stop()
+        }
+    }
+
+    /**
+     * NOTE: A ViewModel should typically not hold a direct reference to a View.
+     * This method is provided for completeness, but it is the caller's responsibility
+     * to call `stopViewTouchTracking` when the view is destroyed to prevent memory leaks.
+     * Consider using the `collectViewTouchEvents` Modifier in Compose for a safer alternative.
+     */
+    fun startViewTouchTracking(view: View) {
+        viewModelScope.launch {
+            val manager = userBehaviorCoreSDK.fetchOrCreateViewTouchManager(view)
+            manager.start()
+            viewTouchManagerProvider.postValue(manager)
+        }
+    }
+
+    fun stopViewTouchTracking() {
+        viewModelScope.launch {
+            viewTouchManagerProvider.value?.stop()
+        }
+    }
+    //#endregion
 
     /**
      * Clean up resources when the ViewModel is destroyed.
      */
     override fun onCleared() {
         super.onCleared()
-        // Ensure the manager is stopped to prevent leaks
+        // Ensure managers are stopped to prevent leaks
         stopTracking()
+        stopActivityTouchTracking()
+        stopViewTouchTracking()
     }
-
-//    private val _lastAccelerometerEvent = MutableLiveData<AccelerometerEventModel>()
-//    val lastAccelerometerEvent: LiveData<AccelerometerEventModel> = _lastAccelerometerEvent
-//
-//    private val _lastAccuracyEvent = MutableLiveData<AccuracyChangedModel>()
-//    val lastAccuracyEvent: LiveData<AccuracyChangedModel> = _lastAccuracyEvent
-//
-//    private val _accelerometerError = MutableLiveData<ManagerErrorModel>()
-//    val accelerometerError: LiveData<ManagerErrorModel> = _accelerometerError
-//
-//
-//    private val _lastMotionEvent = MutableLiveData<MotionEventModel>()
-//    val lastMotionEvent: LiveData<MotionEventModel> = _lastMotionEvent
-//
-//    private val _motionError = MutableLiveData<ManagerErrorModel>()
-//    val motionError: LiveData<ManagerErrorModel> = _motionError
-//
-//    init {
-//        accelerometerManager.addListener(object : AccelerometerListener {
-//            override fun onSensorChanged(model: AccelerometerEventModel) {
-//                super.onSensorChanged(model)
-//                _lastAccelerometerEvent.postValue(model)
-//            }
-//
-//            override fun onAccuracyChanged(model: AccuracyChangedModel) {
-//                super.onAccuracyChanged(model)
-//                _lastAccuracyEvent.postValue(model)
-//            }
-//        })
-//
-//        accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-//            override fun onError(error: ManagerErrorModel) {
-//                _accelerometerError.postValue(error)
-//            }
-//        })
-//
-//        activityTouchManager.addListener(object : TouchListener {
-//            override fun dispatchTouchEvent(event: MotionEventModel): Boolean {
-//                _lastMotionEvent.postValue(event)
-//                return super.dispatchTouchEvent(event)
-//            }
-//        })
-//
-//        activityTouchManager.addErrorListener(object : TouchErrorListener {
-//            override fun onError(error: ManagerErrorModel) {
-//                _motionError.postValue(error)
-//            }
-//        })
-//    }
-//
-//    /**
-//     * Start tracking
-//     *
-//     */
-//    fun startTracking() {
-//        viewModelScope.launch {
-//            accelerometerManager.start()
-//            activityTouchManager.setEnabled(true)
-//        }
-//    }
-//
-//    /**
-//     * Stop tracking
-//     *
-//     */
-//    fun stopTracking() {
-//        viewModelScope.launch {
-//            accelerometerManager.stop()
-//            activityTouchManager.setEnabled(false)
-//        }
-//    }
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        stopTracking()
-//    }
 
 }

@@ -24,7 +24,6 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel;
 
 import org.koin.java.KoinJavaComponent;
 
-
 public class JavaSampleActivity extends AppCompatActivity {
 
     @Override
