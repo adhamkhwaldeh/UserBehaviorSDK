@@ -1,198 +1,140 @@
-# Module UserBehaviorSDK
-
-# Integration Guide: [UserBehaviorSDK]
-
-## Table of Contents
-1. [Introduction]
-2. [Prerequisites]
-3. [Setup Instructions]
-   1. [Step 1: Install Dependencies]
-   2. [Step 2: Configure the Integration]
-   3. [Step 3: Test the Integration]
-4. [Demo]
-5. [Authentication]
-6. [API Reference]
-7. [Testing Recommendations]
-8. [Securing the Application with ProGuard/R8 Rules]
-9. [Documentation Generation]
-10. [Code Conventions]
-11. [Areas for Enhancement]
-12. [Common Errors & Troubleshooting]
-13. [FAQs]
-14. [Support]
-
-
----
-
-## Introduction
-
-This guide provides step-by-step instructions for integrating [UserBehaviorSDK] into your project.
-Follow the instructions to quickly get started and connect your system with [UserBehaviorSDK].
-
----
-
-## Prerequisites
-Before you begin the integration process, make sure you have the following:
-- Access to your [system’s] configuration settings
-- In future will add A ApiKey service from [UserBehaviorSDK]
-
-
-## Setup Instructions
-
-### Step 1: Install Dependencies
-Start by installing the required dependencies to your project.
-Use one of the following commands based on your package manager.
-use Gradle:
-
-       repositories {
-           google()
-           mavenCentral()
-       }
-       
-       dependencies {
-          implementation 'com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorSDK:latest'
-       }
-
-### Step 2: Configure the Integration
-
-Next, you’ll need to configure your integration settings.
-Add the following details in your application class .
-AccelerometerTouchTrackerCore.initialize()
-**We will add "UserBehaviorSDK api key" in the forthcoming releases **
-
-### Step 3: Test the Integration
-
-#### Use Managers with related callback interfaces
-        AccelerometerManager with AccelerometerListener and  errorListener
-        ActivityTouchManager with ActivityTouchListener and  errorListener
-        AppTouchManager with AppTouchListener and  errorListener
-
-#### Use TouchSensorViewModel to observe the data
-        val touchSensorViewModel = ViewModelProvider(this).get(TouchSensorViewModel::class.java)
-        touchSensorViewModel.lastAccelerometerEvent.observe(this) { events ->
-            // Handle Accelerometer
-        }
-        touchSensorViewModel.lastAccuracyEvent.observe(this) { events ->
-            // Handle Accuracy
-        }
-        touchSensorViewModel.accelerometerError.observe(this) { error ->
-            // Handle errors
-        }
-        touchSensorViewModel.lastMotionEvent.observe(this) { events ->
-            // Handle Touch Events
-        }
-        touchSensorViewModel.motionError.observe(this) { error ->
-             // Handle errors
-        }
-
-## Configuration Object
-
-You can configure the SDK using `TouchTrackerConfig`:
-
-```kotlin
-import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchTrackerConfig
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.LogLevel
-
-val config = TouchTrackerConfig()
-config.setLoggingEnabled(true)
-config.setLogLevel(LogLevel.DEBUG)
- 
-
-val accelerometerManager = AccelerometerManager(context, config)
-val activityTouchManager = ActivityTouchManager(activity, config)
+# Module: UserBehaviorSDK
+    }
+}
 ```
 
+Coroutine / Flow usage example (in Compose or Activity):
+
+This guide shows how to integrate and use the UserBehavior SDK that is included in this repository. It reflects the public APIs and sample code used in the project (for example `UserBehaviorCoreSDK`, manager APIs like `getAccelerometerManager(...)`, `fetchOrCreateActivityTouchManager(...)`, the Compose provider `ProvideUserBehaviorSDK`, and the sample ViewModels `LiveDataViewModel` and `CoroutineViewModel`).
+
+- Project structure pointers:
+class ComposeSampleActivity : ComponentActivity() {
+    private val sdk: UserBehaviorCoreSDK by lazy { get() }
+  - Sample app: `app/` (contains sample activities and ViewModels)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ProvideUserBehaviorSDK(sdk) {
+                ComposeSampleScreen()
+            }
+        }
+    }
+}
+3. Initialize the SDK (Application + Koin)
+@Composable
+fun ComposeSampleScreen() {
+    val sdk = LocalUserBehaviorCoreSDK.current
+    // build UI and interact with sdk
+}
+6. Compose integration (ProvideUserBehaviorSDK)
+7. Sample usage in Activities (LiveData & Compose)
+The sample `ComposeSampleScreen` mirrors the XML sample layout (`activity_xml_sample.xml`) and demonstrates how to start/stop managers and show sensor data.
+---
+## 7. Sample usage patterns
+## 1. Prerequisites
+- Start a manager and add listeners:
+- Android project with Kotlin support.
+```kotlin
+val accel = sdk.getAccelerometerManager(AccelerometerConfig())
+accel.addListener(object : AccelerometerListener {
+    override fun onSensorChanged(m: AccelerometerEventModel) { /* handle */ }
+    override fun onAccuracyChanged(m: AccuracyChangedModel) { /* handle */ }
+})
+accel.start()
+```
+- AndroidX / Jetpack components for ViewModel / LiveData and Compose if you use Compose.
+- Activity-scoped touch manager:
+
+```kotlin
+val touchMgr = sdk.fetchOrCreateActivityTouchManager(activity, TouchConfig())
+touchMgr.addListener(object : TouchListener { override fun dispatchTouchEvent(e) = true })
+touchMgr.start()
+```
+In a consumer project (example coordinates):
+- Stop and cleanup when not needed:
+```gradle
+```kotlin
+accel.stop()
+touchMgr.stop()
+```
+    // Compose provider module if published separately
+## 8. ProGuard / R8 rules
+In this repository you can include the `UserBehaviorSDK` and `UserBehaviorSDK-Compose` modules in settings.gradle to use them locally.
+To prevent obfuscation issues for SDK consumers, add rules similar to the following:
+Example `Application` setup (Koin):
+```proguard
+# Keep SDK API surface
+-keep class com.github.adhamkhwaldeh.userBehaviorSDK.** { *; }
+```
+```
+Also ensure your app keeps ViewModel and other AndroidX classes as required by your tooling.
 This allows you to customize logging, and other behaviors.
-Currently I have Added a local Logger but in real project we can use services like firebase crash report.
+## 9. Testing & recommendations
 
-## Demo
+- Add unit tests for managers and ViewModels. Use `MockK` or `Mockito` to stub Android dependencies.
+- Add instrumentation tests to validate lifecycle-aware behavior with real sensors (or mocked sensors).
+- Consider adding CI checks (detekt, ktlint, unit tests) as in the repository.
 
-### Screenshots
-
-- **Dashboard View**
-
-| !["](./Docs/Screenshot_20250610_023950.png) | !["](./Docs/Screenshot_20250610_024108.png) | !["](./Docs/Screenshot_20250610_024149.png) |
-|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
-
-## Authorization
-So far no authentication is required for the SDK. In future releases, we will add an API key service to enhance security.
-
-## Testing Recommendations
-
-To further improve your SDK's reliability, add more **Unit Tests** and **Instrumentation Tests**:
-
-### Unit Tests
-- Cover all public methods in managers, listeners, models, and utility classes.
+---
 - Use mocking frameworks (e.g., Mockito, MockK) for Android dependencies.
-- Test error handling, and configuration logic.
+If you'd like, I can also:
+- Add usage snippets for Timber / Logger integration used in the samples.
+- Create a short README for the sample app describing how to run it.
+- Add example Koin module code into `app/` for easier copy-paste.
 - Validate logger and metrics integration.
-- Ensure ViewModel logic and LiveData updates are tested.
+Tell me which of the above you want next and I'll implement it.
+    }
+}
 
-**Example Unit Test Files:**
-- `src/test/java/com/behaviosec/android/UserBehaviorSDK/managers/AccelerometerManagerTest.kt`
-- `src/test/java/com/behaviosec/android/UserBehaviorSDK/managers/ActivityTouchManagerTest.kt`
-- `src/test/java/com/behaviosec/android/UserBehaviorSDK/viewmodel/TouchSensorViewModelTest.kt`
+val appModule = module {
+    single { UserBehaviorCoreSDK.getInstance(androidContext()) }
+    // If you have configuration class, provide it here as well
+}
+```
 
-### Instrumentation Tests
-- Test integration with Android components (Activity, Service, etc.).
-- Simulate real touch and sensor events on device/emulator.
-- Verify lifecycle-aware behavior (start/stop tracking).
-- Validate LiveData and UI updates in real scenarios.
+Notes:
+- `UserBehaviorCoreSDK.getInstance(context)` is a sample factory used in the sample app. Replace with the actual factory from the SDK.
+- The sample app registers `SampleApp` in `AndroidManifest.xml`.
 
-**Example Instrumentation Test Files:**
-- `src/androidTest/java/com/behaviosec/android/UserBehaviorSDK/AccelerometerIntegrationTest.kt`
-- `src/androidTest/java/com/behaviosec/android/UserBehaviorSDK/TouchEventIntegrationTest.kt`
+## 4. Managers and configuration objects
 
-> **Tip:**  
-> Place unit tests in `src/test/java` and instrumentation tests in `src/androidTest/java` under the appropriate package.
+The SDK exposes manager factories and configuration classes. The samples use these APIs:
 
-Add tests for any new features or bug fixes to maintain high coverage and confidence in your SDK.
+- Configuration objects
+  - `AccelerometerConfig`
+  - `TouchConfig`
 
-## Securing the Application with ProGuard/R8 Rules
+- Manager accessors (examples)
+  - `userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig()) : IAccelerometerManager`
+  - `userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(activity, TouchConfig()) : ITouchManager`
+  - `userBehaviorCoreSDK.createTouchManager(TouchConfig()) : ITouchManager` (context/global manager)
 
-To secure your application and SDK with ProGuard or R8:
+- Manager common methods
+  - `.start()`, `.stop()`, `.setEnabled(...)`, `.setDebugMode(...)`, `.setLoggingEnabled(...)`
+  - `.addListener(listener)` — add an event listener (callbacks) for sensor or touch events
+  - `.addErrorListener(listener)` — add manager error listener
 
-- **Enable minification and obfuscation** in your `build.gradle`:
-  ```groovy
-  buildTypes {
-      release {
-          minifyEnabled true
-          proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      }
-  }
-  ```
+- Example callback interfaces (implement these to receive events)
+  - `AccelerometerListener` — `onSensorChanged(AccelerometerEventModel)`, `onAccuracyChanged(AccuracyChangedModel)`
+  - `TouchListener` — `dispatchTouchEvent(MotionEventModel) : Boolean`
+  - Error listeners that receive `BaseUserBehaviorException`
 
-- **Add these rules to your `proguard-rules.pro` file:**
-  ```proguard
-  # Keep SDK API surface
-  -keep class com.github.adhamkhwaldeh.userBehaviorSDK.** { *; }
-  ```
-## Documentation Generation
+The sample project provides convenience extension functions for LiveData and Flow in `userBehaviorSDKKtx` (used by the sample ViewModels):
+- `sensorChangedLiveData()` / `sensorChangedFlow` etc. (see `LiveDataViewModel` / `CoroutineViewModel`)
 
-The SDK uses **KDoc** for inline documentation of all public classes, methods, and properties.  
-Documentation is automatically generated using [Dokka](https://github.com/Kotlin/dokka).
+## 5. ViewModels (LiveData and Flow examples)
 
-### How to Generate Documentation
+This repo includes two sample ViewModels that show two common integration styles:
 
-1. **Write KDoc Comments:**  
-   All public APIs are documented using KDoc.  
-   Example:
-   ```kotlin
-   /**
-    * Starts tracking accelerometer events.
-    * @param config The configuration object.
-    */
-   fun startTracking(config: TouchTrackerConfig){}
-   ```
+- `LiveDataViewModel` — exposes LiveData properties which are backed by the SDK LiveData extensions. Use this when your UI prefers LiveData.
+- `CoroutineViewModel` — exposes StateFlow properties and collects SDK Flows. Use this when you want to use Kotlin Flow / Compose.
 
-2. **Generate HTML Documentation with Dokka:**  
-   Run the following Gradle command from the project root:
-   ```
-   ./gradlew :UserBehaviorSDK:dokkaGeneratePublicationHtml
-   ```
-   The generated documentation will be available in the `build/dokka/html` directory.
+LiveData usage example (in an Activity):
 
-3. **Custom Guides:**  
+```kotlin
+class LiveDataSampleActivity : AppCompatActivity() {
+    private val viewModel by lazy { LiveDataViewModel(get()) } // Koin get()
+
    You can add Markdown files (e.g., `IntegrationGuide.md`) to be included in the generated documentation.
 
 > Keeping your KDoc up to date ensures that the generated documentation is always accurate and helpful for SDK consumers.

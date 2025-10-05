@@ -2,6 +2,7 @@ package com.github.adhamkhwaldeh.userBehaviorSDKKtx
 
 
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
@@ -14,7 +15,6 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.managers.sensors.ISensorsManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorAccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorEventModel
@@ -43,9 +43,9 @@ fun ITouchManager.touchEvents(): Flow<MotionEventModel> = callbackFlow {
 /**
  * Creates a Flow that emits errors from a `ITouchManager`.
  */
-fun ITouchManager.errors(): Flow<ManagerErrorModel> = callbackFlow {
+fun ITouchManager.errors(): Flow<BaseUserBehaviorException> = callbackFlow {
     val listener = object : TouchErrorListener {
-        override fun onError(error: ManagerErrorModel) {
+        override fun onError(error: BaseUserBehaviorException) {
             trySend(error)
         }
     }
@@ -90,9 +90,9 @@ fun IAccelerometerManager.accuracyChangedEvents(): Flow<AccuracyChangedModel> = 
 /**
  * Creates a Flow that emits errors from a `IAccelerometerManager`.
  */
-fun IAccelerometerManager.errors(): Flow<ManagerErrorModel> = callbackFlow {
+fun IAccelerometerManager.errors(): Flow<BaseUserBehaviorException> = callbackFlow {
     val listener = object : AccelerometerErrorListener {
-        override fun onError(error: ManagerErrorModel) {
+        override fun onError(error: BaseUserBehaviorException) {
             trySend(error)
         }
     }
@@ -134,9 +134,9 @@ fun ISensorsManager.accuracyChangedEvents(): Flow<SensorAccuracyChangedModel> = 
 /**
  * Creates a Flow that emits errors from a `ISensorsManager`.
  */
-fun ISensorsManager.errors(): Flow<ManagerErrorModel> = callbackFlow {
+fun ISensorsManager.errors(): Flow<BaseUserBehaviorException> = callbackFlow {
     val listener = object : SensorErrorListener {
-        override fun onError(error: ManagerErrorModel) {
+        override fun onError(error: BaseUserBehaviorException) {
             trySend(error)
         }
     }
@@ -152,9 +152,9 @@ fun ISensorsManager.errors(): Flow<ManagerErrorModel> = callbackFlow {
 /**
  * Creates a Flow that emits all errors from any manager within the SDK.
  */
-fun UserBehaviorCoreSDK.globalErrors(): Flow<ManagerErrorModel> = callbackFlow {
+fun UserBehaviorCoreSDK.globalErrors(): Flow<BaseUserBehaviorException> = callbackFlow {
     val listener = object : IErrorListener {
-        override fun onError(error: ManagerErrorModel) {
+        override fun onError(error: BaseUserBehaviorException) {
             trySend(error)
         }
     }

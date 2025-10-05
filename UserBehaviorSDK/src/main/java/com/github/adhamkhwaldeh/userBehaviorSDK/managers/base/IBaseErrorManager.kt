@@ -1,7 +1,7 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.managers.base
 
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.IErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 
 interface IBaseErrorManager<T> where T : IErrorListener {
 
@@ -25,8 +25,6 @@ interface IBaseErrorManager<T> where T : IErrorListener {
      */
     fun clearErrorListeners()
 
-    fun notifyErrorListeners(error: ManagerErrorModel)
-
-    fun notifyErrorListeners(e: Exception)
+    fun notifyErrorListeners(error: BaseUserBehaviorException)
 
 }

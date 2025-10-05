@@ -7,6 +7,8 @@ import android.view.View
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.SensorConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.UserBehaviorSDKConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.ICallbackListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
@@ -27,7 +29,6 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.managers.sensors.SensorsManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerAccelerometerKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerActivityKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerApplicationKey
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerSensorKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerTouchKey
@@ -56,13 +57,32 @@ import java.util.concurrent.CopyOnWriteArrayList
  * sdk.addGlobalErrorListener(myErrorListener)
  */
 
-class UserBehaviorCoreSDK private constructor(context: Context) {
+class UserBehaviorCoreSDK private constructor(
+    val context: Context,
+    var sdkConfig: UserBehaviorSDKConfig
+) {
+
     /**
      * Builder for creating and configuring a `UserBehaviorCoreSDK` instance.
      * @param context The application context.
      */
     class Builder(private val context: Context) {
+
+        private var sdkConfig = UserBehaviorSDKConfig.Builder().build()
+
         private val customLoggers = mutableListOf<ILogger>()
+
+        /**
+         * Applies a custom configuration to the SDK. If not called, a default
+         * configuration will be used.
+         *
+         * @param config The [UserBehaviorSDKConfig] instance.
+         * @return The Builder instance for chaining.
+         */
+        fun withConfig(config: UserBehaviorSDKConfig): Builder {
+            this.sdkConfig = config
+            return this
+        }
 
         /**
          * Adds a custom logger implementation. Multiple loggers can be added.
@@ -82,7 +102,7 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
          * @return A new instance of UserBehaviorCoreSDK.
          */
         fun build(): UserBehaviorCoreSDK {
-            val sdk = UserBehaviorCoreSDK(context)
+            val sdk = UserBehaviorCoreSDK(context, sdkConfig)
             // Configure the global logger based on the builder settings.
             if (customLoggers.isNotEmpty()) {
                 sdk.logger.clearLoggers()
@@ -91,8 +111,6 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
             return sdk
         }
     }
-
-    private val appContext: Context = context.applicationContext
 
     // Using a WeakHashMap allows garbage collection of the Activity/View keys when they are destroyed,
     // preventing memory leaks.
@@ -109,7 +127,12 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
     }
 
     private val accelerometerManager by lazy {
-        AccelerometerManager.create(appContext, HelpersRepository(), logger = logger)
+        AccelerometerManager.create(
+            context.applicationContext,
+            HelpersRepository(),
+            logger = logger,
+            config = AccelerometerConfig.Builder().fromConfig(sdkConfig).build()
+        )
     }
 
     init {
@@ -117,7 +140,7 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
 
         // Add a forwarding listener to pass errors to the global listeners
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 globalErrorListeners.forEach { it.onError(error) }
             }
         })
@@ -211,6 +234,29 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
     fun removeGlobalSensorListener(listener: SensorListener) {
         globalSensorsListeners.remove(listener)
     }
+
+    /**
+     * Overrides the current SDK configuration and propagates the common settings
+     * to all active managers. This allows for runtime changes to settings like
+     * logging and debug modes.
+     *
+     * @param newConfig The new [UserBehaviorSDKConfig] to apply.
+     */
+    fun updateSDKConfig(newConfig: UserBehaviorSDKConfig) {
+        this.sdkConfig = newConfig
+
+        logger.i("updateSDKConfig", "SDK config updated. Propagating to all managers.", sdkConfig)
+
+        // Iterate through a copy of the keys to avoid concurrent modification issues
+        behaviorManagers.keys.toList().forEach { key ->
+            val manager = behaviorManagers[key]
+            if (manager != null && manager.canOverride()) {
+                manager.updateDefaultConfig(newConfig)
+            }
+        }
+
+    }
+
     //#endregion
 
     //#region Touch Managers
@@ -230,16 +276,14 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
             return readManager
         }
 
-        val manager = TouchManager.Builder(logger)
-            .forManagerKey(managerTouchKey).apply {
-                if (config != null) {
-                    withConfig(config)
-                }
-            }
+        val manager = TouchManager.Builder(
+            logger = logger,
+            config = config ?: TouchConfig.Builder().fromConfig(sdkConfig).build()
+        ).forManagerKey(managerTouchKey)
             .build()
         // Add a forwarding listener to pass errors to the global listeners
         manager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 globalErrorListeners.forEach { it.onError(error) }
             }
         })
@@ -326,15 +370,16 @@ class UserBehaviorCoreSDK private constructor(context: Context) {
 
         val manager =
             SensorsManager.create(
-                context = appContext,
+                context = context,
                 helpersRepository = HelpersRepository(),
                 sensorType = managerSensorKey.sensorType,
-                logger = logger
+                logger = logger,
+                config = config ?: SensorConfig.Builder().fromConfig(sdkConfig).build()
             )
 
         // Add a forwarding listener to pass errors to the global listeners
         manager.addErrorListener(object : SensorErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 globalErrorListeners.forEach { it.onError(error) }
             }
         })

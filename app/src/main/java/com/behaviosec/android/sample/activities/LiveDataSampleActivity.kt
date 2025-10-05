@@ -11,13 +11,14 @@ import com.behaviosec.android.sample.helpers.toMessage
 import com.behaviosec.android.sample.viewModels.LiveDataViewModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
+
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.AccelerometerResult
 import org.koin.android.ext.android.get
@@ -56,7 +57,7 @@ class LiveDataSampleActivity : AppCompatActivity() {
                     }
                 }
             }, onFailure = { error ->
-                val msg = ManagerErrorModel.fromException(error).toMessage()
+                val msg = BaseUserBehaviorException.fromException(error).toMessage()
                 Log.e("AccelerometerManager", msg)
             })
         })
@@ -89,7 +90,7 @@ class LiveDataSampleActivity : AppCompatActivity() {
                 val msg = res.toMessage()
                 binding.touchDetails.text = msg
             }, onFailure = { error ->
-                val msg = ManagerErrorModel.fromException(error).toMessage()
+                val msg = BaseUserBehaviorException.fromException(error).toMessage()
                 Log.e("ActivityTouchManager", msg)
             })
         })
@@ -110,7 +111,7 @@ class LiveDataSampleActivity : AppCompatActivity() {
                 Log.d("ActivityTouchManager", msg)
                 binding.touchViewDetails.text = msg
             }, onFailure = { error ->
-                val msg = ManagerErrorModel.fromException(error).toMessage()
+                val msg = BaseUserBehaviorException.fromException(error).toMessage()
                 Log.e("ViewTouchManager", msg)
             })
         })

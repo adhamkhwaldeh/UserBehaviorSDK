@@ -9,11 +9,11 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.AccelerometerResult
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accelerometerResultLiveData
@@ -34,7 +34,7 @@ class LiveDataViewModel(
 
     //#region Accelerometer
     private val accelerometerManager: IAccelerometerManager =
-        userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig())
+        userBehaviorCoreSDK.getAccelerometerManager()
 
     val lastAccelerometerEvent: LiveData<AccelerometerEventModel> =
         accelerometerManager.sensorChangedLiveData()
@@ -42,7 +42,7 @@ class LiveDataViewModel(
     val lastAccuracyEvent: LiveData<AccuracyChangedModel> =
         accelerometerManager.accuracyChangedEventsLiveData()
 
-    val accelerometerError: LiveData<ManagerErrorModel> =
+    val accelerometerError: LiveData<BaseUserBehaviorException> =
         accelerometerManager.errorsLiveData()
 
     val accelerometerResult: LiveData<Result<AccelerometerResult>> =
@@ -74,9 +74,10 @@ class LiveDataViewModel(
 
     //#region Touch Managers
     private val activityTouchManagerProvider = MutableLiveData<ITouchManager>()
-    val activityTouchResult: LiveData<Result<MotionEventModel>> = activityTouchManagerProvider.switchMap {
-        it.touchResultLiveData()
-    }
+    val activityTouchResult: LiveData<Result<MotionEventModel>> =
+        activityTouchManagerProvider.switchMap {
+            it.touchResultLiveData()
+        }
 
     private val viewTouchManagerProvider = MutableLiveData<ITouchManager>()
     val viewTouchResult: LiveData<Result<MotionEventModel>> = viewTouchManagerProvider.switchMap {

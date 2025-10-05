@@ -8,13 +8,13 @@ import com.behaviosec.android.sample.helpers.toMessage
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import org.koin.android.ext.android.get
 
@@ -59,7 +59,7 @@ class SdkActionsActivity : AppCompatActivity() {
 
     private fun setupAccelerometerManager() {
         val accelerometerManager =
-            userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig())
+            userBehaviorCoreSDK.getAccelerometerManager()
         accelerometerManager.setDebugMode(true).setLoggingEnabled(true)
 
         accelerometerManager.addListener(object : AccelerometerListener {
@@ -73,7 +73,7 @@ class SdkActionsActivity : AppCompatActivity() {
         })
 
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 Log.e("SDK_ACTIONS", "Accelerometer Error: ${error.message}")
             }
         })
@@ -89,7 +89,7 @@ class SdkActionsActivity : AppCompatActivity() {
 
     private fun setupTouchManager() {
         val activityTouchManager =
-            userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(this, TouchConfig())
+            userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(this)
 
         activityTouchManager.addListener(object : TouchListener {
             override fun dispatchTouchEvent(event: MotionEventModel): Boolean {
@@ -99,7 +99,7 @@ class SdkActionsActivity : AppCompatActivity() {
         })
 
         activityTouchManager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 Log.e("SDK_ACTIONS", "Touch Error: ${error.message}")
             }
         })
@@ -116,12 +116,11 @@ class SdkActionsActivity : AppCompatActivity() {
         val viewTouchManager =
             userBehaviorCoreSDK.fetchOrCreateViewTouchManager(
                 binding.defaultXmlLayout.greenView,
-                TouchConfig()
-            );
+            )
 
         viewTouchManager.addListener(object : TouchListener {
-            override fun dispatchTouchEvent(model: MotionEventModel): Boolean {
-                val msg = model.toMessage()
+            override fun dispatchTouchEvent(event: MotionEventModel): Boolean {
+                val msg = event.toMessage()
                 Log.d("ActivityTouchManager", msg)
                 binding.defaultXmlLayout.touchViewDetails.text = msg
                 return true
@@ -129,7 +128,7 @@ class SdkActionsActivity : AppCompatActivity() {
         })
 
         viewTouchManager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 val msg = error.toMessage()
                 Log.e("ActivityTouchManager", msg)
             }

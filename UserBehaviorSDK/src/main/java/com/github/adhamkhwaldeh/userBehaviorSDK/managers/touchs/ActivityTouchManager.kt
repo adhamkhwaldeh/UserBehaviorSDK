@@ -18,6 +18,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.R
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.DetectTouchException
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 
 /**
@@ -31,7 +32,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 internal class ActivityTouchManager private constructor(
     val activity: Activity,
     logger: Logger,
-    config: TouchConfig = TouchConfig(),
+    config: TouchConfig,
 ) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
 
     companion object {
@@ -39,7 +40,7 @@ internal class ActivityTouchManager private constructor(
         internal fun create(
             activity: Activity,
             logger: Logger,
-            config: TouchConfig = TouchConfig(),
+            config: TouchConfig,
         ): ActivityTouchManager = ActivityTouchManager(
             activity = activity,
             config = config,
@@ -69,7 +70,7 @@ internal class ActivityTouchManager private constructor(
                     try {
                         continueBase = continueBase && listener.dispatchTouchEvent(model)
                     } catch (e: Exception) {
-                        notifyErrorListeners(e)
+                        notifyErrorListeners(DetectTouchException(message = e.message, cause = e))
                     }
                 }
                 return if (continueBase) {

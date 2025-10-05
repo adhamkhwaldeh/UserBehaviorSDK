@@ -5,11 +5,11 @@ import android.app.Application
 import android.os.Bundle
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToCreateActivityManagerException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 
 /**
  * App touch manager
@@ -20,7 +20,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 internal class ApplicationTouchManager private constructor(
     private val application: Application,
     logger: Logger,
-    config: TouchConfig = TouchConfig()
+    config: TouchConfig,
 ) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
 
     companion object {
@@ -28,7 +28,7 @@ internal class ApplicationTouchManager private constructor(
         internal fun create(
             application: Application,
             logger: Logger,
-            config: TouchConfig = TouchConfig(),
+            config: TouchConfig,
         ): ApplicationTouchManager = ApplicationTouchManager(
             application = application,
             logger = logger,
@@ -46,7 +46,7 @@ internal class ApplicationTouchManager private constructor(
     private val lifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             try {
-                val activityTouchManager = ActivityTouchManager.create(activity, logger)
+                val activityTouchManager = ActivityTouchManager.create(activity, logger, config)
                 // Add all global listeners to the new manager
                 listeners.forEach { activityTouchManager.addListener(it) }
                 synchronized(activityManagersLock) {
@@ -63,12 +63,12 @@ internal class ApplicationTouchManager private constructor(
             } catch (e: Exception) {
                 errorListeners.forEach { listener ->
                     listener.onError(
-                        ManagerErrorModel(
-                            e,
-                            application.getString(
+                        FailToCreateActivityManagerException(
+                            message = application.getString(
                                 R.string.failed_to_create_activity_touch_manager,
                                 e.message ?: ""
-                            )
+                            ),
+                            cause = e,
                         )
                     )
                 }
@@ -101,12 +101,12 @@ internal class ApplicationTouchManager private constructor(
             } catch (e: Exception) {
                 errorListeners.forEach { listener ->
                     listener.onError(
-                        ManagerErrorModel(
-                            e,
-                            application.getString(
-                                R.string.failed_to_remove_activity_touch_manager,
+                        FailToCreateActivityManagerException(
+                            message = application.getString(
+                                R.string.failed_to_create_activity_touch_manager,
                                 e.message ?: ""
                             ),
+                            cause = e,
                         )
                     )
                 }

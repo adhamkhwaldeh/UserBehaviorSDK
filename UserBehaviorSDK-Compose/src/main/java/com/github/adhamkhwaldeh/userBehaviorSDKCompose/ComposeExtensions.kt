@@ -52,10 +52,13 @@ fun rememberActivityTouchManager(): ITouchManager {
  *
  * This function retrieves the SDK instance from `LocalUserBehaviorCoreSDK`.
  *
+ * @param enabled A boolean to enable or disable the touch event collection. When `false`, the
+ * underlying manager will be stopped.
  * @param onEvent A callback that will be invoked with a `Result` for each touch event or error.
  * @return A `Modifier` instance.
  */
 fun Modifier.collectViewTouchEvents(
+    enabled: Boolean = true, // Add the 'enabled' parameter with a default value
     onEvent: (Result<MotionEventModel>) -> Unit
 ): Modifier =
     composed {
@@ -63,46 +66,32 @@ fun Modifier.collectViewTouchEvents(
         val sdk = LocalUserBehaviorCoreSDK.current
         val manager = remember(view) { sdk.fetchOrCreateViewTouchManager(view) }
 
-        // Manage the lifecycle of the manager
-        DisposableEffect(manager) {
-            manager.start()
+        // Manage the lifecycle of the manager based on the 'enabled' flag
+        DisposableEffect(manager, enabled) {
+            if (enabled) {
+                manager.start()
+            } else {
+                manager.stop()
+            }
             onDispose {
+                // Ensure the manager is stopped when the composable leaves the screen,
+                // regardless of the 'enabled' state.
                 manager.stop()
             }
         }
 
-        // Collect the flow of events
+        // Collect the flow of events only when enabled
+//        if (enabled) {
         LaunchedEffect(manager) {
             manager.touchResultFlow().collect { result ->
                 onEvent(result)
             }
         }
+//        }
 
         this
     }
 
-
-/**
- * A Composable function that remembers an `IAccelerometerManager` instance and binds its lifecycle
- * to the current composition.
- *
- * This function retrieves the SDK instance from `LocalUserBehaviorCoreSDK`.
- *
- * @return A remembered instance of `IAccelerometerManager`.
- */
-@Composable
-fun rememberSensorManager(sensorType: ManagerSensorKey): ISensorsManager {
-    val sdk = LocalUserBehaviorCoreSDK.current
-    val manager = remember { sdk.fetchOrCreateSensorManager(sensorType) }
-
-    DisposableEffect(manager) {
-        manager.start()
-        onDispose {
-            manager.stop()
-        }
-    }
-    return manager
-}
 
 /**
  * A Composable function that remembers an `IAccelerometerManager` instance and binds its lifecycle
@@ -126,4 +115,26 @@ fun rememberAccelerometerManager(): IAccelerometerManager {
     return manager
 }
 
+
+/**
+ * A Composable function that remembers an `IAccelerometerManager` instance and binds its lifecycle
+ * to the current composition.
+ *
+ * This function retrieves the SDK instance from `LocalUserBehaviorCoreSDK`.
+ *
+ * @return A remembered instance of `IAccelerometerManager`.
+ */
+@Composable
+fun rememberSensorManager(sensorType: ManagerSensorKey): ISensorsManager {
+    val sdk = LocalUserBehaviorCoreSDK.current
+    val manager = remember { sdk.fetchOrCreateSensorManager(sensorType) }
+
+    DisposableEffect(manager) {
+        manager.start()
+        onDispose {
+            manager.stop()
+        }
+    }
+    return manager
+}
 

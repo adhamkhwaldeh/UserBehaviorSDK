@@ -1,8 +1,8 @@
 package com.behaviosec.android.sample.helpers
 
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorEventModel
 
@@ -25,7 +25,7 @@ fun AccuracyChangedModel.toMessage(): String {
     return "Accuracy changed: " + accuracy + " at " + date
 }
 
-fun ManagerErrorModel.toMessage(): String {
+fun BaseUserBehaviorException.toMessage(): String {
     return "Error: " + this.message
 }
 

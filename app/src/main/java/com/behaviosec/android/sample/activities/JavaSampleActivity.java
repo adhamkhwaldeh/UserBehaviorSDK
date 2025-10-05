@@ -11,6 +11,7 @@ import com.behaviosec.android.sample.helpers.Helper;
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK;
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig;
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig;
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener;
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener;
@@ -19,7 +20,6 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelero
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel;
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel;
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel;
 
 import org.koin.java.KoinJavaComponent;
@@ -36,7 +36,7 @@ public class JavaSampleActivity extends AppCompatActivity {
         UserBehaviorCoreSDK userBehaviorCoreSDK = KoinJavaComponent.get(UserBehaviorCoreSDK.class);
 
         //#region AccelerometerManager
-        IAccelerometerManager accelerometerManager = userBehaviorCoreSDK.getAccelerometerManager(new AccelerometerConfig());
+        IAccelerometerManager accelerometerManager = userBehaviorCoreSDK.getAccelerometerManager();
         accelerometerManager.setEnabled(true).setDebugMode(true).setLoggingEnabled(true);
 
         accelerometerManager.addListener(new AccelerometerListener() {
@@ -54,7 +54,7 @@ public class JavaSampleActivity extends AppCompatActivity {
 
         accelerometerManager.addErrorListener(new AccelerometerErrorListener() {
             @Override
-            public void onError(@NonNull ManagerErrorModel error) {
+            public void onError(@NonNull BaseUserBehaviorException error) {
                 var msg = Helper.INSTANCE.managerErrorMessage(error);
                 Log.e("AccelerometerManager", msg);
                 binding.accelerometerAccuracy.setText(msg);
@@ -73,7 +73,7 @@ public class JavaSampleActivity extends AppCompatActivity {
 
         //#region ActivityTouchManager
 
-        ITouchManager activityTouchManager = userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(this, new TouchConfig());
+        ITouchManager activityTouchManager = userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(this);
 
         activityTouchManager.addListener(new TouchListener() {
             @Override
@@ -87,7 +87,7 @@ public class JavaSampleActivity extends AppCompatActivity {
 
         activityTouchManager.addErrorListener(new TouchErrorListener() {
             @Override
-            public void onError(@NonNull ManagerErrorModel error) {
+            public void onError(@NonNull BaseUserBehaviorException error) {
                 var msg = Helper.INSTANCE.managerErrorMessage(error);
                 Log.e("ActivityTouchManager", msg);
                 binding.touchDetails.setText(msg);
@@ -106,7 +106,7 @@ public class JavaSampleActivity extends AppCompatActivity {
 
         //#region ViewTouchManager
 
-        ITouchManager viewTouchManager = userBehaviorCoreSDK.fetchOrCreateViewTouchManager(binding.greenView, new TouchConfig());
+        ITouchManager viewTouchManager = userBehaviorCoreSDK.fetchOrCreateViewTouchManager(binding.greenView);
 
         viewTouchManager.addListener(new TouchListener() {
             @Override
@@ -120,7 +120,7 @@ public class JavaSampleActivity extends AppCompatActivity {
 
         viewTouchManager.addErrorListener(new TouchErrorListener() {
             @Override
-            public void onError(@NonNull ManagerErrorModel error) {
+            public void onError(@NonNull BaseUserBehaviorException error) {
                 var msg = Helper.INSTANCE.managerErrorMessage(error);
                 Log.e("ActivityTouchManager", msg);
                 binding.touchViewDetails.setText(msg);

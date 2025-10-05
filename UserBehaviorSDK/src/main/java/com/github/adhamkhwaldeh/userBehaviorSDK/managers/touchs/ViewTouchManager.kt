@@ -3,6 +3,7 @@ package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 import android.view.MotionEvent
 import android.view.View
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.DetectTouchException
 import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
@@ -37,7 +38,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 internal class ViewTouchManager private constructor(
     private val targetView: View,
     logger: Logger,
-    config: TouchConfig = TouchConfig(),
+    config: TouchConfig,
 ) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
 
     companion object {
@@ -45,7 +46,7 @@ internal class ViewTouchManager private constructor(
         internal fun create(
             targetView: View,
             logger: Logger,
-            config: TouchConfig = TouchConfig(),
+            config: TouchConfig,
         ): ViewTouchManager = ViewTouchManager(
             targetView = targetView,
             config = config,
@@ -75,7 +76,7 @@ internal class ViewTouchManager private constructor(
                             consumeEvent = true
                         }
                     } catch (e: Exception) {
-                        notifyErrorListeners(e)
+                        notifyErrorListeners(DetectTouchException(message = e.message, cause = e))
                     }
                 }
 

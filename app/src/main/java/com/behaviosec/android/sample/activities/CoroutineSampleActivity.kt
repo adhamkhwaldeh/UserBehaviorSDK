@@ -3,18 +3,15 @@ package com.behaviosec.android.sample.activities
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.semantics.text
 import androidx.lifecycle.lifecycleScope
 import com.behaviosec.android.sample.databinding.ActivityXmlSampleBinding
 import com.behaviosec.android.sample.helpers.toMessage
 import com.behaviosec.android.sample.viewModels.CoroutineViewModel
-import com.behaviosec.android.sample.viewModels.LiveDataViewModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Date
+
 
 class CoroutineSampleActivity : AppCompatActivity() {
 
@@ -66,7 +63,7 @@ class CoroutineSampleActivity : AppCompatActivity() {
                         binding.touchDetails.text = "Activity: $msg"
                     },
                     onFailure = { error ->
-                        val msg = ManagerErrorModel.fromException(error).toMessage()
+                        val msg = BaseUserBehaviorException.fromException(error).toMessage()
                         binding.touchDetails.text = msg
                     }
                 )
@@ -83,7 +80,7 @@ class CoroutineSampleActivity : AppCompatActivity() {
                             "View: $msg" // Assuming you have a new TextView
                     },
                     onFailure = { error ->
-                        val msg = ManagerErrorModel.fromException(error).toMessage()
+                        val msg = BaseUserBehaviorException.fromException(error).toMessage()
                         binding.touchViewDetails.text = msg
                     }
                 )

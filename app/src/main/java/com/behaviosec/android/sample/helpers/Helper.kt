@@ -1,8 +1,8 @@
 package com.behaviosec.android.sample.helpers
 
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 
 object Helper {
@@ -14,7 +14,7 @@ object Helper {
         return model.toMessage()
     }
 
-    fun  managerErrorMessage(model: ManagerErrorModel):String{
+    fun  managerErrorMessage(model: BaseUserBehaviorException):String{
         return model.toMessage()
     }
 

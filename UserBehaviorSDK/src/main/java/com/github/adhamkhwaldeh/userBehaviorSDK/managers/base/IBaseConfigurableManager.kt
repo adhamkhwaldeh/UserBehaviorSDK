@@ -37,7 +37,13 @@ interface IBaseConfigurableManager<T : IManagerConfigInterface> {
      * @param config
      * @return
      */
+
     fun updateConfig(config: T): IBaseConfigurableManager<T>
+
+    fun updateDefaultConfig(config: IManagerConfigInterface): IBaseConfigurableManager<T>
+
+
+    fun canOverride(): Boolean
 
 }
 

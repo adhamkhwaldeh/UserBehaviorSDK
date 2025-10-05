@@ -28,13 +28,13 @@ internal class TouchManager private constructor(
     private val internalManager: ITouchManager
 ) : ITouchManager by internalManager {
 
-    internal class Builder(private val logger: Logger) {
+    internal class Builder(private val logger: Logger, private var config: TouchConfig) {
 
         private var app: Application? = null
         private var activity: Activity? = null
 
         private var targetView: View? = null
-        private var config: TouchConfig = TouchConfig()
+
 
         @JvmSynthetic
         internal fun forManagerKey(managerKey: ManagerTouchKey) = apply {

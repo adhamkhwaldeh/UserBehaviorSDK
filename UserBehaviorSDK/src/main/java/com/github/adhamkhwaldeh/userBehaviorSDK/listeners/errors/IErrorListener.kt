@@ -1,6 +1,6 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors
 
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 
 interface IErrorListener {
     /**
@@ -8,5 +8,5 @@ interface IErrorListener {
      *
      * @param error
      */
-    fun onError(error: ManagerErrorModel)
+    fun onError(error: BaseUserBehaviorException)
 }

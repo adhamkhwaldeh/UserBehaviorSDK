@@ -8,12 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.AccelerometerResult
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accelerometerResultFlow
@@ -33,15 +33,15 @@ class CoroutineViewModel(
 
     //#region Accelerometer
     private val accelerometerManager: IAccelerometerManager =
-        userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig())
+        userBehaviorCoreSDK.getAccelerometerManager()
 
     private val _lastAccelerometerEvent = MutableStateFlow<AccelerometerEventModel?>(null)
     val lastAccelerometerEvent: StateFlow<AccelerometerEventModel?> = _lastAccelerometerEvent
     private val _lastAccuracyEvent = MutableStateFlow<AccuracyChangedModel?>(null)
     val lastAccuracyEvent: StateFlow<AccuracyChangedModel?> = _lastAccuracyEvent
 
-    private val _accelerometerError = MutableStateFlow<ManagerErrorModel?>(null)
-    val accelerometerError: StateFlow<ManagerErrorModel?> = _accelerometerError
+    private val _accelerometerError = MutableStateFlow<BaseUserBehaviorException?>(null)
+    val accelerometerError: StateFlow<BaseUserBehaviorException?> = _accelerometerError
 
     private val _accelerometerResult = MutableStateFlow<Result<AccelerometerResult>?>(null)
     val accelerometerResult: StateFlow<Result<AccelerometerResult>?> = _accelerometerResult
@@ -111,7 +111,7 @@ class CoroutineViewModel(
     fun startActivityTouchTracking(activity: Activity) {
         activityJob?.cancel() // Cancel previous job if any
         activityTouchManager =
-            userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(activity, TouchConfig())
+            userBehaviorCoreSDK.fetchOrCreateActivityTouchManager(activity)
         activityJob = viewModelScope.launch {
             activityTouchManager?.touchResultFlow()?.collect {
                 _activityTouchResult.value = it
@@ -128,7 +128,7 @@ class CoroutineViewModel(
 
     fun startViewTouchTracking(view: View) {
         viewJob?.cancel() // Cancel previous job if any
-        viewTouchManager = userBehaviorCoreSDK.fetchOrCreateViewTouchManager(view, TouchConfig())
+        viewTouchManager = userBehaviorCoreSDK.fetchOrCreateViewTouchManager(view)
         viewJob = viewModelScope.launch {
             viewTouchManager?.touchResultFlow()?.collect {
                 _viewTouchResult.value = it

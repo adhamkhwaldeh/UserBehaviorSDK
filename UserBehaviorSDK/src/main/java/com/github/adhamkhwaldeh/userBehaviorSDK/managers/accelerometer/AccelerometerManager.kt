@@ -7,12 +7,14 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToStartException
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToStopException
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.SensorNotAvailableException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 
@@ -28,7 +30,7 @@ internal class AccelerometerManager private constructor(
     private val context: Context,
     private val helpersRepository: HelpersRepository,
     logger: Logger,
-    config: AccelerometerConfig = AccelerometerConfig(),
+    config: AccelerometerConfig
 ) : BaseManager<AccelerometerListener, AccelerometerErrorListener,
         AccelerometerConfig>(config, logger), IAccelerometerManager {
 
@@ -38,7 +40,7 @@ internal class AccelerometerManager private constructor(
             context: Context,
             helpersRepository: HelpersRepository,
             logger: Logger,
-            config: AccelerometerConfig = AccelerometerConfig(),
+            config: AccelerometerConfig
         ): AccelerometerManager = AccelerometerManager(
             context = context,
             helpersRepository = helpersRepository,
@@ -113,10 +115,9 @@ internal class AccelerometerManager private constructor(
             try {
                 if (accelerometer == null) {
                     notifyErrorListeners(
-                        ManagerErrorModel(
-                            null,
+                        SensorNotAvailableException(
                             context.getString(R.string.accelerometer_sensor_not_available)
-                        )
+                        ),
                     )
                     return
                 }
@@ -128,10 +129,12 @@ internal class AccelerometerManager private constructor(
                 isManagerStarted = true
             } catch (e: Exception) {
                 notifyErrorListeners(
-                    ManagerErrorModel(
-                        e,
-                        context.getString(R.string.failed_to_start_accelerometer, e.message ?: "")
-                    )
+                    FailToStartException(
+                        message = context.getString(
+                            R.string.failed_to_start_accelerometer,
+                            e.message ?: ""
+                        ), cause = e
+                    ),
                 )
                 logger.e(
                     context.getString(R.string.accelerometer_manager),
@@ -154,9 +157,12 @@ internal class AccelerometerManager private constructor(
                 isManagerStarted = false
             } catch (e: Exception) {
                 notifyErrorListeners(
-                    ManagerErrorModel(
-                        e,
-                        context.getString(R.string.failed_to_stop_accelerometer, e.message ?: ""),
+                    FailToStopException(
+                        message = context.getString(
+                            R.string.failed_to_stop_accelerometer,
+                            e.message ?: ""
+                        ),
+                        cause = e
                     )
                 )
                 logger.e(

@@ -2,8 +2,7 @@ package com.github.adhamkhwaldeh.userBehaviorSDK.config
 
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.LogLevel
 
-
-class TouchConfig private constructor(
+class UserBehaviorSDKConfig private constructor(
     isEnabled: Boolean,
     isDebugMode: Boolean,
     isLoggingEnabled: Boolean,
@@ -12,14 +11,14 @@ class TouchConfig private constructor(
 ) : BaseBehaviorConfig(isEnabled, isDebugMode, isLoggingEnabled, overridable, logLevel) {
 
     /**
-     * The Builder for creating AccelerometerConfig instances.
+     * The Builder for creating UserBehaviorSDKConfig instances.
      */
-    class Builder : BaseBuilder<Builder, TouchConfig>() {
+    class Builder : BaseBuilder<Builder, UserBehaviorSDKConfig>() {
         /**
-         * Creates the final TouchConfig object.
+         * Creates the final UserBehaviorSDKConfig object.
          */
-        override fun build(): TouchConfig {
-            return TouchConfig(
+        override fun build(): UserBehaviorSDKConfig {
+            return UserBehaviorSDKConfig(
                 isEnabled = isEnabled,
                 isDebugMode = isDebugMode,
                 isLoggingEnabled = isLoggingEnabled,

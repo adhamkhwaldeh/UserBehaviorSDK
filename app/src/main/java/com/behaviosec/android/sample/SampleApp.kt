@@ -6,6 +6,7 @@ import com.behaviosec.android.sample.di.appModule
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
@@ -13,7 +14,6 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelero
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
@@ -38,7 +38,7 @@ class SampleApp : Application() {
 
         //#region AccelerometerManager
         val accelerometerManager: IAccelerometerManager =
-            userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig())
+            userBehaviorCoreSDK.getAccelerometerManager()
 
         accelerometerManager.setDebugMode(true).setLoggingEnabled(true)
 //        accelerometerManager.start()
@@ -62,17 +62,17 @@ class SampleApp : Application() {
 
         //#region AppTouchManager
         val appTouchManager: ITouchManager =
-            userBehaviorCoreSDK.fetchOrCreateApplicationTouchManager(this, TouchConfig())
+            userBehaviorCoreSDK.fetchOrCreateApplicationTouchManager(this)
 
         appTouchManager.addListener(object : TouchListener {
-            override fun dispatchTouchEvent(model: MotionEventModel): Boolean {
-                Log.d("SampleApp", "Global touch event: " + model.event + " at " + model.date)
+            override fun dispatchTouchEvent(event: MotionEventModel): Boolean {
+                Log.d("SampleApp", "Global touch event: " + event.event + " at " + event.date)
                 return true
             }
         })
 
         appTouchManager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 Log.d("SampleApp", "Global touch event: " + error.message)
             }
         })

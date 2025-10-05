@@ -7,13 +7,13 @@ import com.behaviosec.android.sample.databinding.ActivitySensorSampleBinding
 import com.behaviosec.android.sample.helpers.toMessage
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.SensorErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerGyroscopeKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerMagnetometerKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorAccuracyChangedModel
@@ -42,7 +42,7 @@ class SensorSampleActivity : AppCompatActivity() {
 
     private fun setupAccelerometerManager() {
         val accelerometerManager =
-            userBehaviorCoreSDK.getAccelerometerManager(AccelerometerConfig())
+            userBehaviorCoreSDK.getAccelerometerManager()
         accelerometerManager.setLoggingEnabled(true)
 
         accelerometerManager.addListener(object : AccelerometerListener {
@@ -56,7 +56,7 @@ class SensorSampleActivity : AppCompatActivity() {
         })
 
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 binding.accelerometerData.text = error.toMessage()
                 Log.e("SensorSample", error.toMessage())
             }
@@ -85,7 +85,7 @@ class SensorSampleActivity : AppCompatActivity() {
         })
 
         gyroscopeManager.addErrorListener(object : SensorErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 binding.gyroscopeData.text = error.toMessage()
                 Log.e("SensorSample", error.toMessage())
             }
@@ -110,7 +110,7 @@ class SensorSampleActivity : AppCompatActivity() {
         })
 
         magnetometerManager.addErrorListener(object : SensorErrorListener {
-            override fun onError(error: ManagerErrorModel) {
+            override fun onError(error: BaseUserBehaviorException) {
                 binding.magnetometerData.text = error.toMessage()
                 Log.e("SensorSample", error.toMessage())
             }

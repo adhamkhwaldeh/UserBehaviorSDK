@@ -1,5 +1,43 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.config
 
-class AccelerometerConfig : BaseManagerConfig() {
+import com.github.adhamkhwaldeh.userBehaviorSDK.logging.LogLevel
 
+class AccelerometerConfig private constructor(
+    // Properties from BaseManagerConfig
+    isEnabled: Boolean,
+    isDebugMode: Boolean,
+    isLoggingEnabled: Boolean,
+    overridable: Boolean,
+    logLevel: LogLevel,
+    // Accelerometer-specific properties
+    val sensorDelay: Int,
+) : BaseBehaviorConfig(isEnabled, isDebugMode, isLoggingEnabled, overridable, logLevel) {
+
+    /**
+     * The Builder for creating AccelerometerConfig instances.
+     */
+    class Builder : BaseBuilder<Builder, AccelerometerConfig>() {
+        private var sensorDelay: Int = 1000 // Default value for this specific config
+
+        /**
+         * Sets the sensor delay for the accelerometer.
+         */
+        fun setSensorDelay(delay: Int) = apply {
+            this.sensorDelay = delay
+        }
+
+        /**
+         * Creates the final AccelerometerConfig object.
+         */
+        override fun build(): AccelerometerConfig {
+            return AccelerometerConfig(
+                isEnabled = isEnabled,
+                isDebugMode = isDebugMode,
+                isLoggingEnabled = isLoggingEnabled,
+                logLevel = logLevel,
+                overridable = overridable,
+                sensorDelay = sensorDelay
+            )
+        }
+    }
 }

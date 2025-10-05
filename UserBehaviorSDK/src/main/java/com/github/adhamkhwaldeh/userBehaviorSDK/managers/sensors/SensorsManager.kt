@@ -7,25 +7,21 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.SensorConfig
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToStartException
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToStopException
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.SensorNotAvailableException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.SensorErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorAccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
-import java.util.Date
 
 /**
  * An abstract base class for sensor-based managers (e.g., Accelerometer, Gyroscope).
  * It handles the common logic for sensor registration, state management, and event listening.
  *
- * @param C The type of the callback listener.
- * @param E The type of the error listener.
- * @param F The type of the configuration.
  * @property context The application context.
  * @property helpersRepository A repository providing helper functions.
  * @property logger The logger instance for logging messages.
@@ -47,7 +43,7 @@ internal class SensorsManager private constructor(
             helpersRepository: HelpersRepository,
             sensorType: Int,
             logger: Logger,
-            config: SensorConfig = SensorConfig(),
+            config: SensorConfig,
         ): SensorsManager = SensorsManager(
             context = context,
             helpersRepository = helpersRepository,
@@ -122,10 +118,9 @@ internal class SensorsManager private constructor(
             try {
                 if (sensor == null) {
                     notifyErrorListeners(
-                        ManagerErrorModel(
-                            null,
+                        SensorNotAvailableException(
                             context.getString(R.string.accelerometer_sensor_not_available)
-                        )
+                        ),
                     )
                     return
                 }
@@ -137,10 +132,12 @@ internal class SensorsManager private constructor(
                 isManagerStarted = true
             } catch (e: Exception) {
                 notifyErrorListeners(
-                    ManagerErrorModel(
-                        e,
-                        context.getString(R.string.failed_to_start_accelerometer, e.message ?: "")
-                    )
+                    FailToStartException(
+                        message = context.getString(
+                            R.string.failed_to_start_accelerometer,
+                            e.message ?: ""
+                        ), cause = e
+                    ),
                 )
                 logger.e(
                     context.getString(R.string.accelerometer_manager),
@@ -164,9 +161,12 @@ internal class SensorsManager private constructor(
                 isManagerStarted = false
             } catch (e: Exception) {
                 notifyErrorListeners(
-                    ManagerErrorModel(
-                        e,
-                        context.getString(R.string.failed_to_stop_accelerometer, e.message ?: ""),
+                    FailToStopException(
+                        message = context.getString(
+                            R.string.failed_to_stop_accelerometer,
+                            e.message ?: ""
+                        ),
+                        cause = e
                     )
                 )
                 logger.e(

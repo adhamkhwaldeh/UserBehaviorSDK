@@ -1,10 +1,10 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.managers.base
 
+import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.ICallbackListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.configs.IManagerConfigInterface
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.IErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import java.util.concurrent.CopyOnWriteArrayList
 
 
@@ -65,14 +65,10 @@ abstract class BaseManager<TCall : ICallbackListener, TError : IErrorListener, T
         errorListeners.clear()
     }
 
-    override fun notifyErrorListeners(error: ManagerErrorModel) {
+    override fun notifyErrorListeners(error: BaseUserBehaviorException) {
         for (listener in errorListeners) {
             listener.onError(error)
         }
-    }
-
-    override fun notifyErrorListeners(e: Exception) {
-        notifyErrorListeners(ManagerErrorModel.fromException(e))
     }
     //#endregion
 
@@ -120,6 +116,15 @@ abstract class BaseManager<TCall : ICallbackListener, TError : IErrorListener, T
     override fun updateConfig(config: TConfig): IBaseConfigurableManager<TConfig> {
         this.config = config
         return this
+    }
+
+    override fun updateDefaultConfig(config: IManagerConfigInterface): IBaseConfigurableManager<TConfig> {
+        this.config.updateDefaultConfig(config)
+        return this
+    }
+
+    override fun canOverride(): Boolean {
+        return this.config.overridable
     }
     //#endregion
 
