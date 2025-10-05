@@ -21,8 +21,6 @@ import com.behaviosec.android.sample.R
 import com.behaviosec.android.sample.helpers.toMessage
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDKCompose.ProvideUserBehaviorSDK
 import com.github.adhamkhwaldeh.userBehaviorSDKCompose.collectViewTouchEvents
@@ -91,6 +89,7 @@ fun SensorScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .fillMaxHeight()
             .padding(dimensionResource(id = R.dimen.field_margin))
             .verticalScroll(scrollState)
     ) {
@@ -145,6 +144,7 @@ fun SensorScreen(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .fillMaxHeight()
                 .height(200.dp)
                 .padding(top = 8.dp)
                 .background(Color(0xFF388E3C)) // holo_green_dark

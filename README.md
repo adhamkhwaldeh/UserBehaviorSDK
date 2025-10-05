@@ -14,16 +14,17 @@
    - [Step 3: Using the SDK](#step-3-using-the-sdk)
 7. [Configuration](#configuration)
 8. [Jetpack Compose Integration](#jetpack-compose-integration)
-9. [Demo](#demo)
-10. [API Reference](#api-reference)
-11. [Testing Recommendations](#testing-recommendations)
-12. [Securing the Application with ProGuard/R8 Rules](#securing-the-application-with-proguardr8-rules)
-13. [Documentation Generation](#documentation-generation)
-14. [Code Conventions](#code-conventions)
-15. [Areas for Enhancement](#areas-for-enhancement)
-16. [Common Errors & Troubleshooting](#common-errors--troubleshooting)
-17. [FAQs](#faqs)
-18. [Support](#support)
+9. [Screenshots](#screenshots)
+10. [Demo](#demo)
+11. [API Reference](#api-reference)
+12. [Testing Recommendations](#testing-recommendations)
+13. [Securing the Application with ProGuard/R8 Rules](#securing-the-application-with-proguardr8-rules)
+14. [Documentation Generation](#documentation-generation)
+15. [Code Conventions](#code-conventions)
+16. [Areas for Enhancement](#areas-for-enhancement)
+17. [Common Errors & Troubleshooting](#common-errors--troubleshooting)
+18. [FAQs](#faqs)
+19. [Support](#support)
 
 ---
 
@@ -198,15 +199,15 @@ Common patterns:
 - Obtain `UserBehaviorCoreSDK` from DI: `val sdk: UserBehaviorCoreSDK by lazy { get() }` (Koin) or
   inject via your DI framework.
 - Create managers:
-    - `sdk.getAccelerometerManager(AccelerometerConfig())`
-    - `sdk.fetchOrCreateActivityTouchManager(activity, TouchConfig())`
-    - `sdk.createTouchManager(TouchConfig())`
+    - `sdk.getAccelerometerManager()`
+    - `sdk.fetchOrCreateActivityTouchManager(activity)`
+    - `sdk.createTouchManager()`
 - Configure managers, add listeners and error listeners, then call `start()` / `stop()`.
 
 Example usage:
 
 ```kotlin
-val accel = sdk.getAccelerometerManager(AccelerometerConfig())
+val accel = sdk.getAccelerometerManager()
 accel.setLoggingEnabled(true)
 accel.addListener(object : AccelerometerListener {
     override fun onSensorChanged(e: AccelerometerEventModel) { /* handle */
@@ -214,9 +215,26 @@ accel.addListener(object : AccelerometerListener {
     override fun onAccuracyChanged(a: AccuracyChangedModel) { /* handle */
     }
 })
-accel.addErrorListener { /* handle ManagerErrorModel */ }
+accel.addErrorListener { /* handle BaseUserBehaviorException */ }
 accel.start()
 ```
+
+**Global SDK Actions & Observables**
+
+The `UserBehaviorCoreSDK` provides global methods to control all registered managers at once, as well as observe global events.
+
+- **Global Actions**:
+  - `sdk.startAll()`: Starts all managers.
+  - `sdk.stopAll()`: Stops all managers.
+  - `sdk.pauseAll()`: Pauses all managers.
+  - `sdk.resumeAll()`: Resumes all managers.
+
+This is useful for managing data collection based on application lifecycle events (e.g., in `onPause` or `onResume` of a base Activity).
+
+- **Global Observables**:
+  - `sdk.addGlobalErrorListener(...)`: Receive errors from *any* manager in a single listener.
+  - `sdk.globalErrorsResultFlow()`: A Kotlin Flow that emits a `Result.failure` for any error from any manager.
+
 
 ---
 
@@ -227,7 +245,22 @@ Configuration objects included in the SDK:
 - `AccelerometerConfig` — configuration for accelerometer manager (sampling rates, filters, etc.).
 - `TouchConfig` — configuration for touch managers (debounce, view tracking options, etc.).
 
-Instantiate and pass them when creating/fetching managers to customize behavior.
+Each manager is initialized with a **default configuration**. You can override this default for specific instances by passing a custom config object when you fetch or create a manager.
+
+**Example: Overriding the Default Configuration**
+
+```kotlin
+// 1. Get a manager using the default, built-in configuration
+val defaultManager = sdk.getAccelerometerManager()
+
+// 2. Create a custom configuration for a specific screen
+val customConfig = AccelerometerConfig.Builder().setDebugMode(true).setLoggingEnabled(true).build()
+
+// 3. Get a new or existing manager instance with the custom config applied
+val customManager = sdk.getAccelerometerManager(customConfig)
+```
+
+This pattern allows you to set a general behavior for your app while fine-tuning data collection for specific features or screens as needed.
 
 ---
 
@@ -256,6 +289,20 @@ When using Compose, prefer `CoroutineViewModel` (Flow / StateFlow) in your compo
 state using `collectAsState()`.
 
 ---
+
+## Screenshots
+
+| LiveData Screen | Coroutine Screen |
+| :---: | :---: |
+| <img src="demos/Screenshot_20251005_214607.png" width="250"> | <img src="demos/Screenshot_20251005_214633.png" width="250"> |
+
+| Compose Screen | Main Screen |
+| :---: | :---: |
+| <img src="demos/Screenshot_20251005_214703.png" width="250"> | <img src="demos/Screenshot_20251005_215314.png" width="250"> |
+
+
+---
+
 
 ## Demo
 
