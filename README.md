@@ -292,9 +292,9 @@ state using `collectAsState()`.
 
 ## Screenshots
 
-| LiveData Screen | Coroutine Screen |
-| :---: | :---: |
-| <img src="demos/Screenshot_20251005_214607.png" width="250"> | <img src="demos/Screenshot_20251005_214633.png" width="250"> |
+|Main Screen | LiveData Screen | Coroutine Screen |
+| :---: | :---: | :---: |
+| <img src="demos/Screenshot_20251005_221458.png" width="250"> | <img src="demos/Screenshot_20251005_214607.png" width="250"> | <img src="demos/Screenshot_20251005_214633.png" width="250"> |
 
 | Compose Screen | Main Screen |
 | :---: | :---: |
