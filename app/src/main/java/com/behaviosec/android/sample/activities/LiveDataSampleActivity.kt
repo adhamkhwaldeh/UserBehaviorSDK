@@ -7,6 +7,6 @@ import com.behaviosec.android.sample.R
 class LiveDataSampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_livedata_sample)
+        setContentView(R.layout.activity_xml_sample)
     }
 }

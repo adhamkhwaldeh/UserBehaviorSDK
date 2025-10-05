@@ -87,9 +87,6 @@ fun IAccelerometerManager.sensorChangedLiveData(): LiveData<AccelerometerEventMo
             override fun onSensorChanged(model: AccelerometerEventModel) {
                 postValue(model)
             }
-
-            override fun onAccuracyChanged(model: AccuracyChangedModel) { /* Do Nothing */
-            }
         }
 
         override fun onActive() {
@@ -104,6 +101,25 @@ fun IAccelerometerManager.sensorChangedLiveData(): LiveData<AccelerometerEventMo
     }
 }
 
+fun IAccelerometerManager.accuracyChangedEventsLiveData(): LiveData<AccuracyChangedModel> {
+    return object : LiveData<AccuracyChangedModel>() {
+        private val listener = object : AccelerometerListener {
+            override fun onAccuracyChanged(model: AccuracyChangedModel) {
+                postValue(model)
+            }
+        }
+
+        override fun onActive() {
+            super.onActive()
+            this@accuracyChangedEventsLiveData.addListener(listener)
+        }
+
+        override fun onInactive() {
+            super.onInactive()
+            this@accuracyChangedEventsLiveData.removeListener(listener)
+        }
+    }
+}
 
 /**
  * Creates a LiveData that emits errors from a `IAccelerometerManager`.
@@ -157,6 +173,25 @@ fun ISensorsManager.sensorChangedLiveData(): LiveData<SensorEventModel> {
     }
 }
 
+fun ISensorsManager.accuracyChangedEventsLiveData(): LiveData<SensorEventModel> {
+    return object : LiveData<SensorEventModel>() {
+        private val listener = object : SensorListener {
+            override fun onSensorChanged(model: SensorEventModel) {
+                postValue(model)
+            }
+        }
+
+        override fun onActive() {
+            super.onActive()
+            this@accuracyChangedEventsLiveData.addListener(listener)
+        }
+
+        override fun onInactive() {
+            super.onInactive()
+            this@accuracyChangedEventsLiveData.removeListener(listener)
+        }
+    }
+}
 
 /**
  * Creates a LiveData that emits errors from a `ISensorsManager`.

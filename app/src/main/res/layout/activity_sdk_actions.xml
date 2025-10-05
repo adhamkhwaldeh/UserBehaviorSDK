@@ -9,12 +9,65 @@
         tools:context=".activities.SdkActionsActivity">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/login_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="@dimen/field_margin">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Global SDK Controls"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/startAllButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Start All" />
+
+                <Button
+                    android:id="@+id/stopAllButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stop All" />
+
+                <Button
+                    android:id="@+id/pauseAllButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pause All" />
+
+                <Button
+                    android:id="@+id/resumeAllButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Resume All" />
+
+                <TextView
+                    android:id="@+id/accelerometerDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Accelerometer Status: Idle" />
+
+                <TextView
+                    android:id="@+id/touchDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Touch Status: Idle" />
+
+            </LinearLayout>
+
+            <include layout="@layout/activity_xml_sample" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

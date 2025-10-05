@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.behaviosec.android.sample.databinding.ActivityJavaSampleBinding;
+import com.behaviosec.android.sample.databinding.ActivityXmlSampleBinding;
 import com.behaviosec.android.sample.helpers.Helper;
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK;
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig;
@@ -30,7 +30,7 @@ public class JavaSampleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityJavaSampleBinding binding = ActivityJavaSampleBinding.inflate(getLayoutInflater());
+        ActivityXmlSampleBinding binding = ActivityXmlSampleBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // 2. Get the UserBehaviorCoreSDK instance from Koin

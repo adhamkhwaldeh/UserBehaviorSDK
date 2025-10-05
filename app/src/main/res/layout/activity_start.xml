@@ -22,17 +22,23 @@
                 android:layout_height="wrap_content"
                 android:text="Kotlin Sample" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/field_margin"
+                android:text="SDK level sample" />
+
             <Button
                 android:id="@+id/sdk_actions_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="SDK Actions" />
 
-            <Button
-                android:id="@+id/compose_sample_button"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Compose Sample" />
+                android:layout_margin="@dimen/field_margin"
+                android:text="Modern extensions samples" />
 
             <Button
                 android:id="@+id/coroutine_sample_button"
@@ -45,6 +51,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="LiveData Sample" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/field_margin"
+                android:text="Compose Sample" />
+
+            <Button
+                android:id="@+id/compose_sample_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Compose Sample" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/field_margin"
+                android:text="Sensor Samples" />
+
+            <Button
+                android:id="@+id/sensor_sample_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sensor Sample" />
+
+            <Button
+                android:id="@+id/sensor_sdk_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sensor SDK" />
+
+            <Button
+                android:id="@+id/sensor_compose_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sensor Compose" />
+
         </LinearLayout>
     </ScrollView>
 
