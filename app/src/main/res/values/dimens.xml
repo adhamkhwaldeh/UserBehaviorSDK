@@ -1,8 +1,8 @@
 <resources>
 
-    <dimen name="field_margin">16dp</dimen>
+    <dimen name="field_margin">8dp</dimen>
 
-    <dimen name="card_dialog_padding">16dp</dimen>
-    <dimen name="card_dialog_margin">24dp</dimen>
+    <dimen name="card_dialog_padding">8dp</dimen>
+    <dimen name="card_dialog_margin">16dp</dimen>
 
 </resources>

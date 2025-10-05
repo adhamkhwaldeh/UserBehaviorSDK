@@ -5,8 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ApplicationTouchManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -21,7 +20,7 @@ class AppTouchManagerTest {
     fun setUp() {
         mockApplication = mock(Application::class.java)
         mockActivity = mock(Activity::class.java)
-        applicationTouchManager = UserBehaviorCoreSDK.getInstance(mockActivity)
+        applicationTouchManager = UserBehaviorCoreSDK.Builder(mockActivity).build()
             .fetchOrCreateApplicationTouchManager(mockApplication)
     }
 

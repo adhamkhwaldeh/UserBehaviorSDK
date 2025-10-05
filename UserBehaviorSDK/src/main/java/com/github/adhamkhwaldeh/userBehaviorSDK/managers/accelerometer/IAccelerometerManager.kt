@@ -1,4 +1,4 @@
-package com.github.adhamkhwaldeh.userBehaviorSDK.managers
+package com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer
 
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener

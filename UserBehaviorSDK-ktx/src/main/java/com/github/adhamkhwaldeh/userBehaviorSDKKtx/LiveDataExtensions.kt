@@ -3,14 +3,21 @@ package com.github.adhamkhwaldeh.userBehaviorSDKKtx
 import androidx.lifecycle.LiveData
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.IErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.IAccelerometerManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.SensorErrorListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.sensors.ISensorsManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorAccuracyChangedModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorEventModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -18,6 +25,7 @@ import kotlinx.coroutines.flow.callbackFlow
 
 //region Manager-level LiveData Extensions
 
+//#region TouchManager
 /**
  * Creates a LiveData that posts touch events from a `ITouchManager`.
  * The underlying listener is automatically registered only when the LiveData has active observers,
@@ -45,6 +53,32 @@ fun ITouchManager.touchEventsLiveData(): LiveData<MotionEventModel> {
 }
 
 /**
+ * Creates a LiveData that emits errors from a `ITouchManager`.
+ */
+fun ITouchManager.errorsLiveData(): LiveData<ManagerErrorModel> {
+    return object : LiveData<ManagerErrorModel>() {
+        private val listener = object : TouchErrorListener {
+            override fun onError(error: ManagerErrorModel) {
+                postValue(error)
+            }
+        }
+
+        override fun onActive() {
+            super.onActive()
+            this@errorsLiveData.addErrorListener(listener)
+        }
+
+        override fun onInactive() {
+            super.onInactive()
+            this@errorsLiveData.removeErrorListener(listener)
+        }
+    }
+}
+
+//endregion
+
+//#region AccelerometerManager
+/**
  * Creates a LiveData that posts accelerometer sensor data changes.
  */
 fun IAccelerometerManager.sensorChangedLiveData(): LiveData<AccelerometerEventModel> {
@@ -69,6 +103,85 @@ fun IAccelerometerManager.sensorChangedLiveData(): LiveData<AccelerometerEventMo
         }
     }
 }
+
+
+/**
+ * Creates a LiveData that emits errors from a `IAccelerometerManager`.
+ */
+fun IAccelerometerManager.errorsLiveData(): LiveData<ManagerErrorModel> {
+    return object : LiveData<ManagerErrorModel>() {
+        private val listener = object : AccelerometerErrorListener {
+            override fun onError(error: ManagerErrorModel) {
+                postValue(error)
+            }
+        }
+
+        override fun onActive() {
+            super.onActive()
+            this@errorsLiveData.addErrorListener(listener)
+        }
+
+        override fun onInactive() {
+            super.onInactive()
+            this@errorsLiveData.removeErrorListener(listener)
+        }
+    }
+}
+
+//endregion
+
+//#region SensorsManager
+/**
+ * Creates a LiveData that posts sensor data changes.
+ */
+fun ISensorsManager.sensorChangedLiveData(): LiveData<SensorEventModel> {
+    return object : LiveData<SensorEventModel>() {
+        private val listener = object : SensorListener {
+            override fun onSensorChanged(model: SensorEventModel) {
+                postValue(model)
+            }
+
+            override fun onAccuracyChanged(model: SensorAccuracyChangedModel) { /* Do Nothing */
+            }
+        }
+
+        override fun onActive() {
+            super.onActive()
+            this@sensorChangedLiveData.addListener(listener)
+        }
+
+        override fun onInactive() {
+            super.onInactive()
+            this@sensorChangedLiveData.removeListener(listener)
+        }
+    }
+}
+
+
+/**
+ * Creates a LiveData that emits errors from a `ISensorsManager`.
+ */
+fun ISensorsManager.errorsLiveData(): LiveData<ManagerErrorModel> {
+    return object : LiveData<ManagerErrorModel>() {
+        private val listener = object : SensorErrorListener {
+            override fun onError(error: ManagerErrorModel) {
+                postValue(error)
+            }
+        }
+
+        override fun onActive() {
+            super.onActive()
+            this@errorsLiveData.addErrorListener(listener)
+        }
+
+        override fun onInactive() {
+            super.onInactive()
+            this@errorsLiveData.removeErrorListener(listener)
+        }
+    }
+}
+
+//endregion
 
 //endregion
 

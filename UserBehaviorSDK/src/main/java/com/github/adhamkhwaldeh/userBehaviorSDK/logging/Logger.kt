@@ -1,43 +1,83 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.logging
 
+import com.github.adhamkhwaldeh.userBehaviorSDK.config.BaseManagerConfig
+import java.util.concurrent.CopyOnWriteArrayList
+
 /**
- * A static proxy object for logging. This object holds a reference to an `ILogger` instance
- * and forwards all logging calls to it.
+ * A static proxy object that dispatches logging calls to multiple `ILogger` implementations.
  *
- * By default, it uses the `DefaultLogger`. This can be overridden at any time by calling `setLogger`.
- * This allows the SDK's logging to be redirected to a custom logging implementation.
+ * By default, it includes the `DefaultLogger`. Clients can add or remove loggers at any time.
+ * This allows the SDK's logging to be broadcast to multiple destinations, such as Logcat,
+ * a remote analytics service, and a crash reporter simultaneously.
  *
  * Example Usage in an Application's `onCreate`:
  * ```
+ * // Add a custom logger for remote analytics
+ * Logger.addLogger(MyRemoteAnalyticsLogger())
+ *
+ * // In debug builds, you might also want a Timber logger
  * if (BuildConfig.DEBUG) {
- *     Logger.setLogger(MyCustomDebugLogger())
+ *     Logger.addLogger(MyTimberLogger())
  * }
  * ```
  */
-object Logger : ILogger {
-    private var logger: ILogger = DefaultLogger()
+class Logger : ILogger {
+    private val loggers = CopyOnWriteArrayList<ILogger>()
+
+    init {
+        // Add the default logger so logging works out of the box.
+        loggers.add(DefaultLogger())
+    }
+
+    fun setLoggers(newLoggers: List<ILogger>) {
+        loggers.clear()
+        loggers.addAll(newLoggers)
+    }
 
     /**
-     * Overrides the default logger with a custom implementation.
-     * @param newLogger The new `ILogger` instance to use for all subsequent log calls.
+     * Adds a new logger implementation to the list of loggers.
+     * @param newLogger The new `ILogger` instance to add.
      */
-    fun setLogger(newLogger: ILogger) {
-        logger = newLogger
+    fun addLogger(newLogger: ILogger) {
+        loggers.add(newLogger)
     }
 
-    override fun d(tag: String, message: String) {
-        logger.d(tag, message)
+    /**
+     * Removes a logger implementation from the list.
+     * @param logger The `ILogger` instance to remove.
+     */
+    fun removeLogger(logger: ILogger) {
+        loggers.remove(logger)
     }
 
-    override fun e(tag: String, message: String, throwable: Throwable?) {
-        logger.e(tag, message, throwable)
+    /**
+     * Removes all registered loggers, including the default one.
+     */
+    fun clearLoggers() {
+        loggers.clear()
     }
 
-    override fun w(tag: String, message: String) {
-        logger.w(tag, message)
+    override fun d(tag: String, message: String, config: BaseManagerConfig) {
+        for (logger in loggers) {
+            logger.d(tag, message, config)
+        }
     }
 
-    override fun i(tag: String, message: String) {
-        logger.i(tag, message)
+    override fun e(tag: String, message: String, config: BaseManagerConfig, throwable: Throwable?) {
+        for (logger in loggers) {
+            logger.e(tag, message, config, throwable)
+        }
+    }
+
+    override fun w(tag: String, message: String, config: BaseManagerConfig) {
+        for (logger in loggers) {
+            logger.w(tag, message, config)
+        }
+    }
+
+    override fun i(tag: String, message: String, config: BaseManagerConfig) {
+        for (logger in loggers) {
+            logger.i(tag, message, config)
+        }
     }
 }

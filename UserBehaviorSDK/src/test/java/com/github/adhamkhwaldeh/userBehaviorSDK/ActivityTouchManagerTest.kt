@@ -1,12 +1,11 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK
 
 
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ActivityTouchManager
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import android.app.Activity
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import org.mockito.Mockito.*
 
 class ActivityTouchManagerTest {
@@ -17,7 +16,7 @@ class ActivityTouchManagerTest {
     @Before
     fun setUp() {
         mockActivity = mock(Activity::class.java)
-        activityTouchManager = UserBehaviorCoreSDK.getInstance(mockActivity)
+        activityTouchManager = UserBehaviorCoreSDK.Builder(mockActivity).build()
             .fetchOrCreateActivityTouchManager(mockActivity)
     }
 

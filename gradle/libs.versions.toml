@@ -1,6 +1,7 @@
 [versions]
+activityCompose = "1.8.2"
 agp = "8.8.0"
-kotlin = "1.9.24"
+kotlin = "1.9.23"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -17,17 +18,21 @@ detekt = "1.23.1"
 mockito = "5.7.0"
 konsistVersion = "0.17.3"
 userbehaviorsdk = "1.0.0"
-kotlinGradlePlugin = "1.9.24"
-composeBom = "2024.06.00"
-lifecycleRuntimeCompose = "2.8.3"
+kotlinGradlePlugin = "1.9.23"
+composeBom = "2025.09.01"
+lifecycleRuntimeCompose = "2.9.4"
 
 [libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-konsist= { module = "com.lemonappdev:konsist", version.ref = "konsistVersion" }
+konsist = { module = "com.lemonappdev:konsist", version.ref = "konsistVersion" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 userbehaviorsdk = { module = "com.github.adhamkhwaldeh:UserBehaviorSDK", version.ref = "userbehaviorsdk" }
@@ -45,4 +50,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
-detekt = { id ="io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

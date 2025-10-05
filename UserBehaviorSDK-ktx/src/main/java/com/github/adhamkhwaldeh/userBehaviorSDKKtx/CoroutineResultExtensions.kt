@@ -1,18 +1,20 @@
 package com.github.adhamkhwaldeh.userBehaviorSDKKtx
 
-import androidx.lifecycle.LiveData
-import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.IErrorListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.SensorErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.IAccelerometerManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.sensors.ISensorsManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorAccuracyChangedModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorEventModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -73,6 +75,33 @@ fun IAccelerometerManager.accelerometerResultFlow(): Flow<Result<AccelerometerRe
         }
     }
 
+/**
+ * Creates a Flow that emits a `Result` for every Sensors event or error.
+ */
+fun ISensorsManager.sensorResultFlow(): Flow<Result<SensorsResult>> =
+    callbackFlow {
+        val dataListener = object : SensorListener {
+            override fun onSensorChanged(model: SensorEventModel) {
+                trySend(Result.success(SensorsResult.SensorChanged(model)))
+            }
+
+            override fun onAccuracyChanged(model: SensorAccuracyChangedModel) {
+                trySend(Result.success(SensorsResult.AccuracyChanged(model)))
+            }
+        }
+        val errorListener = object : SensorErrorListener {
+            override fun onError(error: ManagerErrorModel) {
+                val exception = error.exception ?: Exception(error.message)
+                trySend(Result.failure(exception))
+            }
+        }
+        addListener(dataListener)
+        addErrorListener(errorListener)
+        awaitClose {
+            removeListener(dataListener)
+            removeErrorListener(errorListener)
+        }
+    }
 
 //endregion
 

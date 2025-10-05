@@ -7,7 +7,6 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 
@@ -37,17 +36,20 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
  */
 internal class ViewTouchManager private constructor(
     private val targetView: View,
+    logger: Logger,
     config: TouchConfig = TouchConfig(),
-) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config), ITouchManager {
+) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
 
     companion object {
         @JvmSynthetic
         internal fun create(
             targetView: View,
+            logger: Logger,
             config: TouchConfig = TouchConfig(),
         ): ViewTouchManager = ViewTouchManager(
             targetView = targetView,
-            config = config
+            config = config,
+            logger = logger
         )
     }
 
@@ -57,9 +59,10 @@ internal class ViewTouchManager private constructor(
             // Process the event only if the manager is enabled and has listeners.
             if (config.isEnabled && listeners.isNotEmpty()) {
                 if (config.isLoggingEnabled && config.isDebugMode) {
-                    Logger.d(
+                    logger.d(
                         "TouchManager",
-                        "Touch event on view ${v!!.id}: action=${event!!.action}, x=${event.x}, y=${event.y}"
+                        "Touch event on view ${v!!.id}: action=${event!!.action}, x=${event.x}, y=${event.y}",
+                        config
                     )
                 }
 

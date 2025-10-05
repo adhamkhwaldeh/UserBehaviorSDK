@@ -3,12 +3,14 @@ package com.github.adhamkhwaldeh.userBehaviorSDK.managers.base
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.ICallbackListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.configs.IManagerConfigInterface
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.IErrorListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerErrorModel
 import java.util.concurrent.CopyOnWriteArrayList
 
 
 abstract class BaseManager<TCall : ICallbackListener, TError : IErrorListener, TConfig : IManagerConfigInterface>(
-    internal var config: TConfig
+    internal var config: TConfig,
+    internal val logger: Logger,
 ) : IBaseManager<TCall, TError, TConfig> {
 
     internal val listeners: CopyOnWriteArrayList<TCall> = CopyOnWriteArrayList()
@@ -75,10 +77,6 @@ abstract class BaseManager<TCall : ICallbackListener, TError : IErrorListener, T
     //#endregion
 
     //#region Configuration
-    /**
-     * Configure the manager with the provided configuration object.
-     * @param config configuration data
-     */
 
     /**
      * Set enabled

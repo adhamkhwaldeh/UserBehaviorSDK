@@ -1,4 +1,4 @@
-package com.github.adhamkhwaldeh.userBehaviorSDK.managers
+package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener

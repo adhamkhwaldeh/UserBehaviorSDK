@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -6,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.github.adhamkhwaldeh.userBehaviorSDKCompose"
-    compileSdk = Integer.getInteger(libs.versions.compileSdk.get())
+    compileSdk = libs.versions.compileSdk.get().toInt()
     compileSdkVersion = libs.versions.compileSdkVersion.get()
 
     defaultConfig {
@@ -33,6 +32,16 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        // This version must be compatible with your project's Kotlin version.
+        // For Kotlin 1.9.24, the correct Compose Compiler version is 1.5.12.
+        kotlinCompilerExtensionVersion = "1.5.12"
+    }
+
 }
 
 dependencies {
@@ -48,4 +57,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(project(":UserBehaviorSDK"))
+    implementation(project(":UserBehaviorSDK-ktx"))
 }

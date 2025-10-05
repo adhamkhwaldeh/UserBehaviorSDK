@@ -1,15 +1,10 @@
-package com.github.adhamkhwaldeh.userBehaviorSDK.managers
+package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 
 import android.app.Activity
 import android.app.Application
 import android.view.View
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.IBaseManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ActivityTouchManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ApplicationTouchManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ViewTouchManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerActivityKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerApplicationKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerTouchKey
@@ -33,7 +28,7 @@ internal class TouchManager private constructor(
     private val internalManager: ITouchManager
 ) : ITouchManager by internalManager {
 
-    internal class Builder() {
+    internal class Builder(private val logger: Logger) {
 
         private var app: Application? = null
         private var activity: Activity? = null
@@ -76,11 +71,11 @@ internal class TouchManager private constructor(
                 throw IllegalArgumentException("Builder requires an Application, Activity, or View to create a TouchManager.")
             }
             val manager = if (app != null) {
-                ApplicationTouchManager.create(app!!, config)
+                ApplicationTouchManager.create(app!!, logger, config)
             } else if (activity != null) {
-                ActivityTouchManager.create(activity!!, config)
+                ActivityTouchManager.create(activity!!, logger, config)
             } else {
-                ViewTouchManager.create(targetView!!, config)
+                ViewTouchManager.create(targetView!!, logger, config)
             }
             return TouchManager(manager)
         }

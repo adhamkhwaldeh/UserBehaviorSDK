@@ -8,6 +8,8 @@ abstract class BaseManagerConfig() : IManagerConfigInterface {
     override var isEnabled: Boolean = true
     override var isDebugMode: Boolean = false
     override var isLoggingEnabled: Boolean = true
+
+    override var overridable: Boolean = true
     override var logLevel: LogLevel = LogLevel.DEBUG
 
 

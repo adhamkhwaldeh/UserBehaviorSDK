@@ -1,7 +1,6 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 
 import android.app.Activity
-import android.content.Context
 import android.view.ActionMode
 import android.view.KeyEvent
 import android.view.Menu
@@ -16,14 +15,10 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
-import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.AccelerometerManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 
 /**
  * Activity touch manager
@@ -35,33 +30,37 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
  */
 internal class ActivityTouchManager private constructor(
     val activity: Activity,
+    logger: Logger,
     config: TouchConfig = TouchConfig(),
-) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config), ITouchManager {
+) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
 
     companion object {
         @JvmSynthetic
         internal fun create(
             activity: Activity,
+            logger: Logger,
             config: TouchConfig = TouchConfig(),
         ): ActivityTouchManager = ActivityTouchManager(
             activity = activity,
-            config = config
+            config = config,
+            logger = logger
         )
     }
 
     private val callback = object : Callback {
         override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-            if (config.isLoggingEnabled && config.isDebugMode) {
-                Logger.d(
-                    activity.getString(R.string.global_touch_tracker),
-                    activity.getString(
-                        R.string.touch_event_action_xy,
-                        event.action,
-                        event.x,
-                        event.y
-                    )
-                )
-            }
+
+            logger.d(
+                activity.getString(R.string.global_touch_tracker),
+                activity.getString(
+                    R.string.touch_event_action_xy,
+                    event.action,
+                    event.x,
+                    event.y
+                ),
+                config
+            )
+
             // If the manager is disabled, just delegate the event without logging
             if (config.isEnabled && listeners.isNotEmpty()) {
                 val model = MotionEventModel(event, DateHelpers.getCurrentDate())

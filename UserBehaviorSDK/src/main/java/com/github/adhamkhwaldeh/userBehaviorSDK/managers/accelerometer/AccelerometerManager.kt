@@ -1,4 +1,4 @@
-package com.github.adhamkhwaldeh.userBehaviorSDK.managers
+package com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer
 
 import android.content.Context
 import android.hardware.Sensor
@@ -27,19 +27,22 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 internal class AccelerometerManager private constructor(
     private val context: Context,
     private val helpersRepository: HelpersRepository,
+    logger: Logger,
     config: AccelerometerConfig = AccelerometerConfig(),
-) : BaseManager<AccelerometerListener, AccelerometerErrorListener, AccelerometerConfig>(config),
-    IAccelerometerManager {
+) : BaseManager<AccelerometerListener, AccelerometerErrorListener,
+        AccelerometerConfig>(config, logger), IAccelerometerManager {
 
     companion object {
         @JvmSynthetic
         internal fun create(
             context: Context,
             helpersRepository: HelpersRepository,
+            logger: Logger,
             config: AccelerometerConfig = AccelerometerConfig(),
         ): AccelerometerManager = AccelerometerManager(
             context = context,
             helpersRepository = helpersRepository,
+            logger = logger,
             config = config
         )
     }
@@ -62,15 +65,16 @@ internal class AccelerometerManager private constructor(
                     listener.onSensorChanged(model)
                 }
             }
-            if (config.isLoggingEnabled && config.isDebugMode && event != null) {
-                Logger.d(
+            if (event != null) {
+                logger.d(
                     context.getString(R.string.accelerometer),
                     context.getString(
                         R.string.accelerometer_values,
                         event.values[0],
                         event.values[1],
                         event.values[2]
-                    )
+                    ),
+                    config
                 )
             }
 
@@ -84,9 +88,10 @@ internal class AccelerometerManager private constructor(
                 listener.onAccuracyChanged(model)
             }
             if (config.isLoggingEnabled && config.isDebugMode) {
-                Logger.d(
+                logger.d(
                     context.getString(R.string.accelerometer),
-                    context.getString(R.string.accuracy_changed, accuracy)
+                    context.getString(R.string.accuracy_changed, accuracy),
+                    config,
                 )
             }
         }
@@ -128,13 +133,12 @@ internal class AccelerometerManager private constructor(
                         context.getString(R.string.failed_to_start_accelerometer, e.message ?: "")
                     )
                 )
-//                if (isLoggingEnabled && config.isDebugMode) {
-//                    Logger.e(
-//                        context.getString(R.string.accelerometer_manager),
-//                        context.getString(R.string.error_stopping_accelerometer),
-//                        e
-//                    )
-//                }
+                logger.e(
+                    context.getString(R.string.accelerometer_manager),
+                    context.getString(R.string.error_stopping_accelerometer),
+                    config = config,
+                    e
+                )
             }
         }
     }
@@ -155,13 +159,12 @@ internal class AccelerometerManager private constructor(
                         context.getString(R.string.failed_to_stop_accelerometer, e.message ?: ""),
                     )
                 )
-                if (config.isLoggingEnabled && config.isDebugMode) {
-                    Logger.e(
-                        context.getString(R.string.accelerometer_manager),
-                        context.getString(R.string.error_stopping_accelerometer),
-                        e
-                    )
-                }
+                logger.e(
+                    context.getString(R.string.accelerometer_manager),
+                    context.getString(R.string.error_stopping_accelerometer),
+                    config = config,
+                    e
+                )
             }
         }
     }
