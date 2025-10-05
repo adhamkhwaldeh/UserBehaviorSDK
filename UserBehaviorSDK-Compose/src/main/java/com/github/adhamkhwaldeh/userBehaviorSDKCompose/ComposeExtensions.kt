@@ -52,46 +52,36 @@ fun rememberActivityTouchManager(): ITouchManager {
  *
  * This function retrieves the SDK instance from `LocalUserBehaviorCoreSDK`.
  *
- * @param enabled A boolean to enable or disable the touch event collection. When `false`, the
- * underlying manager will be stopped.
+ * @param enabled A boolean to conditionally enable or disable the event collection.
  * @param onEvent A callback that will be invoked with a `Result` for each touch event or error.
  * @return A `Modifier` instance.
  */
 fun Modifier.collectViewTouchEvents(
-    enabled: Boolean = true, // Add the 'enabled' parameter with a default value
+    enabled: Boolean = true,
     onEvent: (Result<MotionEventModel>) -> Unit
-): Modifier =
-    composed {
+): Modifier = composed {
+    if (enabled) {
         val view = LocalView.current
         val sdk = LocalUserBehaviorCoreSDK.current
         val manager = remember(view) { sdk.fetchOrCreateViewTouchManager(view) }
 
-        // Manage the lifecycle of the manager based on the 'enabled' flag
-        DisposableEffect(manager, enabled) {
-            if (enabled) {
-                manager.start()
-            } else {
-                manager.stop()
-            }
+        // Manage the lifecycle of the manager
+        DisposableEffect(manager,view) {
+            manager.start()
             onDispose {
-                // Ensure the manager is stopped when the composable leaves the screen,
-                // regardless of the 'enabled' state.
                 manager.stop()
             }
         }
 
-        // Collect the flow of events only when enabled
-//        if (enabled) {
-        LaunchedEffect(manager) {
+        // Collect the flow of events
+        LaunchedEffect(manager, view) {
             manager.touchResultFlow().collect { result ->
                 onEvent(result)
             }
         }
-//        }
-
-        this
     }
-
+    this
+}
 
 /**
  * A Composable function that remembers an `IAccelerometerManager` instance and binds its lifecycle
