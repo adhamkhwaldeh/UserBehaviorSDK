@@ -206,18 +206,41 @@ Common patterns:
 
 Example usage:
 
+#### Legacy Listener-Based (Java/Kotlin)
+
 ```kotlin
 val accel = sdk.getAccelerometerManager()
 accel.setLoggingEnabled(true)
 accel.addListener(object : AccelerometerListener {
-    override fun onSensorChanged(e: AccelerometerEventModel) { /* handle */
-    }
-    override fun onAccuracyChanged(a: AccuracyChangedModel) { /* handle */
-    }
+    override fun onSensorChanged(e: AccelerometerEventModel) { /* handle */ }
+    override fun onAccuracyChanged(a: AccuracyChangedModel) { /* handle */ }
 })
 accel.addErrorListener { /* handle BaseUserBehaviorException */ }
 accel.start()
 ```
+
+#### Modern Coroutine-Based (Kotlin + Flow)
+
+For modern Kotlin applications, use the `-ktx` extensions to collect data via `Flow`. This is the recommended approach.
+
+```kotlin
+// In a CoroutineScope (e.g., a ViewModel)
+viewModelScope.launch {
+    val accelManager = sdk.getAccelerometerManager()
+    accelManager.start()
+
+    // The flow emits a Result, making error handling seamless
+    accelManager.accelerometerResultFlow().collect { result ->
+        result.onSuccess { event ->
+            // Handle AccelerometerResult.SensorChanged or .AccuracyChanged
+        }.onFailure { error ->
+            // Handle exceptions
+        }
+    }
+}
+```
+
+
 
 **Global SDK Actions & Observables**
 
@@ -270,6 +293,34 @@ The `userBehaviorSDK-Compose` module provides `ProvideUserBehaviorSDK` and a `Co
 access the SDK from composables.
 
 Example:
+
+
+The `userBehaviorSDK-Compose` module provides composable functions to make SDK integration seamless and lifecycle-aware. The most common pattern is to use the `remember...` hooks and collect the resulting `Flow` as state.
+
+**Example: Displaying Accelerometer Data in a Composable**
+
+```kotlin
+@Composable
+fun MySensorScreen() {
+    // 1. This hook remembers the manager and handles its lifecycle (start/stop).
+    val accelerometerManager = rememberAccelerometerManager()
+
+    // 2. Collect the data flow and convert it into a State object.
+    val accelerometerData by accelerometerManager
+        .accelerometerResultFlow()
+        .collectAsState(initial = null)
+
+    // 3. Display the data. The Text will automatically update.
+    Text(text = "Accelerometer: ${accelerometerData?.toMessage() ?: "Idle"}")
+}
+
+// Don't forget to provide the SDK instance at the root of your Compose hierarchy.
+setContent {
+    ProvideUserBehaviorSDK(sdk) {
+        MySensorScreen()
+    }
+}
+```
 
 ```kotlin
 setContent {
