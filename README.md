@@ -174,7 +174,20 @@ class SampleApp : Application() {
 }
 
 val appModule = module {
-    single { UserBehaviorCoreSDK.getInstance(androidContext()) }
+    single {
+        UserBehaviorSDKConfig.Builder().setDebugMode(true).setLogLevel(
+            LogLevel.DEBUG
+        ).setLoggingEnabled(true).build()
+    }
+
+    single { (app: Application) ->
+        UserBehaviorCoreSDK.Builder(app.applicationContext)
+            .withConfig(get())
+            .addLogger(CustomLogger())
+            .addLogger(TimberLogger())
+            .addLogger(CustomOrhanLogger())
+            .build()
+    }
 }
 ```
 
