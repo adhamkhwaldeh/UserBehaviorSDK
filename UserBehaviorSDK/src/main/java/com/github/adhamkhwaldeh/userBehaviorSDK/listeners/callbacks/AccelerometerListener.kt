@@ -8,6 +8,11 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
  *
  * @constructor Create empty Accelerometer listener
  */
+
+@Deprecated(
+    "AccelerometerListener is deprecated and will be removed in a future release. Please use SensorConfig instead.",
+    ReplaceWith("SensorListener")
+)
 interface AccelerometerListener : ICallbackListener {
     /**
      * On sensor changed

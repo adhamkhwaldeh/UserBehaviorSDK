@@ -26,6 +26,10 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
  *
  * @param config
  */
+@Deprecated(
+    "This manager is deprecated. It is recommended to use Android's SensorManager directly.",
+    ReplaceWith("ISensorsManager")
+)
 internal class AccelerometerManager private constructor(
     private val context: Context,
     private val helpersRepository: HelpersRepository,
@@ -36,6 +40,7 @@ internal class AccelerometerManager private constructor(
 
     companion object {
         @JvmSynthetic
+
         internal fun create(
             context: Context,
             helpersRepository: HelpersRepository,

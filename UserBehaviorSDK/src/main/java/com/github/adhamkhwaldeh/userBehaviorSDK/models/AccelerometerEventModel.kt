@@ -11,6 +11,11 @@ import java.util.Date
  * @property date
  * @constructor Create empty Accelerometer event model
  */
+
+@Deprecated(
+    "This manager is deprecated. It is recommended to use Android's SensorEventModel directly.",
+    ReplaceWith("SensorEventModel")
+)
 data class AccelerometerEventModel(
     val event: SensorEvent?,
     val date: Date

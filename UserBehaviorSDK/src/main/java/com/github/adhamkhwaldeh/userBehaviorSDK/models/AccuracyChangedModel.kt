@@ -12,6 +12,11 @@ import java.util.Date
  * @property date
  * @constructor Create empty Accuracy changed model
  */
+
+@Deprecated(
+    "This manager is deprecated. It is recommended to use Android's SensorAccuracyChangedModel directly.",
+    ReplaceWith("SensorAccuracyChangedModel")
+)
 data class AccuracyChangedModel(
     val sensor: Sensor?,
     val accuracy: Int,

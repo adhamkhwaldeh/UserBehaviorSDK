@@ -29,6 +29,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
  * @param activity
  * @param config
  */
+
 internal class ActivityTouchManager private constructor(
     val activity: Activity,
     logger: Logger,

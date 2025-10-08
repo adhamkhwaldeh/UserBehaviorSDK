@@ -338,6 +338,12 @@ class UserBehaviorCoreSDK private constructor(
     //#endregion
 
     //#region Accelerometer Manager
+
+
+    @Deprecated(
+        "This method is deprecated. Use fetchOrCreateSensorManager instead.",
+        ReplaceWith("fetchOrCreateSensorManager(ManagerAccelerometerSensorKey, config)")
+    )
     @JvmOverloads
     fun getAccelerometerManager(config: AccelerometerConfig? = null): IAccelerometerManager {
         if (config != null) {

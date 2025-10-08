@@ -2,6 +2,10 @@ package com.github.adhamkhwaldeh.userBehaviorSDK.config
 
 import com.github.adhamkhwaldeh.userBehaviorSDK.logging.LogLevel
 
+@Deprecated(
+    "AccelerometerConfig is deprecated and will be removed in a future release. Please use SensorConfig instead.",
+    ReplaceWith("SensorConfig")
+)
 class AccelerometerConfig private constructor(
     // Properties from BaseManagerConfig
     isEnabled: Boolean,
