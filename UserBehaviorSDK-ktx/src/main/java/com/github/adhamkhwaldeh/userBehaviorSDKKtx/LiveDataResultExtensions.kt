@@ -33,8 +33,8 @@ fun ITouchManager.touchResultLiveData(): LiveData<Result<MotionEventModel>> {
         }
         val errorListener = object : TouchErrorListener {
             override fun onError(error: BaseUserBehaviorException) {
-                val exception = error.cause ?: Exception(error.message)
-                postValue(Result.failure(exception))
+//                val exception = error.cause ?: Exception(error.message)
+                postValue(Result.failure(error))
             }
         }
 

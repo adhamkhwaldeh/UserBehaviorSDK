@@ -259,6 +259,25 @@ class UserBehaviorCoreSDK private constructor(
 
     //#endregion
 
+    //#region Accelerometer Manager
+
+    @Deprecated(
+        "This method is deprecated. Use fetchOrCreateSensorManager instead.",
+        ReplaceWith("fetchOrCreateSensorManager(ManagerAccelerometerSensorKey, config)")
+    )
+    @JvmOverloads
+    fun getAccelerometerManager(config: AccelerometerConfig? = null): IAccelerometerManager {
+        if (config != null) {
+            accelerometerManager.config = config
+        }
+        // Ensure the manager is in the map if it was somehow removed.
+        if (!behaviorManagers.containsKey(ManagerAccelerometerKey)) {
+            behaviorManagers[ManagerAccelerometerKey] = accelerometerManager
+        }
+        return accelerometerManager
+    }
+    //#endregion
+
     //#region Touch Managers
     private fun fetchOrCreateTouchManager(
         managerTouchKey: ManagerTouchKey,
@@ -292,16 +311,6 @@ class UserBehaviorCoreSDK private constructor(
         return manager
     }
 
-    @JvmOverloads
-    fun fetchOrCreateActivityTouchManager(
-        activity: Activity,
-        config: TouchConfig? = null
-    ): ITouchManager {
-        return fetchOrCreateTouchManager(
-            ManagerActivityKey(activity),
-            config
-        )
-    }
 
     @JvmOverloads
     fun fetchOrCreateApplicationTouchManager(
@@ -313,6 +322,17 @@ class UserBehaviorCoreSDK private constructor(
             config
         )
     }
+    @JvmOverloads
+    fun fetchOrCreateActivityTouchManager(
+        activity: Activity,
+        config: TouchConfig? = null
+    ): ITouchManager {
+        return fetchOrCreateTouchManager(
+            ManagerActivityKey(activity),
+            config
+        )
+    }
+
 
     @JvmOverloads
     fun fetchOrCreateViewTouchManager(
@@ -335,26 +355,6 @@ class UserBehaviorCoreSDK private constructor(
         return manager
     }
 
-    //#endregion
-
-    //#region Accelerometer Manager
-
-
-    @Deprecated(
-        "This method is deprecated. Use fetchOrCreateSensorManager instead.",
-        ReplaceWith("fetchOrCreateSensorManager(ManagerAccelerometerSensorKey, config)")
-    )
-    @JvmOverloads
-    fun getAccelerometerManager(config: AccelerometerConfig? = null): IAccelerometerManager {
-        if (config != null) {
-            accelerometerManager.config = config
-        }
-        // Ensure the manager is in the map if it was somehow removed.
-        if (!behaviorManagers.containsKey(ManagerAccelerometerKey)) {
-            behaviorManagers[ManagerAccelerometerKey] = accelerometerManager
-        }
-        return accelerometerManager
-    }
     //#endregion
 
     //#region Sensors Manager
@@ -408,23 +408,5 @@ class UserBehaviorCoreSDK private constructor(
         return manager
     }
     //#endregion
-
-
-//    companion object {
-//        @Volatile
-//        private var INSTANCE: UserBehaviorCoreSDK? = null
-//
-//        /**
-//         * Gets the singleton instance of the UserBehaviorCoreSDK.
-//         * @param context The application context.
-//         * @return The singleton instance.
-//         */
-//        @JvmStatic
-//        fun getInstance(context: Context): UserBehaviorCoreSDK {
-//            return INSTANCE ?: synchronized(this) {
-//                INSTANCE ?: UserBehaviorCoreSDK(context).also { INSTANCE = it }
-//            }
-//        }
-//    }
 
 }

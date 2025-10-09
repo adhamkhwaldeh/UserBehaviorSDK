@@ -14,6 +14,7 @@ abstract class BaseManager<TCall : ICallbackListener, TError : IErrorListener, T
 ) : IBaseManager<TCall, TError, TConfig> {
 
     internal val listeners: CopyOnWriteArrayList<TCall> = CopyOnWriteArrayList()
+
     //#region Listener
     /**
      * Add listener
