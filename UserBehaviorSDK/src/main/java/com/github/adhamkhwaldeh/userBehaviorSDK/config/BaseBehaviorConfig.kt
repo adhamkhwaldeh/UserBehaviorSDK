@@ -72,7 +72,7 @@ abstract class BaseBehaviorConfig(
         protected var isEnabled: Boolean = true
         protected var isDebugMode: Boolean = false
         protected var isLoggingEnabled: Boolean = true
-        protected var logLevel: LogLevel = LogLevel.DEBUG
+        protected var logLevel: LogLevel = LogLevel.BODY
         protected var overridable: Boolean = true
 
         fun fromConfig(sdkConfig: IManagerConfigInterface): T {

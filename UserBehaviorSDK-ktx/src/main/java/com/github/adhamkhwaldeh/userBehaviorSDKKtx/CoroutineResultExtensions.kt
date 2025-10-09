@@ -35,8 +35,8 @@ fun ITouchManager.touchResultFlow(): Flow<Result<MotionEventModel>> = callbackFl
     }
     val errorListener = object : TouchErrorListener {
         override fun onError(error: BaseUserBehaviorException) {
-            val exception = error.cause ?: Exception(error.message)
-            trySend(Result.failure(exception))
+//            val exception = error.cause ?: Exception(error.message)
+            trySend(Result.failure(error))
         }
     }
     addListener(touchListener)
