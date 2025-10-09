@@ -28,7 +28,11 @@ public class StartActivity extends AppCompatActivity {
         });
 
         binding.composeSampleButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, ComposeSampleActivity.class));
+            startActivity(new Intent(this, ComposeActivity.class));
+        });
+
+        binding.composeExperimentalButton.setOnClickListener(v -> {
+            startActivity(new Intent(this, ComposeExperimentalActivity.class));
         });
 
         binding.coroutineSampleButton.setOnClickListener(v -> {

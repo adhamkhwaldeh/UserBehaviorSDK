@@ -26,6 +26,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDKKtx.touchResultFlow
  * @return A remembered instance of `ITouchManager`.
  * @throws IllegalStateException if the current context is not an Activity.
  */
+@ExperimentalUserBehaviorSDKComposeApi
 @Composable
 fun rememberActivityTouchManager(): ITouchManager {
     val context = LocalContext.current
@@ -56,6 +57,7 @@ fun rememberActivityTouchManager(): ITouchManager {
  * @param onEvent A callback that will be invoked with a `Result` for each touch event or error.
  * @return A `Modifier` instance.
  */
+@ExperimentalUserBehaviorSDKComposeApi
 fun Modifier.collectViewTouchEvents(
     enabled: Boolean = true,
     onEvent: (Result<MotionEventModel>) -> Unit
@@ -91,6 +93,7 @@ fun Modifier.collectViewTouchEvents(
  *
  * @return A remembered instance of `IAccelerometerManager`.
  */
+@ExperimentalUserBehaviorSDKComposeApi
 @Composable
 fun rememberAccelerometerManager(): IAccelerometerManager {
     val sdk = LocalUserBehaviorCoreSDK.current
@@ -114,6 +117,7 @@ fun rememberAccelerometerManager(): IAccelerometerManager {
  *
  * @return A remembered instance of `IAccelerometerManager`.
  */
+@ExperimentalUserBehaviorSDKComposeApi
 @Composable
 fun rememberSensorManager(sensorType: ManagerSensorKey): ISensorsManager {
     val sdk = LocalUserBehaviorCoreSDK.current
@@ -127,4 +131,3 @@ fun rememberSensorManager(sensorType: ManagerSensorKey): ISensorsManager {
     }
     return manager
 }
-

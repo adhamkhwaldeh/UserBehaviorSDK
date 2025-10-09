@@ -64,6 +64,12 @@
                 android:layout_height="wrap_content"
                 android:text="Compose Sample" />
 
+            <Button
+                android:id="@+id/compose_experimental_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Compose experimental" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

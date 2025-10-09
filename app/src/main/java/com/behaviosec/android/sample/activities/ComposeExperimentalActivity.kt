@@ -2,11 +2,9 @@ package com.behaviosec.android.sample.activities
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,9 +20,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.behaviosec.android.sample.R
-import com.behaviosec.android.sample.helpers.toMessage
+import com.behaviosec.android.sample.helpers.formatAccelerometerResult
+import com.behaviosec.android.sample.helpers.formatTouchResult
+import com.behaviosec.android.sample.ui.DisplayButtons
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
-import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDKCompose.ProvideUserBehaviorSDK
 import com.github.adhamkhwaldeh.userBehaviorSDKCompose.collectViewTouchEvents
@@ -35,7 +34,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDKKtx.accelerometerResultFlow
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.touchResultFlow
 import org.koin.android.ext.android.get
 
-class ComposeSampleActivity : ComponentActivity() {
+class ComposeExperimentalActivity : ComponentActivity() {
 
     private val userBehaviorCoreSDK: UserBehaviorCoreSDK by lazy { get() }
 
@@ -56,12 +55,13 @@ fun ComposeSampleScreen() {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Compose Sample (SDK Extensions)") }) }
     ) { padding ->
-        SensorScreen(modifier = Modifier.padding(padding))
+        UserBehaviorScreen(modifier = Modifier.padding(padding))
     }
 }
 
+//@OptIn(ExperimentalUserBehaviorSDKComposeApi::class)
 @Composable
-fun SensorScreen(modifier: Modifier = Modifier) {
+fun UserBehaviorScreen(modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
 
     // --- State Management within the Composable ---
@@ -170,50 +170,6 @@ fun SensorScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-private fun DisplayButtons(
-    startText: String = "Start",
-    stopText: String = "Stop",
-    onStartClick: () -> Unit,
-    onStopClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Button(onClick = onStartClick, modifier = Modifier.weight(1f), enabled = true) {
-            Text(startText)
-        }
-        Button(onClick = onStopClick, modifier = Modifier.weight(1f), enabled = true) {
-            Text(stopText)
-        }
-    }
-}
-
-private fun formatAccelerometerResult(result: Result<AccelerometerResult>?): Pair<String, Color> {
-    if (result == null) return "ACC: Idle" to Color.Black
-    return result.fold(
-        onSuccess = {
-            when (it) {
-                is AccelerometerResult.SensorChanged -> it.model.toMessage() to Color.Black
-                is AccelerometerResult.AccuracyChanged -> it.model.toMessage() to Color.DarkGray
-            }
-        },
-        onFailure = {
-            BaseUserBehaviorException.fromException(it).toMessage() to Color.Red
-        }
-    )
-}
-
-private fun formatTouchResult(result: Result<MotionEventModel>?): Pair<String, Color> {
-    if (result == null) return "Touch: Idle" to Color.Black
-    return result.fold(
-        onSuccess = { it.toMessage() to Color.Black },
-        onFailure = {
-            BaseUserBehaviorException.fromException(it).toMessage() to Color.Red
-        }
-    )
-}
 
 @Preview(showBackground = true)
 @Composable
