@@ -1,8 +1,8 @@
 package com.behaviosec.android.sample.loggers
 
-import com.github.adhamkhwaldeh.userBehaviorSDK.config.BaseBehaviorConfig
-import com.github.adhamkhwaldeh.userBehaviorSDK.config.UserBehaviorSDKConfig
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.ILogger
+import com.github.adhamkhwaldeh.commonsdk.config.BaseBehaviorConfig
+import com.github.adhamkhwaldeh.commonsdk.config.UserBehaviorSDKConfig
+import com.github.adhamkhwaldeh.commonsdk.logging.ILogger
 import com.orhanobut.logger.Logger as OrhanLogger
 
 class CustomOrhanLogger : ILogger {

@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.behaviosec.android.sample.databinding.ActivityXmlSampleBinding
 import com.behaviosec.android.sample.helpers.toMessage
 import com.behaviosec.android.sample.viewModels.CoroutineViewModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
