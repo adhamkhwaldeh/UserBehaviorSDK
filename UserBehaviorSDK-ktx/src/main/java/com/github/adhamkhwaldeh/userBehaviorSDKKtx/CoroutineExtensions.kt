@@ -2,12 +2,12 @@ package com.github.adhamkhwaldeh.userBehaviorSDKKtx
 
 
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
-import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.IErrorListener
+import com.github.adhamkhwaldeh.commonsdk.listeners.errors.IErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.SensorErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager

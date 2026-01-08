@@ -11,15 +11,15 @@ import android.view.View
 import android.view.Window.Callback
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
+import com.github.adhamkhwaldeh.commonsdk.logging.Logger
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.DetectTouchException
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 
 /**
  * Activity touch manager
@@ -64,10 +64,10 @@ internal class ActivityTouchManager private constructor(
             )
 
             // If the manager is disabled, just delegate the event without logging
-            if (config.isEnabled && listeners.isNotEmpty()) {
+            if (config.isEnabled && delegatedListeners.isNotEmpty()) {
                 val model = MotionEventModel(event, DateHelpers.getCurrentDate())
                 var continueBase = true
-                for (listener in listeners) {
+                for (listener in delegatedListeners) {
                     try {
                         continueBase = continueBase && listener.dispatchTouchEvent(model)
                     } catch (e: Exception) {

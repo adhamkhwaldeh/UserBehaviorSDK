@@ -12,10 +12,10 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToStopException
 import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.SensorNotAvailableException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
+import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 
 /**
@@ -68,7 +68,7 @@ internal class AccelerometerManager private constructor(
                     event,
                     helpersRepository.getCurrentDate()
                 )
-                for (listener in listeners) {
+                for (listener in delegatedListeners) {
                     listener.onSensorChanged(model)
                 }
             }
@@ -91,7 +91,7 @@ internal class AccelerometerManager private constructor(
             val model = AccuracyChangedModel(
                 sensor, accuracy, helpersRepository.getCurrentDate()
             )
-            for (listener in listeners) {
+            for (listener in delegatedListeners) {
                 listener.onAccuracyChanged(model)
             }
             if (config.isLoggingEnabled && config.isDebugMode) {
@@ -141,12 +141,12 @@ internal class AccelerometerManager private constructor(
                         ), cause = e
                     ),
                 )
-                logger.e(
-                    context.getString(R.string.accelerometer_manager),
-                    context.getString(R.string.error_stopping_accelerometer),
-                    config = config,
-                    e
-                )
+//                delegatedLogger.e(
+//                    context.getString(R.string.accelerometer_manager),
+//                    context.getString(R.string.error_stopping_accelerometer),
+//                    config = config,
+//                    e
+//                )
             }
         }
     }
@@ -170,12 +170,12 @@ internal class AccelerometerManager private constructor(
                         cause = e
                     )
                 )
-                logger.e(
-                    context.getString(R.string.accelerometer_manager),
-                    context.getString(R.string.error_stopping_accelerometer),
-                    config = config,
-                    e
-                )
+//                delegatedLogger.e(
+//                    context.getString(R.string.accelerometer_manager),
+//                    context.getString(R.string.error_stopping_accelerometer),
+//                    config = config,
+//                    e
+//                )
             }
         }
     }

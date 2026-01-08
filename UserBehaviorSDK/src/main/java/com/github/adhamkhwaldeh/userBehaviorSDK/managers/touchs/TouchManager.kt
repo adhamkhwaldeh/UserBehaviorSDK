@@ -3,8 +3,8 @@ package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 import android.app.Activity
 import android.app.Application
 import android.view.View
+import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerActivityKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerApplicationKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerTouchKey

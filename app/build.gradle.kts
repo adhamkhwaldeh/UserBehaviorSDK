@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -40,11 +41,6 @@ android {
         dataBinding = true
         viewBinding = true
         compose = true
-    }
-    composeOptions {
-        // This version must be compatible with your project's Kotlin version.
-        // For Kotlin 1.9.24, the correct Compose Compiler version is 1.5.12.
-        kotlinCompilerExtensionVersion = "1.5.12"
     }
 }
 

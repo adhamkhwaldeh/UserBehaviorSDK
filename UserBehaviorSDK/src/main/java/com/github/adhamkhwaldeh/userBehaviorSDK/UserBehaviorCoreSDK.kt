@@ -7,23 +7,23 @@ import android.view.View
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.SensorConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.userBehaviorSDK.config.UserBehaviorSDKConfig
-import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
-import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.ICallbackListener
+import com.github.adhamkhwaldeh.commonsdk.config.UserBehaviorSDKConfig
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.ICallbackListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.configs.IManagerConfigInterface
+import com.github.adhamkhwaldeh.commonsdk.listeners.configs.IManagerConfigInterface
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.IErrorListener
+import com.github.adhamkhwaldeh.commonsdk.listeners.errors.IErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.SensorErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.ILogger
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
+import com.github.adhamkhwaldeh.commonsdk.logging.ILogger
+import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.AccelerometerManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.TouchManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.IBaseManager
+import com.github.adhamkhwaldeh.commonsdk.managers.IBaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.sensors.ISensorsManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.sensors.SensorsManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerAccelerometerKey
@@ -268,7 +268,8 @@ class UserBehaviorCoreSDK private constructor(
     @JvmOverloads
     fun getAccelerometerManager(config: AccelerometerConfig? = null): IAccelerometerManager {
         if (config != null) {
-            accelerometerManager.config = config
+//            accelerometerManager.config = config
+            accelerometerManager.updateConfig(config)
         }
         // Ensure the manager is in the map if it was somehow removed.
         if (!behaviorManagers.containsKey(ManagerAccelerometerKey)) {

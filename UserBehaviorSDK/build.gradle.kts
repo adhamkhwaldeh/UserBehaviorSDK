@@ -47,6 +47,7 @@ dependencies {
 //    implementation(libs.androidx.appcompat)
 //    implementation(libs.material)
 //    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
+    api(libs.commonsdk)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito)

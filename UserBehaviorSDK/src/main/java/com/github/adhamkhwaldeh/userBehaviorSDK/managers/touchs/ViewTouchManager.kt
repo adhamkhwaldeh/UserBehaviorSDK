@@ -2,13 +2,13 @@ package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 
 import android.view.MotionEvent
 import android.view.View
+import com.github.adhamkhwaldeh.commonsdk.logging.Logger
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.DetectTouchException
 import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 
 /**
@@ -58,7 +58,7 @@ internal class ViewTouchManager private constructor(
 
         override fun onTouch(v: View, event: MotionEvent?): Boolean {
             // Process the event only if the manager is enabled and has listeners.
-            if (config.isEnabled && listeners.isNotEmpty()) {
+            if (config.isEnabled && delegatedListeners.isNotEmpty()) {
                 if (config.isLoggingEnabled && config.isDebugMode) {
                     logger.d(
                         "TouchManager",
@@ -69,7 +69,7 @@ internal class ViewTouchManager private constructor(
 
                 val model = MotionEventModel(event!!, DateHelpers.getCurrentDate())
                 var consumeEvent = false
-                for (listener in listeners) {
+                for (listener in delegatedListeners) {
                     try {
                         // A listener returns 'false' to indicate it has consumed the event.
                         if (!listener.dispatchTouchEvent(model)) {

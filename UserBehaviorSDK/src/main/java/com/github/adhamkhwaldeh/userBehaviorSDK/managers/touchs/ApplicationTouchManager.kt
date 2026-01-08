@@ -3,13 +3,14 @@ package com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.github.adhamkhwaldeh.commonsdk.logging.Logger
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToCreateActivityManagerException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.Logger
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.base.BaseManager
+
 
 /**
  * App touch manager
@@ -48,7 +49,7 @@ internal class ApplicationTouchManager private constructor(
             try {
                 val activityTouchManager = ActivityTouchManager.create(activity, logger, config)
                 // Add all global listeners to the new manager
-                listeners.forEach { activityTouchManager.addListener(it) }
+                delegatedListeners.forEach { activityTouchManager.addListener(it) }
                 synchronized(activityManagersLock) {
                     activityManagers[activity] = activityTouchManager
                 }
@@ -61,7 +62,7 @@ internal class ApplicationTouchManager private constructor(
                     config,
                 )
             } catch (e: Exception) {
-                errorListeners.forEach { listener ->
+                delegatedErrorListeners.forEach { listener ->
                     listener.onError(
                         FailToCreateActivityManagerException(
                             message = application.getString(
@@ -99,7 +100,7 @@ internal class ApplicationTouchManager private constructor(
                     config
                 )
             } catch (e: Exception) {
-                errorListeners.forEach { listener ->
+                delegatedErrorListeners.forEach { listener ->
                     listener.onError(
                         FailToCreateActivityManagerException(
                             message = application.getString(

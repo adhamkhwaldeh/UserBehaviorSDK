@@ -1,6 +1,7 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.config
 
-import com.github.adhamkhwaldeh.userBehaviorSDK.logging.LogLevel
+import com.github.adhamkhwaldeh.commonsdk.config.BaseBehaviorConfig
+import com.github.adhamkhwaldeh.commonsdk.logging.LogLevel
 
 
 class TouchConfig private constructor(

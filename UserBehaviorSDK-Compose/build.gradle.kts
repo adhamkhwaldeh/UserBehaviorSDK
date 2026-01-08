@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -36,11 +37,6 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        // This version must be compatible with your project's Kotlin version.
-        // For Kotlin 1.9.24, the correct Compose Compiler version is 1.5.12.
-        kotlinCompilerExtensionVersion = "1.5.12"
-    }
 
 }
 
@@ -58,6 +54,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+//    implementation(libs.commonsdk)
     implementation(project(":UserBehaviorSDK"))
     implementation(project(":UserBehaviorSDK-ktx"))
 }

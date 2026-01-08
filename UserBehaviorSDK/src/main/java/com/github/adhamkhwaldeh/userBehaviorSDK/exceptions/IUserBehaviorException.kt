@@ -1,3 +1,0 @@
-package com.github.adhamkhwaldeh.userBehaviorSDK.exceptions
-
-interface IUserBehaviorException

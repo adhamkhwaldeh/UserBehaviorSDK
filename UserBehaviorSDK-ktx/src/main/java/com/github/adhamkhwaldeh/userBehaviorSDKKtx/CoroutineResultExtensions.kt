@@ -1,6 +1,6 @@
 package com.github.adhamkhwaldeh.userBehaviorSDKKtx
 
-import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener

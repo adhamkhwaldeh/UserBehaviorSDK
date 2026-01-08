@@ -1,5 +1,6 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks
 
+import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.ICallbackListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorAccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorEventModel
 
