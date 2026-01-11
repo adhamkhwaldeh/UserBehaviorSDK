@@ -1,14 +1,13 @@
 package com.behaviosec.android.sample.loggers
 
-import com.github.adhamkhwaldeh.commonsdk.config.BaseBehaviorConfig
-import com.github.adhamkhwaldeh.commonsdk.config.UserBehaviorSDKConfig
+import com.github.adhamkhwaldeh.commonsdk.options.BaseSDKOptions
 import com.github.adhamkhwaldeh.commonsdk.logging.ILogger
 
 class CustomLogger : ILogger {
     override fun d(
         tag: String,
         message: String,
-        config: BaseBehaviorConfig
+        config: BaseSDKOptions
     ) {
         println("DEBUG [$tag]: $message")
 
@@ -17,7 +16,7 @@ class CustomLogger : ILogger {
     override fun e(
         tag: String,
         message: String,
-        config: BaseBehaviorConfig,
+        config: BaseSDKOptions,
         throwable: Throwable?
     ) {
         // Report to Crashlytics, Sentry, etc.
@@ -28,7 +27,7 @@ class CustomLogger : ILogger {
     override fun w(
         tag: String,
         message: String,
-        config: BaseBehaviorConfig
+        config: BaseSDKOptions
     ) {
 
     }
@@ -36,7 +35,7 @@ class CustomLogger : ILogger {
     override fun i(
         tag: String,
         message: String,
-        config: BaseBehaviorConfig
+        config: BaseSDKOptions
     ) {
 
     }

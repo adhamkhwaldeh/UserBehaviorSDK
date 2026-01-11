@@ -1,7 +1,7 @@
 package com.github.adhamkhwaldeh.userBehaviorSDKKtx
 
 import androidx.lifecycle.LiveData
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
@@ -32,7 +32,7 @@ fun ITouchManager.touchResultLiveData(): LiveData<Result<MotionEventModel>> {
             }
         }
         val errorListener = object : TouchErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
 //                val exception = error.cause ?: Exception(error.message)
                 postValue(Result.failure(error))
             }
@@ -66,7 +66,7 @@ fun IAccelerometerManager.accelerometerResultLiveData(): LiveData<Result<Acceler
             }
         }
         val errorListener = object : AccelerometerErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 val exception = error.cause ?: Exception(error.message)
                 postValue(Result.failure(exception))
             }
@@ -100,7 +100,7 @@ fun ISensorsManager.sensorResultLiveData(): LiveData<Result<SensorsResult>> {
             }
         }
         val errorListener = object : SensorErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 val exception = error.cause ?: Exception(error.message)
                 postValue(Result.failure(exception))
             }

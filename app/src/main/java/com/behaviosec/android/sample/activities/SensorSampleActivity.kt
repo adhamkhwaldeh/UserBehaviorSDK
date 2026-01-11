@@ -7,7 +7,7 @@ import com.behaviosec.android.sample.databinding.ActivitySensorSampleBinding
 import com.behaviosec.android.sample.helpers.toMessage
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
@@ -56,7 +56,7 @@ class SensorSampleActivity : AppCompatActivity() {
         })
 
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 binding.accelerometerData.text = error.toMessage()
                 Log.e("SensorSample", error.toMessage())
             }
@@ -85,7 +85,7 @@ class SensorSampleActivity : AppCompatActivity() {
         })
 
         gyroscopeManager.addErrorListener(object : SensorErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 binding.gyroscopeData.text = error.toMessage()
                 Log.e("SensorSample", error.toMessage())
             }
@@ -110,7 +110,7 @@ class SensorSampleActivity : AppCompatActivity() {
         })
 
         magnetometerManager.addErrorListener(object : SensorErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 binding.magnetometerData.text = error.toMessage()
                 Log.e("SensorSample", error.toMessage())
             }

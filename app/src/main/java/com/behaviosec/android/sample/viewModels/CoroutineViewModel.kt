@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
@@ -39,8 +39,8 @@ class CoroutineViewModel(
     private val _lastAccuracyEvent = MutableStateFlow<AccuracyChangedModel?>(null)
     val lastAccuracyEvent: StateFlow<AccuracyChangedModel?> = _lastAccuracyEvent
 
-    private val _accelerometerError = MutableStateFlow<BaseUserBehaviorException?>(null)
-    val accelerometerError: StateFlow<BaseUserBehaviorException?> = _accelerometerError
+    private val _accelerometerError = MutableStateFlow<BaseSDKException?>(null)
+    val accelerometerError: StateFlow<BaseSDKException?> = _accelerometerError
 
     private val _accelerometerResult = MutableStateFlow<Result<AccelerometerResult>?>(null)
     val accelerometerResult: StateFlow<Result<AccelerometerResult>?> = _accelerometerResult

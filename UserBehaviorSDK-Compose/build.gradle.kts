@@ -30,9 +30,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-//    kotlinOptions {
-//        jvmTarget = "17"
-//    }
+    kotlin {
+        jvmToolchain(17) // This aligns both Java and Kotlin to JDK 17
+    }
 
     buildFeatures {
         compose = true

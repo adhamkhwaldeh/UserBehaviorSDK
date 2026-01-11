@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDKKtx.AccelerometerResult
 
@@ -22,7 +22,7 @@ fun formatAccelerometerResult(result: Result<AccelerometerResult>?): Pair<String
             }
         },
         onFailure = {
-            BaseUserBehaviorException.fromException(it).toMessage() to Color.Red
+            BaseSDKException.fromException(it).toMessage() to Color.Red
         }
     )
 }
@@ -32,7 +32,7 @@ fun formatTouchResult(result: Result<MotionEventModel>?): Pair<String, Color> {
     return result.fold(
         onSuccess = { it.toMessage() to Color.Black },
         onFailure = {
-            BaseUserBehaviorException.fromException(it).toMessage() to Color.Red
+            BaseSDKException.fromException(it).toMessage() to Color.Red
         }
     )
 }

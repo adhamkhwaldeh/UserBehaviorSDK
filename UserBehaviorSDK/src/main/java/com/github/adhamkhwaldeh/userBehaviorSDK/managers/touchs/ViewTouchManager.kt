@@ -58,7 +58,7 @@ internal class ViewTouchManager private constructor(
 
         override fun onTouch(v: View, event: MotionEvent?): Boolean {
             // Process the event only if the manager is enabled and has listeners.
-            if (config.isEnabled && delegatedListeners.isNotEmpty()) {
+            if (config.isEnabled) {//&& delegatedListeners.isNotEmpty()
                 if (config.isLoggingEnabled && config.isDebugMode) {
                     logger.d(
                         "TouchManager",
@@ -69,7 +69,7 @@ internal class ViewTouchManager private constructor(
 
                 val model = MotionEventModel(event!!, DateHelpers.getCurrentDate())
                 var consumeEvent = false
-                for (listener in delegatedListeners) {
+                notifyListeners { listener ->
                     try {
                         // A listener returns 'false' to indicate it has consumed the event.
                         if (!listener.dispatchTouchEvent(model)) {
@@ -79,6 +79,16 @@ internal class ViewTouchManager private constructor(
                         notifyErrorListeners(DetectTouchException(message = e.message, cause = e))
                     }
                 }
+//                for (listener in delegatedListeners) {
+//                    try {
+//                        // A listener returns 'false' to indicate it has consumed the event.
+//                        if (!listener.dispatchTouchEvent(model)) {
+//                            consumeEvent = true
+//                        }
+//                    } catch (e: Exception) {
+//                        notifyErrorListeners(DetectTouchException(message = e.message, cause = e))
+//                    }
+//                }
 
                 // If any of our behavior listeners consumed the event, we return true.
                 // Otherwise, return false to allow the event to propagate to other listeners or the view's own onTouchEvent.

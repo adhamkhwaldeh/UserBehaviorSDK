@@ -64,16 +64,24 @@ internal class ActivityTouchManager private constructor(
             )
 
             // If the manager is disabled, just delegate the event without logging
-            if (config.isEnabled && delegatedListeners.isNotEmpty()) {
+            if (config.isEnabled) {//&& delegatedListeners.isNotEmpty()
                 val model = MotionEventModel(event, DateHelpers.getCurrentDate())
                 var continueBase = true
-                for (listener in delegatedListeners) {
+
+                notifyListeners { listener ->
                     try {
                         continueBase = continueBase && listener.dispatchTouchEvent(model)
                     } catch (e: Exception) {
                         notifyErrorListeners(DetectTouchException(message = e.message, cause = e))
                     }
                 }
+//                for (listener in delegatedListeners) {
+//                    try {
+//                        continueBase = continueBase && listener.dispatchTouchEvent(model)
+//                    } catch (e: Exception) {
+//                        notifyErrorListeners(DetectTouchException(message = e.message, cause = e))
+//                    }
+//                }
                 return if (continueBase) {
                     originalCallback.dispatchTouchEvent(event)
                 } else {

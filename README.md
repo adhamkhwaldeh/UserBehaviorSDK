@@ -215,7 +215,7 @@ accel.addListener(object : AccelerometerListener {
     override fun onSensorChanged(e: AccelerometerEventModel) { /* handle */ }
     override fun onAccuracyChanged(a: AccuracyChangedModel) { /* handle */ }
 })
-accel.addErrorListener { /* handle BaseUserBehaviorException */ }
+accel.addErrorListener { /* handle BaseSDKException */ }
 accel.start()
 ```
 

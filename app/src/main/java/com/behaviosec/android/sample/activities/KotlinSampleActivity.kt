@@ -8,7 +8,7 @@ import com.behaviosec.android.sample.helpers.toMessage
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
@@ -52,7 +52,7 @@ class KotlinSampleActivity : AppCompatActivity() {
         })
 
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 val msg = error.toMessage()
                 Log.e("AccelerometerManager", msg)
                 binding.accelerometerAccuracy.text = msg
@@ -78,7 +78,7 @@ class KotlinSampleActivity : AppCompatActivity() {
         })
 
         activityTouchManager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 val msg = error.toMessage()
                 Log.e("ActivityTouchManager", msg)
                 binding.touchDetails.text = msg
@@ -103,7 +103,7 @@ class KotlinSampleActivity : AppCompatActivity() {
         })
 
         viewTouchManager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 val msg = error.toMessage()
                 Log.e("ActivityTouchManager", msg)
                 binding.touchViewDetails.text = msg

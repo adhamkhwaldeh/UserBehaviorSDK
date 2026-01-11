@@ -117,7 +117,7 @@ The SDK exposes manager factories and configuration classes. The samples use the
 - Example callback interfaces (implement these to receive events)
   - `AccelerometerListener` — `onSensorChanged(AccelerometerEventModel)`, `onAccuracyChanged(AccuracyChangedModel)`
   - `TouchListener` — `dispatchTouchEvent(MotionEventModel) : Boolean`
-  - Error listeners that receive `BaseUserBehaviorException`
+  - Error listeners that receive `BaseSDKException`
 
 The sample project provides convenience extension functions for LiveData and Flow in `userBehaviorSDKKtx` (used by the sample ViewModels):
 - `sensorChangedLiveData()` / `sensorChangedFlow` etc. (see `LiveDataViewModel` / `CoroutineViewModel`)

@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.behaviosec.android.sample.databinding.ActivityXmlSampleBinding
 import com.behaviosec.android.sample.helpers.toMessage
 import com.behaviosec.android.sample.viewModels.CoroutineViewModel
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
@@ -63,7 +63,7 @@ class CoroutineSampleActivity : AppCompatActivity() {
                         binding.touchDetails.text = "Activity: $msg"
                     },
                     onFailure = { error ->
-                        val msg = BaseUserBehaviorException.fromException(error).toMessage()
+                        val msg = BaseSDKException.fromException(error).toMessage()
                         binding.touchDetails.text = msg
                     }
                 )
@@ -80,7 +80,7 @@ class CoroutineSampleActivity : AppCompatActivity() {
                             "View: $msg" // Assuming you have a new TextView
                     },
                     onFailure = { error ->
-                        val msg = BaseUserBehaviorException.fromException(error).toMessage()
+                        val msg = BaseSDKException.fromException(error).toMessage()
                         binding.touchViewDetails.text = msg
                     }
                 )

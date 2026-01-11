@@ -8,7 +8,7 @@ import com.behaviosec.android.sample.helpers.toMessage
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
@@ -73,7 +73,7 @@ class SdkActionsActivity : AppCompatActivity() {
         })
 
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 Log.e("SDK_ACTIONS", "Accelerometer Error: ${error.message}")
             }
         })
@@ -99,7 +99,7 @@ class SdkActionsActivity : AppCompatActivity() {
         })
 
         activityTouchManager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 Log.e("SDK_ACTIONS", "Touch Error: ${error.message}")
             }
         })
@@ -128,7 +128,7 @@ class SdkActionsActivity : AppCompatActivity() {
         })
 
         viewTouchManager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 val msg = error.toMessage()
                 Log.e("ActivityTouchManager", msg)
             }

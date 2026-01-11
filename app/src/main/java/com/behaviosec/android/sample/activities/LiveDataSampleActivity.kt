@@ -11,7 +11,7 @@ import com.behaviosec.android.sample.helpers.toMessage
 import com.behaviosec.android.sample.viewModels.LiveDataViewModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
@@ -57,7 +57,7 @@ class LiveDataSampleActivity : AppCompatActivity() {
                     }
                 }
             }, onFailure = { error ->
-                val msg = BaseUserBehaviorException.fromException(error).toMessage()
+                val msg = BaseSDKException.fromException(error).toMessage()
                 Log.e("AccelerometerManager", msg)
             })
         })
@@ -90,7 +90,7 @@ class LiveDataSampleActivity : AppCompatActivity() {
                 val msg = res.toMessage()
                 binding.touchDetails.text = msg
             }, onFailure = { error ->
-                val msg = BaseUserBehaviorException.fromException(error).toMessage()
+                val msg = BaseSDKException.fromException(error).toMessage()
                 Log.e("ActivityTouchManager", msg)
             })
         })
@@ -111,7 +111,7 @@ class LiveDataSampleActivity : AppCompatActivity() {
                 Log.d("ActivityTouchManager", msg)
                 binding.touchViewDetails.text = msg
             }, onFailure = { error ->
-                val msg = BaseUserBehaviorException.fromException(error).toMessage()
+                val msg = BaseSDKException.fromException(error).toMessage()
                 Log.e("ViewTouchManager", msg)
             })
         })

@@ -67,9 +67,10 @@ internal class SensorsManager private constructor(
                     event,
                     helpersRepository.getCurrentDate()
                 )
-                for (listener in delegatedListeners) {
-                    listener.onSensorChanged(model)
-                }
+                notifyListeners { it.onSensorChanged(model) }
+//                for (listener in delegatedListeners) {
+//                    listener.onSensorChanged(model)
+//                }
             }
             if (event != null) {
                 logger.d(
@@ -90,9 +91,10 @@ internal class SensorsManager private constructor(
             val model = SensorAccuracyChangedModel(
                 sensor, accuracy, helpersRepository.getCurrentDate()
             )
-            for (listener in delegatedListeners) {
-                listener.onAccuracyChanged(model)
-            }
+            notifyListeners { it.onAccuracyChanged(model) }
+//            for (listener in delegatedListeners) {
+//                listener.onAccuracyChanged(model)
+//            }
             logger.d(
                 context.getString(R.string.accelerometer),
                 context.getString(R.string.accuracy_changed, accuracy),

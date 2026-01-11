@@ -2,7 +2,7 @@ package com.github.adhamkhwaldeh.userBehaviorSDKKtx
 
 import androidx.lifecycle.LiveData
 import com.github.adhamkhwaldeh.userBehaviorSDK.UserBehaviorCoreSDK
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.AccelerometerListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
@@ -55,10 +55,10 @@ fun ITouchManager.touchEventsLiveData(): LiveData<MotionEventModel> {
 /**
  * Creates a LiveData that emits errors from a `ITouchManager`.
  */
-fun ITouchManager.errorsLiveData(): LiveData<BaseUserBehaviorException> {
-    return object : LiveData<BaseUserBehaviorException>() {
+fun ITouchManager.errorsLiveData(): LiveData<BaseSDKException> {
+    return object : LiveData<BaseSDKException>() {
         private val listener = object : TouchErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 postValue(error)
             }
         }
@@ -124,10 +124,10 @@ fun IAccelerometerManager.accuracyChangedEventsLiveData(): LiveData<AccuracyChan
 /**
  * Creates a LiveData that emits errors from a `IAccelerometerManager`.
  */
-fun IAccelerometerManager.errorsLiveData(): LiveData<BaseUserBehaviorException> {
-    return object : LiveData<BaseUserBehaviorException>() {
+fun IAccelerometerManager.errorsLiveData(): LiveData<BaseSDKException> {
+    return object : LiveData<BaseSDKException>() {
         private val listener = object : AccelerometerErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 postValue(error)
             }
         }
@@ -196,10 +196,10 @@ fun ISensorsManager.accuracyChangedEventsLiveData(): LiveData<SensorEventModel> 
 /**
  * Creates a LiveData that emits errors from a `ISensorsManager`.
  */
-fun ISensorsManager.errorsLiveData(): LiveData<BaseUserBehaviorException> {
-    return object : LiveData<BaseUserBehaviorException>() {
+fun ISensorsManager.errorsLiveData(): LiveData<BaseSDKException> {
+    return object : LiveData<BaseSDKException>() {
         private val listener = object : SensorErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 postValue(error)
             }
         }
@@ -224,10 +224,10 @@ fun ISensorsManager.errorsLiveData(): LiveData<BaseUserBehaviorException> {
 /**
  * Creates a Livedata that emits all errors from any manager within the SDK.
  */
-fun UserBehaviorCoreSDK.globalErrorsLiveData(): LiveData<BaseUserBehaviorException> {
-    return object : LiveData<BaseUserBehaviorException>() {
+fun UserBehaviorCoreSDK.globalErrorsLiveData(): LiveData<BaseSDKException> {
+    return object : LiveData<BaseSDKException>() {
         val listener = object : IErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
+            override fun onError(error: BaseSDKException) {
                 postValue(error)
             }
         }

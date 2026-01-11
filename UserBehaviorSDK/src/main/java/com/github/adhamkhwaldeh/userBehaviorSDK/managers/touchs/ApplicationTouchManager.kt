@@ -49,7 +49,8 @@ internal class ApplicationTouchManager private constructor(
             try {
                 val activityTouchManager = ActivityTouchManager.create(activity, logger, config)
                 // Add all global listeners to the new manager
-                delegatedListeners.forEach { activityTouchManager.addListener(it) }
+                notifyListeners { activityTouchManager.addListener(it) }
+//                delegatedListeners.forEach { activityTouchManager.addListener(it) }
                 synchronized(activityManagersLock) {
                     activityManagers[activity] = activityTouchManager
                 }
@@ -62,17 +63,26 @@ internal class ApplicationTouchManager private constructor(
                     config,
                 )
             } catch (e: Exception) {
-                delegatedErrorListeners.forEach { listener ->
-                    listener.onError(
-                        FailToCreateActivityManagerException(
-                            message = application.getString(
-                                R.string.failed_to_create_activity_touch_manager,
-                                e.message ?: ""
-                            ),
-                            cause = e,
-                        )
+                notifyErrorListeners(
+                    FailToCreateActivityManagerException(
+                        message = application.getString(
+                            R.string.failed_to_create_activity_touch_manager,
+                            e.message ?: ""
+                        ),
+                        cause = e,
                     )
-                }
+                )
+//                delegatedErrorListeners.forEach { listener ->
+//                    listener.onError(
+//                        FailToCreateActivityManagerException(
+//                            message = application.getString(
+//                                R.string.failed_to_create_activity_touch_manager,
+//                                e.message ?: ""
+//                            ),
+//                            cause = e,
+//                        )
+//                    )
+//                }
             }
         }
 
@@ -100,17 +110,26 @@ internal class ApplicationTouchManager private constructor(
                     config
                 )
             } catch (e: Exception) {
-                delegatedErrorListeners.forEach { listener ->
-                    listener.onError(
-                        FailToCreateActivityManagerException(
-                            message = application.getString(
-                                R.string.failed_to_create_activity_touch_manager,
-                                e.message ?: ""
-                            ),
-                            cause = e,
-                        )
+                notifyErrorListeners(
+                    FailToCreateActivityManagerException(
+                        message = application.getString(
+                            R.string.failed_to_create_activity_touch_manager,
+                            e.message ?: ""
+                        ),
+                        cause = e,
                     )
-                }
+                )
+//                delegatedErrorListeners.forEach { listener ->
+//                    listener.onError(
+//                        FailToCreateActivityManagerException(
+//                            message = application.getString(
+//                                R.string.failed_to_create_activity_touch_manager,
+//                                e.message ?: ""
+//                            ),
+//                            cause = e,
+//                        )
+//                    )
+//                }
             }
         }
     }
