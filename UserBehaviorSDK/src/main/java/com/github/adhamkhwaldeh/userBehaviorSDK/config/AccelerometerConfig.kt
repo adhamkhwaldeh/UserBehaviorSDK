@@ -1,7 +1,7 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.config
 
-import com.github.adhamkhwaldeh.commonsdk.config.BaseBehaviorConfig
 import com.github.adhamkhwaldeh.commonsdk.logging.LogLevel
+import com.github.adhamkhwaldeh.commonsdk.options.BaseSDKOptions
 
 @Deprecated(
     "AccelerometerConfig is deprecated and will be removed in a future release. Please use SensorConfig instead.",
@@ -16,7 +16,7 @@ class AccelerometerConfig private constructor(
     logLevel: LogLevel,
     // Accelerometer-specific properties
     val sensorDelay: Int,
-) : BaseBehaviorConfig(isEnabled, isDebugMode, isLoggingEnabled, overridable, logLevel) {
+) : BaseSDKOptions(isEnabled, isDebugMode, isLoggingEnabled, overridable, logLevel) {
 
     /**
      * The Builder for creating AccelerometerConfig instances.

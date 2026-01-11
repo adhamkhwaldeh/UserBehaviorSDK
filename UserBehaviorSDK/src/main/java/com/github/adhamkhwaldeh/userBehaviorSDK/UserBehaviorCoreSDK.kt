@@ -4,40 +4,34 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.view.View
+import com.github.adhamkhwaldeh.commonsdk.BaseSDK
+import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.SensorConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
-import com.github.adhamkhwaldeh.commonsdk.config.UserBehaviorSDKConfig
-import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseUserBehaviorException
-import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.ICallbackListener
+import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.UserBehaviorSDKStatusListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
-import com.github.adhamkhwaldeh.commonsdk.listeners.configs.IManagerConfigInterface
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
-import com.github.adhamkhwaldeh.commonsdk.listeners.errors.IErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.SensorErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
-import com.github.adhamkhwaldeh.commonsdk.logging.ILogger
-import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.AccelerometerManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
-import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.TouchManager
-import com.github.adhamkhwaldeh.commonsdk.managers.IBaseManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.sensors.ISensorsManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.sensors.SensorsManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.ITouchManager
+import com.github.adhamkhwaldeh.userBehaviorSDK.managers.touchs.TouchManager
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerAccelerometerKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerActivityKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerApplicationKey
-import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerSensorKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerTouchKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.ManagerViewKey
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorAccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorEventModel
+import com.github.adhamkhwaldeh.userBehaviorSDK.options.UserBehaviorSDKOptions
 import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
-import java.util.WeakHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -58,73 +52,49 @@ import java.util.concurrent.CopyOnWriteArrayList
  */
 
 class UserBehaviorCoreSDK private constructor(
-    val context: Context,
-    var sdkConfig: UserBehaviorSDKConfig
-) {
+    context: Context,
+    config: UserBehaviorSDKOptions
+) : BaseSDK<UserBehaviorSDKStatusListener, UserBehaviorSDKOptions>(context, config) {
 
     /**
      * Builder for creating and configuring a `UserBehaviorCoreSDK` instance.
      * @param context The application context.
      */
-    class Builder(private val context: Context) {
+    class Builder(context: Context) : BaseSDK.Builder<Builder, UserBehaviorSDKStatusListener,
+            UserBehaviorSDKOptions, UserBehaviorCoreSDK>(context) {
 
-        private var sdkConfig = UserBehaviorSDKConfig.Builder().build()
-
-        private val customLoggers = mutableListOf<ILogger>()
-
-        /**
-         * Applies a custom configuration to the SDK. If not called, a default
-         * configuration will be used.
-         *
-         * @param config The [UserBehaviorSDKConfig] instance.
-         * @return The Builder instance for chaining.
-         */
-        fun withConfig(config: UserBehaviorSDKConfig): Builder {
-            this.sdkConfig = config
-            return this
-        }
-
-        /**
-         * Adds a custom logger implementation. Multiple loggers can be added.
-         * If at least one custom logger is provided, the default logcat logger will be cleared.
-         *
-         * @param logger The custom logger to add.
-         * @return The Builder instance for chaining.
-         */
-        fun addLogger(logger: ILogger): Builder {
-            customLoggers.add(logger)
-            return this
-        }
 
         /**
          * Builds and returns a configured instance of the UserBehaviorCoreSDK.
          *
          * @return A new instance of UserBehaviorCoreSDK.
          */
-        fun build(): UserBehaviorCoreSDK {
+        override fun build(): UserBehaviorCoreSDK {
+            val sdkConfig = sdkConfig ?: UserBehaviorSDKOptions.Builder().build()
             val sdk = UserBehaviorCoreSDK(context, sdkConfig)
             // Configure the global logger based on the builder settings.
             if (customLoggers.isNotEmpty()) {
-                sdk.logger.clearLoggers()
-                customLoggers.forEach { sdk.logger.addLogger(it) }
+                sdk.updateLoggers(customLoggers)
             }
             return sdk
         }
     }
 
+
+//    private val logger by lazy {
+//        Logger()
+//    }
+
     // Using a WeakHashMap allows garbage collection of the Activity/View keys when they are destroyed,
     // preventing memory leaks.
-    private val behaviorManagers =
-        WeakHashMap<ManagerKey, IBaseManager<out ICallbackListener, out IErrorListener, out IManagerConfigInterface>>()
+//    private val behaviorManagers =
+//        WeakHashMap<ManagerKey, IBaseManager<out ICallbackListener, out IErrorListener, out IManagerConfigInterface>>()
+//    private val globalErrorListeners = CopyOnWriteArrayList<IErrorListener>()
 
     private val globalViewsListeners = CopyOnWriteArrayList<TouchListener>()
-    private val globalErrorListeners = CopyOnWriteArrayList<IErrorListener>()
 
     private val globalSensorsListeners = CopyOnWriteArrayList<SensorListener>()
 
-    private val logger by lazy {
-        Logger()
-    }
 
     private val accelerometerManager by lazy {
         AccelerometerManager.create(
@@ -140,8 +110,9 @@ class UserBehaviorCoreSDK private constructor(
 
         // Add a forwarding listener to pass errors to the global listeners
         accelerometerManager.addErrorListener(object : AccelerometerErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
-                globalErrorListeners.forEach { it.onError(error) }
+            override fun onError(error: BaseSDKException) {
+                notifyGlobalErrorListeners(error)
+//                globalErrorListeners.forEach { it.onError(error) }
             }
         })
     }
@@ -187,22 +158,7 @@ class UserBehaviorCoreSDK private constructor(
         }
     }
 
-    /**
-     * Adds a listener that will receive errors from all managers in the SDK.
-     * @param listener The listener to add.
-     */
-    fun addGlobalErrorListener(listener: IErrorListener) {
-        globalErrorListeners.addIfAbsent(listener)
-    }
-
-    /**
-     * Removes a global error listener.
-     * @param listener The listener to remove.
-     */
-    fun removeGlobalErrorListener(listener: IErrorListener) {
-        globalErrorListeners.remove(listener)
-    }
-
+    //#region GlobalViews actions
     /**
      * Adds a listener that will receive views touch from all managers in the SDK.
      * @param listener The listener to add.
@@ -219,6 +175,9 @@ class UserBehaviorCoreSDK private constructor(
         globalViewsListeners.remove(listener)
     }
 
+    //#endregion
+
+    //#region GlobalSensor actions
     /**
      * Adds a listener that will receive sensors update from all managers in the SDK.
      * @param listener The listener to add.
@@ -234,16 +193,17 @@ class UserBehaviorCoreSDK private constructor(
     fun removeGlobalSensorListener(listener: SensorListener) {
         globalSensorsListeners.remove(listener)
     }
+    //#endregion
 
     /**
      * Overrides the current SDK configuration and propagates the common settings
      * to all active managers. This allows for runtime changes to settings like
      * logging and debug modes.
      *
-     * @param newConfig The new [UserBehaviorSDKConfig] to apply.
+     * @param newConfig The new [UserBehaviorSDKOptions] to apply.
      */
-    fun updateSDKConfig(newConfig: UserBehaviorSDKConfig) {
-        this.sdkConfig = newConfig
+    override fun updateSDKConfig(newConfig: UserBehaviorSDKOptions) {
+        super.updateSDKConfig(newConfig)
 
         logger.i("updateSDKConfig", "SDK config updated. Propagating to all managers.", sdkConfig)
 
@@ -303,8 +263,9 @@ class UserBehaviorCoreSDK private constructor(
             .build()
         // Add a forwarding listener to pass errors to the global listeners
         manager.addErrorListener(object : TouchErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
-                globalErrorListeners.forEach { it.onError(error) }
+            override fun onError(error: BaseSDKException) {
+                notifyGlobalErrorListeners(error)
+//                globalErrorListeners.forEach { it.onError(error) }
             }
         })
 
@@ -323,6 +284,7 @@ class UserBehaviorCoreSDK private constructor(
             config
         )
     }
+
     @JvmOverloads
     fun fetchOrCreateActivityTouchManager(
         activity: Activity,
@@ -386,8 +348,9 @@ class UserBehaviorCoreSDK private constructor(
 
         // Add a forwarding listener to pass errors to the global listeners
         manager.addErrorListener(object : SensorErrorListener {
-            override fun onError(error: BaseUserBehaviorException) {
-                globalErrorListeners.forEach { it.onError(error) }
+            override fun onError(error: BaseSDKException) {
+//                globalErrorListeners.forEach { it.onError(error) }
+                notifyGlobalErrorListeners(error)
             }
         })
 

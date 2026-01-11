@@ -1,7 +1,7 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.config
 
-import com.github.adhamkhwaldeh.commonsdk.config.BaseBehaviorConfig
 import com.github.adhamkhwaldeh.commonsdk.logging.LogLevel
+import com.github.adhamkhwaldeh.commonsdk.options.BaseSDKOptions
 
 class SensorConfig private constructor(
     // Properties from BaseManagerConfig
@@ -12,7 +12,7 @@ class SensorConfig private constructor(
     logLevel: LogLevel = LogLevel.DEBUG,
     // Accelerometer-specific properties
     val sensorDelay: Int,
-) : BaseBehaviorConfig(isEnabled, isDebugMode, isLoggingEnabled, overridable, logLevel) {
+) : BaseSDKOptions(isEnabled, isDebugMode, isLoggingEnabled, overridable, logLevel) {
 
     /**
      * The Builder for creating AccelerometerConfig instances.

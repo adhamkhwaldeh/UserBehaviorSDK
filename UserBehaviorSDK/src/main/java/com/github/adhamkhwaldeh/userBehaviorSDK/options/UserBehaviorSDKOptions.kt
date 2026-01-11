@@ -1,10 +1,9 @@
-package com.github.adhamkhwaldeh.userBehaviorSDK.config
+package com.github.adhamkhwaldeh.userBehaviorSDK.options
 
 import com.github.adhamkhwaldeh.commonsdk.logging.LogLevel
 import com.github.adhamkhwaldeh.commonsdk.options.BaseSDKOptions
 
-
-class TouchConfig private constructor(
+class UserBehaviorSDKOptions private constructor(
     isEnabled: Boolean,
     isDebugMode: Boolean,
     isLoggingEnabled: Boolean,
@@ -13,14 +12,14 @@ class TouchConfig private constructor(
 ) : BaseSDKOptions(isEnabled, isDebugMode, isLoggingEnabled, overridable, logLevel) {
 
     /**
-     * The Builder for creating AccelerometerConfig instances.
+     * The Builder for creating UserBehaviorSDKConfig instances.
      */
-    class Builder : BaseBuilder<Builder, TouchConfig>() {
+    class Builder : BaseBuilder<Builder, UserBehaviorSDKOptions>() {
         /**
-         * Creates the final TouchConfig object.
+         * Creates the final UserBehaviorSDKConfig object.
          */
-        override fun build(): TouchConfig {
-            return TouchConfig(
+        override fun build(): UserBehaviorSDKOptions {
+            return UserBehaviorSDKOptions(
                 isEnabled = isEnabled,
                 isDebugMode = isDebugMode,
                 isLoggingEnabled = isLoggingEnabled,

@@ -4,8 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.hardware.Sensor
 import android.view.View
+import com.github.adhamkhwaldeh.commonsdk.models.ManagerKey
 
-sealed interface ManagerKey
 object ManagerAccelerometerKey : ManagerKey
 
 //#region Touch Keys
