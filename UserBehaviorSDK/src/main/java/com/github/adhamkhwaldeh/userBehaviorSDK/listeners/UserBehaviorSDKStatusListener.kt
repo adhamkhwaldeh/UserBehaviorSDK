@@ -1,7 +1,7 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.listeners
 
-import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.ICallbackListener
+import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.CallbackListener
 
-interface UserBehaviorSDKStatusListener : ICallbackListener {
+interface UserBehaviorSDKStatusListener : CallbackListener {
     fun onInitialized()
 }

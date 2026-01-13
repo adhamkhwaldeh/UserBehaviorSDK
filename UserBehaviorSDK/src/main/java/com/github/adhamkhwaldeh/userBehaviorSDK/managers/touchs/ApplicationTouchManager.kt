@@ -5,6 +5,7 @@ import android.app.Application
 import android.os.Bundle
 import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManagerImpl
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToCreateActivityManagerException
@@ -22,7 +23,7 @@ internal class ApplicationTouchManager private constructor(
     private val application: Application,
     logger: Logger,
     config: TouchConfig,
-) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
+) : BaseManagerImpl<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
 
     companion object {
         @JvmSynthetic

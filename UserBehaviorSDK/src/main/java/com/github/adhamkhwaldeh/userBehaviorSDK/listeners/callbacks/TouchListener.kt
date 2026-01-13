@@ -1,6 +1,6 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks
 
-import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.ICallbackListener
+import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.CallbackListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
 
 /**
@@ -8,7 +8,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.MotionEventModel
  *
  * @constructor Create empty Activity touch listener
  */
-interface TouchListener : ICallbackListener {
+interface TouchListener : CallbackListener {
     /**
      * Dispatch touch event
      *

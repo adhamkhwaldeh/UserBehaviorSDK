@@ -1,6 +1,6 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks
 
-import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.ICallbackListener
+import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.CallbackListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
 
@@ -14,7 +14,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
     "AccelerometerListener is deprecated and will be removed in a future release. Please use SensorConfig instead.",
     ReplaceWith("SensorListener")
 )
-interface AccelerometerListener : ICallbackListener {
+interface AccelerometerListener : CallbackListener {
     /**
      * On sensor changed
      *

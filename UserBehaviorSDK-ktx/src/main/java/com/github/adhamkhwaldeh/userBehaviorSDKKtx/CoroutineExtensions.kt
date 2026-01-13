@@ -7,7 +7,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.Acceleromete
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.SensorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerErrorListener
-import com.github.adhamkhwaldeh.commonsdk.listeners.errors.IErrorListener
+import com.github.adhamkhwaldeh.commonsdk.listeners.errors.ErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.SensorErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.managers.accelerometer.IAccelerometerManager
@@ -153,7 +153,7 @@ fun ISensorsManager.errors(): Flow<BaseSDKException> = callbackFlow {
  * Creates a Flow that emits all errors from any manager within the SDK.
  */
 fun UserBehaviorCoreSDK.globalErrors(): Flow<BaseSDKException> = callbackFlow {
-    val listener = object : IErrorListener {
+    val listener = object : ErrorListener {
         override fun onError(error: BaseSDKException) {
             trySend(error)
         }

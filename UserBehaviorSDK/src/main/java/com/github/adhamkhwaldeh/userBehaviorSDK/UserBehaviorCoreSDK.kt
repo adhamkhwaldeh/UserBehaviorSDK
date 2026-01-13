@@ -4,8 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.view.View
-import com.github.adhamkhwaldeh.commonsdk.BaseSDK
 import com.github.adhamkhwaldeh.commonsdk.exceptions.BaseSDKException
+import com.github.adhamkhwaldeh.commonsdk.listeners.errors.ErrorListener
+import com.github.adhamkhwaldeh.commonsdk.sdks.BaseSDKImpl
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.AccelerometerConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.SensorConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
@@ -54,14 +55,17 @@ import java.util.concurrent.CopyOnWriteArrayList
 class UserBehaviorCoreSDK private constructor(
     context: Context,
     config: UserBehaviorSDKOptions
-) : BaseSDK<UserBehaviorSDKStatusListener, UserBehaviorSDKOptions>(context, config) {
+) : BaseSDKImpl<UserBehaviorSDKStatusListener, ErrorListener, UserBehaviorSDKOptions>(
+    context,
+    config
+) {
 
     /**
      * Builder for creating and configuring a `UserBehaviorCoreSDK` instance.
      * @param context The application context.
      */
-    class Builder(context: Context) : BaseSDK.Builder<Builder, UserBehaviorSDKStatusListener,
-            UserBehaviorSDKOptions, UserBehaviorCoreSDK>(context) {
+    class Builder(context: Context) : BaseSDKImpl.Builder<Builder, UserBehaviorSDKStatusListener,
+            ErrorListener, UserBehaviorSDKOptions, UserBehaviorCoreSDK>(context) {
 
 
         /**
@@ -79,17 +83,6 @@ class UserBehaviorCoreSDK private constructor(
             return sdk
         }
     }
-
-
-//    private val logger by lazy {
-//        Logger()
-//    }
-
-    // Using a WeakHashMap allows garbage collection of the Activity/View keys when they are destroyed,
-    // preventing memory leaks.
-//    private val behaviorManagers =
-//        WeakHashMap<ManagerKey, IBaseManager<out ICallbackListener, out IErrorListener, out IManagerConfigInterface>>()
-//    private val globalErrorListeners = CopyOnWriteArrayList<IErrorListener>()
 
     private val globalViewsListeners = CopyOnWriteArrayList<TouchListener>()
 

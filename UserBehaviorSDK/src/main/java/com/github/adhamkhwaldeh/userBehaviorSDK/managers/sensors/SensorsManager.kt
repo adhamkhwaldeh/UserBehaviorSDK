@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManagerImpl
 import com.github.adhamkhwaldeh.userBehaviorSDK.R
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.SensorConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.FailToStartException
@@ -33,7 +34,7 @@ internal class SensorsManager private constructor(
     private val sensorType: Int,
     logger: Logger,
     config: SensorConfig,
-) : BaseManager<SensorListener, SensorErrorListener,
+) : BaseManagerImpl<SensorListener, SensorErrorListener,
         SensorConfig>(config, logger), ISensorsManager {
 
     companion object {

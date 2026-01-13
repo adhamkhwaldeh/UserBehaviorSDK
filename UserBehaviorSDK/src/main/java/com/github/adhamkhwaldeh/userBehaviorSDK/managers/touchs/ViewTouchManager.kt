@@ -4,6 +4,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManagerImpl
 import com.github.adhamkhwaldeh.userBehaviorSDK.config.TouchConfig
 import com.github.adhamkhwaldeh.userBehaviorSDK.exceptions.DetectTouchException
 import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
@@ -39,7 +40,7 @@ internal class ViewTouchManager private constructor(
     private val targetView: View,
     logger: Logger,
     config: TouchConfig,
-) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
+) : BaseManagerImpl<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
 
     companion object {
         @JvmSynthetic

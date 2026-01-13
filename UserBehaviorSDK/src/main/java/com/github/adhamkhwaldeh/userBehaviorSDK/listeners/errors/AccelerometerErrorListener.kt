@@ -1,6 +1,6 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors
 
-import com.github.adhamkhwaldeh.commonsdk.listeners.errors.IErrorListener
+import com.github.adhamkhwaldeh.commonsdk.listeners.errors.ErrorListener
 
 /**
  * Accelerometer error listener
@@ -11,4 +11,4 @@ import com.github.adhamkhwaldeh.commonsdk.listeners.errors.IErrorListener
     "AccelerometerErrorListener is deprecated and will be removed in a future release. Please use SensorConfig instead.",
     ReplaceWith("SensorErrorListener")
 )
-interface AccelerometerErrorListener : IErrorListener
+interface AccelerometerErrorListener : ErrorListener

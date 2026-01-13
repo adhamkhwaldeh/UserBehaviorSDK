@@ -1,10 +1,10 @@
 package com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks
 
-import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.ICallbackListener
+import com.github.adhamkhwaldeh.commonsdk.listeners.callbacks.CallbackListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorAccuracyChangedModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.SensorEventModel
 
-interface SensorListener : ICallbackListener {
+interface SensorListener : CallbackListener {
     /**
      * On sensor changed
      *

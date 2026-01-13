@@ -15,7 +15,7 @@ import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.AccelerometerEr
 import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccelerometerEventModel
 import com.github.adhamkhwaldeh.userBehaviorSDK.models.AccuracyChangedModel
-import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManagerImpl
 import com.github.adhamkhwaldeh.userBehaviorSDK.repositories.HelpersRepository
 
 /**
@@ -35,7 +35,7 @@ internal class AccelerometerManager private constructor(
     private val helpersRepository: HelpersRepository,
     logger: Logger,
     config: AccelerometerConfig
-) : BaseManager<AccelerometerListener, AccelerometerErrorListener,
+) : BaseManagerImpl<AccelerometerListener, AccelerometerErrorListener,
         AccelerometerConfig>(config, logger), IAccelerometerManager {
 
     companion object {

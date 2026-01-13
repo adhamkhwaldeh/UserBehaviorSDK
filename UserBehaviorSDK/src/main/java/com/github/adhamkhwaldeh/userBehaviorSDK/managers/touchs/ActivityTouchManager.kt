@@ -12,7 +12,7 @@ import android.view.Window.Callback
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import com.github.adhamkhwaldeh.commonsdk.logging.Logger
-import com.github.adhamkhwaldeh.commonsdk.managers.BaseManager
+import com.github.adhamkhwaldeh.commonsdk.managers.BaseManagerImpl
 import com.github.adhamkhwaldeh.userBehaviorSDK.helpers.DateHelpers
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.callbacks.TouchListener
 import com.github.adhamkhwaldeh.userBehaviorSDK.listeners.errors.TouchErrorListener
@@ -34,7 +34,7 @@ internal class ActivityTouchManager private constructor(
     val activity: Activity,
     logger: Logger,
     config: TouchConfig,
-) : BaseManager<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
+) : BaseManagerImpl<TouchListener, TouchErrorListener, TouchConfig>(config, logger), ITouchManager {
 
     companion object {
         @JvmSynthetic

@@ -1,9 +1,9 @@
 package com.behaviosec.android.sample.loggers
 
 import com.github.adhamkhwaldeh.commonsdk.options.BaseSDKOptions
-import com.github.adhamkhwaldeh.commonsdk.logging.ILogger
+import com.github.adhamkhwaldeh.commonsdk.logging.Logger
 
-class CustomLogger : ILogger {
+class CustomLogger : Logger {
     override fun d(
         tag: String,
         message: String,
